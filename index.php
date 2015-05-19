@@ -137,9 +137,6 @@
 </head>
 <script type="text/javascript">
 		window.location = "pages/guests.php";
-
-
-
 </script>
 <body bgcolor="#F8F8F8">
 
