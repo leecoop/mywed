@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="BaseDrawing.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629196600000000" />
+<file name="CellIterator.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629196600000000" />
+<file name="ColumnDimension.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629196600000000" />
+<file name="Drawing.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629196600000000" />
+<file name="HeaderFooter.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+<file name="HeaderFooterDrawing.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+<file name="MemoryDrawing.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+<file name="PageMargins.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+<file name="PageSetup.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+<file name="Protection.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+<file name="Row.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+<file name="RowDimension.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+<file name="RowIterator.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+<file name="SheetView.php" server="sceaguda.zxq.net" local="129432874720000000" remote="129629197200000000" />
+</dwsync>

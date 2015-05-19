@@ -1,0 +1,39 @@
+<?php
+//if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+require_once('smarty.php');
+
+require_once('../../classes/Persist.php');
+require_once '../../utils/xsl/toXsl.php';
+$sidesIds = $_GET['sidesIds'];
+$groupsIds = $_GET['groupsIds'];
+$loc = $_GET['loc'];
+
+$persist = Persist::getInstance();
+
+$guests = $persist->getGuestForReport($sidesIds, $groupsIds,$loc);
+//if ($loc == "guests")
+//    $guests = $persist->getGuestsWithFilter($sidesIds, $groupsIds);
+//if ($loc == "invitations")
+//    $guests = $persist->getInvitationNotSentGuestsWithFilter($sidesIds, $groupsIds);
+//if ($loc == "rsvps")
+//    $guests = $persist->getArrivalNotApprovedGuestsWithFilter($sidesIds, $groupsIds);
+//    if($loc == "seating_arrangement")
+//        $guests = $persist->getGuestGroupedByGroupWithFilter($sidesIds, $groupsIds);
+
+
+$file_name = "report_".$loc;
+
+$translates = array(
+    'name' => 'שם',
+    'last_name' => 'שם משפחה',
+    'phone' => "פלאפון",
+    'amount' => "כמות",
+    'group_title' => "קבוצה",
+    'side_title' => "צד"
+);
+//    var_dump($translates);
+
+toXsl($guests, $translates, $file_name, $file_name);
+
+
+//}
