@@ -1,11 +1,11 @@
-<tr id="guest{$guest.oid}">
+<tr id="guest{$guest.oid}" name="{$guest.name}" lastName="{$guest.last_name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}">
     <td class="edit" onclick='openEditGuest("{$guest.oid}")'></td>
-    <td name="{$guest.name}">{$guest.name}</td>
-    <td last_name="{$guest.last_name}">{$guest.last_name}</td>
-    <td amount="{$guest.amount}">{$guest.amount}</td>
-    <td phone="{$guest.phone}">{$guest.phone}</td>
-    <td side="{$guest.side_id}">{$sides[$guest.side_id]}</td>
-    <td group="{$guest.group_id}">{$groups[$guest.group_id]}</td>
+    <td>{$guest.name}</td>
+    <td>{$guest.last_name}</td>
+    <td>{$guest.amount}</td>
+    <td>{$guest.phone}</td>
+    <td>{$sides[$guest.side_id]}</td>
+    <td>{$groups[$guest.group_id]}</td>
     {if $loc neq 'guests'}
         {if $loc eq 'invitations' or $loc eq 'search' }
             <td>

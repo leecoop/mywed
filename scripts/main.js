@@ -1,14 +1,31 @@
-//function $(id){
-//    return document.getElementById(id);
-//}
+var Ajax = {
+    sendRequest: function (url, options) {
 
-function hide(id) {
-    $(id).style.display = 'none';
-}
+        //default data
+        if (!options.method) options.method = 'post';
+        if (!options.contentType) options.contentType = 'text/xml';
+        if (!options.returnJson) options.returnJson = false;
 
-function show(id) {
-    $(id).style.display = '';
-}
+        url += ['&rand=', Math.random()].join('');
+
+
+        if (options.loader) showLoading();
+        $.ajax({
+            type: options.method,
+            url: url,
+            data: options.data,
+            success: function (response) {
+                var callback = (options.callback) ? eval(options.callback) : null;
+                if (typeof callback == 'function') callback(response, options.params);
+                if (options.loader) hideLoading();
+
+            },
+            error: function () {
+                if (options.loader) hideLoading();
+            }
+        });
+    }
+};
 
 function clear(id) {
     $(id).value = '';
@@ -59,8 +76,6 @@ function validRegEX(elem, reg) {
 }
 
 function addGuest() {
-    //show("loader");
-
     var regAmount = /^([0-9]+)$/;
     var name = $("#name");
     var lastName = $("#lastName");
@@ -70,26 +85,19 @@ function addGuest() {
     var side = $("#sides");
 
 
-    var allValidationPassed = 0;
-    if (allValidationPassed == 0) {
-        $.post("execute/add_edit_guest.php?", {
-            name: name.val(),
-            lastName: lastName.val(),
-            phone: phone.val(),
-            amount: amount.val(),
-            group: group.val(),
-            side: side.val(),
-            guestOid: 0
-        }, addEditGuestResponse);
-    }
+    Ajax.sendRequest("execute/add_edit_guest.php?", {
+        data: {name: name.val(), lastName: lastName.val(), phone: phone.val(), amount: amount.val(), group: group.val(), side: side.val(), guestOid: 0},
+        contentType: 'text/xml',
+        params: {username: "abc"},
+        loader: true,
+        callback: 'addEditGuestResponse'
+    });
 
 
 }
 
 function editGuest(guestOid) {
-    //show("loader");
-
-    var regAmount = /^([0-9]+)$/;
+    //var regAmount = /^([0-9]+)$/;
     var name = $("#editName");
     var lastName = $("#editLastName");
     var phone = $("#editPhone");
@@ -97,10 +105,8 @@ function editGuest(guestOid) {
     var group = $("#editGroups");
     var side = $("#editSides");
 
-
-    var allValidationPassed = 0;
-    if (allValidationPassed == 0) {
-        $.post("execute/add_edit_guest.php?", {
+    Ajax.sendRequest("execute/add_edit_guest.php?", {
+        data: {
             name: name.val(),
             lastName: lastName.val(),
             phone: phone.val(),
@@ -108,13 +114,13 @@ function editGuest(guestOid) {
             group: group.val(),
             side: side.val(),
             guestOid: guestOid
-        }, addEditGuestResponse);
-    }
+        }, contentType: 'text/xml', params: {username: "abs"}, loader: true, callback: 'addEditGuestResponse'
+    });
 
 
 }
 
-function deleteGuest(guestOid){
+function deleteGuest(guestOid) {
     $.post("execute/delete_guest.php?", {
         guestOid: guestOid
     }, deleteGuestResponse);
@@ -122,13 +128,17 @@ function deleteGuest(guestOid){
 
 function deleteGuestResponse(data) {
     closeEditGuestDialog();
-    fadeOutAndRemoveElement("guest"+data);
+    fadeOutAndRemoveElement("guest" + data);
 
 }
 
 
-function addEditGuestResponse(data) {
-    $("#guestsContent").prepend(data);
+function addEditGuestResponse(responseData, params) {
+    var xmlDocument = $.parseXML(responseData);
+    var $xml = $(xmlDocument);
+
+
+    $("#guestsTable tr:first").after($xml);
     closeEditGuestDialog();
 
 }
@@ -171,8 +181,6 @@ function closeEditGuestDialog() {
 }
 
 function createGroup() {
-    //show("loader");
-
     var groupName = $("#group_name");
 
     var allValidationPassed = 0;
@@ -198,14 +206,14 @@ function createGroupResponse(data) {
 }
 
 function openEditGuest(guestOid) {
-    var guest = $('#guest' + guestOid + ' td');
+    var guest = $('#guest' + guestOid);
 
-    $("#editName").val(params.attr("name"));
-    $("#editLastName").val(params.attr("lastName"));
-    $("#editPhone").val(params.attr("phone"));
-    $("#editAmount").val(params.attr("amount"));
-    $("#editGroups").val(params.attr("group"));
-    $("#editSides").val(params.attr("side"));
+    $("#editName").val(guest.attr("name"));
+    $("#editLastName").val(guest.attr("lastName"));
+    $("#editPhone").val(guest.attr("phone"));
+    $("#editAmount").val(guest.attr("amount"));
+    $("#editGroups").val(guest.attr("group"));
+    $("#editSides").val(guest.attr("side"));
 
     editGuestDialog.dialog("option", "buttons",
         [
@@ -359,7 +367,7 @@ function filter(loc) {
         groupsIds.push(element.value);
     });
     showLoading();
-    $.post("execute/filter.php?", {sidesIds: sidesIds.join(","),groupsIds:groupsIds.join(","),loc:loc}, filterResponse);
+    $.post("execute/filter.php?", {sidesIds: sidesIds.join(","), groupsIds: groupsIds.join(","), loc: loc}, filterResponse);
 }
 
 function report(loc) {
@@ -372,7 +380,7 @@ function report(loc) {
     selectAllCheckedCheckboxes("filterGroups").each(function (i, element) {
         groupsIds.push(element.value);
     });
-    $(location).prop('href',"execute/reports.php?sidesIds="+sidesIds.join(",")+"&groupsIds="+groupsIds.join(",")+"&loc="+loc);
+    $(location).prop('href', "execute/reports.php?sidesIds=" + sidesIds.join(",") + "&groupsIds=" + groupsIds.join(",") + "&loc=" + loc);
     //window.location.replace("execute/reports.php?sidesIds="+sidesIds.join(",")+"&groupsIds="+groupsIds.join(",")+"&loc="+loc);
     //$.post("execute/reports.php?", {sidesIds: sidesIds.join(","),groupsIds:groupsIds.join(","),loc:loc});
 }
@@ -386,10 +394,10 @@ function updateStatisticPanel(data) {
     $('#totalAmount').html(data);
 }
 
-function updateAmount(val){
+function updateAmount(val) {
     var amount = $("#amount");
-    var newAmount = parseInt(amount.val())+ val;
-    if (newAmount>0) {
+    var newAmount = parseInt(amount.val()) + val;
+    if (newAmount > 0) {
         amount.val(newAmount);
     }
 }
@@ -402,6 +410,8 @@ function showLoading() {
     $("#loadingTop").show();
 
 }
+
+
 
 
 
