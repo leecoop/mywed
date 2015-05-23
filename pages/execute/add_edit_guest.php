@@ -1,4 +1,9 @@
 <?php
+
+header("Content-Type: application/json");
+header("Cache-Control: no-cache");
+header("Pragma: no-cache");
+
 function decodeParams($param)
 {
 //    return mysql_real_escape_string(stripslashes(strip_tags(urldecode(trim($param)))));
@@ -47,13 +52,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $groups = $persist->getGroups();
         $sides = $persist->getSides();
 
+
+//        $smarty->left_delimiter = '<%';
+//        $smarty->right_delimiter = '%>';
+
         $smarty->assign("loc",'guests');
 
         $smarty->assign("groups",$groups);
         $smarty->assign("sides",$sides);
 
         $smarty->assign("guest",(array)$guest);
-        $smarty->display('guest_content.tpl');
+        $smarty->assign("data",$smarty->fetch('guest_content.tpl'));
+        $smarty->assign("error",'false');
+//        $smarty->display('guest_content.tpl');
+
+
+        $smarty->display('common/response.tpl');
         //return $guest;
 
 

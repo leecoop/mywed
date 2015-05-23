@@ -49,7 +49,7 @@
                     {*<td align="right" valign="middle"><input id="phone" name="phone" type="text" class="leadnews" /></td>*}
 
                     <td>
-                        <input type="submit" style="width: 60px" id="add_new_guest_btn" onclick="addGuest()" class="largeOff" value="חדש"/>
+                        <input type="submit" style="width: 60px" id="add_new_guest_btn" onclick="addEditGuest(0)" class="largeOff" value="חדש"/>
 
                     </td>
                 </tr>

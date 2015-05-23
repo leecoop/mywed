@@ -36,85 +36,41 @@ function trim(str) {
 }
 
 
-function valid(elem) {
-    if (elem.value == '' || elem == null) {
-        elem.style.background = "#FFFF99";
-        return 1;
-    }
-    else {
-        elem.style.background = "#FFFFFF";
-        return 0;
-    }
-}
 
-function validSelection(elem) {
-    if (elem.selectedIndex == 0) {
-        elem.style.background = "#FFFF99";
-        return 1;
-    }
-    else {
-        elem.style.background = "#FFFFFF";
-        return 0;
-    }
 
-}
 
-function validRegEX(elem, reg) {
+function addEditGuest(guestOid) {
+    var add = guestOid == 0;
+    var name = "";
+    var lastName = "";
+    var phone = "";
+    var amount = "";
+    var group = "";
+    var side = "";
+    if (add) {
+        name = $("#name");
+        lastName = $("#lastName");
+        phone = $("#phone");
+        amount = $("#amount");
+        group = $("#groups");
+        side = $("#sides");
+    } else {
+        name = $("#editName");
+        lastName = $("#editLastName");
+        phone = $("#editPhone");
+        amount = $("#editAmount");
+        group = $("#editGroups");
+        side = $("#editSides");
 
-    if (!reg.test(elem.value)) {
-        elem.style.background = "#FFFF99";
-        return 1;
     }
-    if (elem.value == '' || elem == null) {
-        elem.style.background = "#FFFF99";
-        return 1;
-    }
-    else {
-        elem.style.background = "#FFFFFF";
-        return 0;
-    }
-}
-
-function addGuest() {
-    var regAmount = /^([0-9]+)$/;
-    var name = $("#name");
-    var lastName = $("#lastName");
-    var phone = $("#phone");
-    var amount = $("#amount");
-    var group = $("#groups");
-    var side = $("#sides");
 
 
     Ajax.sendRequest("execute/add_edit_guest.php?", {
-        data: {name: name.val(), lastName: lastName.val(), phone: phone.val(), amount: amount.val(), group: group.val(), side: side.val(), guestOid: 0},
-        contentType: 'text/xml',
-        params: {username: "abc"},
+        data: {name: name.val(), lastName: lastName.val(), phone: phone.val(), amount: amount.val(), group: group.val(), side: side.val(), guestOid: guestOid},
+        contentType: 'application/json;charset=UTF-8',
+        params: {edit: !add},
         loader: true,
         callback: 'addEditGuestResponse'
-    });
-
-
-}
-
-function editGuest(guestOid) {
-    //var regAmount = /^([0-9]+)$/;
-    var name = $("#editName");
-    var lastName = $("#editLastName");
-    var phone = $("#editPhone");
-    var amount = $("#editAmount");
-    var group = $("#editGroups");
-    var side = $("#editSides");
-
-    Ajax.sendRequest("execute/add_edit_guest.php?", {
-        data: {
-            name: name.val(),
-            lastName: lastName.val(),
-            phone: phone.val(),
-            amount: amount.val(),
-            group: group.val(),
-            side: side.val(),
-            guestOid: guestOid
-        }, contentType: 'text/xml', params: {username: "abs"}, loader: true, callback: 'addEditGuestResponse'
     });
 
 
@@ -134,12 +90,10 @@ function deleteGuestResponse(data) {
 
 
 function addEditGuestResponse(responseData, params) {
-    var xmlDocument = $.parseXML(responseData);
-    var $xml = $(xmlDocument);
-
-
-    $("#guestsTable tr:first").after($xml);
-    closeEditGuestDialog();
+    $("#guestsTable tr:first").after(responseData.data);
+    if(params.edit) {
+        closeEditGuestDialog();
+    }
 
 }
 
@@ -222,7 +176,7 @@ function openEditGuest(guestOid) {
                 text: "עדכן",
 
                 click: function () {
-                    editGuest(guestOid);
+                    addEditGuest(guestOid);
                 }
 
             },
@@ -381,8 +335,7 @@ function report(loc) {
         groupsIds.push(element.value);
     });
     $(location).prop('href', "execute/reports.php?sidesIds=" + sidesIds.join(",") + "&groupsIds=" + groupsIds.join(",") + "&loc=" + loc);
-    //window.location.replace("execute/reports.php?sidesIds="+sidesIds.join(",")+"&groupsIds="+groupsIds.join(",")+"&loc="+loc);
-    //$.post("execute/reports.php?", {sidesIds: sidesIds.join(","),groupsIds:groupsIds.join(","),loc:loc});
+
 }
 
 function filterResponse(data) {

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<response>
-    <error>{$error}</error>
-    <data>{$data}</data>
-</response>
+{ldelim}
+"data": {$data|json_encode},
+"error": {$error|json_encode}
+{rdelim}
