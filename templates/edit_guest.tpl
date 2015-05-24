@@ -10,7 +10,7 @@
                 </tr>
                 <tr>
                     <td align="right" valign="middle" class="w3">שם משפחה:</td>
-                    <td align="right" valign="middle"><input id="editLastName"  type="text"
+                    <td align="right" valign="middle"><input id="editLastName" type="text"
                                                              class="leadnews" style="height:15px"/></td>
                 </tr>
 
@@ -24,7 +24,6 @@
                     <td align="right" valign="middle" class="w3">צד:</td>
                     <td align="right" valign="middle">
                         <select style="height:25px" id="editSides" class="widthRegister">
-                            {*<option value=0>-</option>*}
                             {foreach $sides as $value}
                                 <option value="{$value@key}">{$value}</option>
                             {/foreach}
@@ -35,12 +34,10 @@
                     <td align="right" valign="middle" class="w3">קבוצה:</td>
                     <td align="right" valign="middle">
                         <select style="height:25px" id="editGroups" class="widthRegister">
-                            {*<option value=0>-</option>*}
                             {foreach $groups as $value}
                                 <option value="{$value@key}">{$value}</option>
                             {/foreach}
                         </select>
-                        {*<img id="add_group_btn" src="../style/Button-Add-icon.png" onclick="openCreateGroupDialog()">*}
 
                     </td>
 
@@ -50,6 +47,26 @@
                     <td align="right" valign="middle"><input id="editAmount" type="text" value="1"
                                                              class="leadnews" style="height:15px"/></td>
                 </tr>
+                <tr>
+                    <td align="right" valign="middle" class="w3">נשלחה הזמנה:</td>
+                    <td>
+                        <a id="editInvitationSent" title="Mark this guest as accepted" invitationSent="" href="javascript:void(0)"></a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="right" valign="middle" class="w3">אישר הגעה:</td>
+                    <td>
+                         <span id="ediArrivalApproved">
+                        <a val="1" onClass="checkOn" offClass="checkOff" onclick="toggleArrivalApprovedClass('ediArrivalApproved',1)" title="Mark this guest as accepted" href="javascript:void(0)"></a>
+                        <a val="0" onClass="questionOn" offClass="questionOff" onclick="toggleArrivalApprovedClass('ediArrivalApproved',0)" title="Mark this guest as not responded"
+                           href="javascript:void(0)"></a>
+                        <a val="2" onClass="xOn" offClass="xOff" onclick="toggleArrivalApprovedClass('ediArrivalApproved',2)" title="Mark this guest as declined" href="javascript:void(0)"></a>
+                             </span>
+                    </td>
+                </tr>
+
+
             </table>
         </div>
     </div>
@@ -61,7 +78,7 @@
 
         editGuestDialog = $("#edit_guest").dialog({
             autoOpen: false,
-            height: 460,
+            height: 480,
             width: 550,
             modal: true,
             close: function () {

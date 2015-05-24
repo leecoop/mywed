@@ -20,10 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once('../../classes/Persist.php');
     $persist = Persist::getInstance();
 
-//    include_once "../../include/connect.php";
     $name = decodeParams($_POST['name']);
     $last_name = decodeParams($_POST['lastName']);
-    $phone ="";
+    $phone = "";
 //    if ($persist->hasText($_POST['phone'])) {
 //        $phone = decodeParams($_POST['phone']);
 //    }
@@ -33,46 +32,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $guestOid = decodeParams($_POST['guestOid']);
     $now_date = date('Y-m-d');
 
+    require_once('smarty.php');
 
-    if ($guestOid == "0") {
-        require_once('smarty.php');
+    $error = false;
+    try {
+        if ($guestOid == "0") {
+            $guestOid = $persist->addGuest($name, $last_name, $phone, $amount, $now_date, $group, $side);
+        } else {
+            $persist->editGuest($guestOid, $name, $last_name, $phone, $amount, $group, $side);
+        }
+    } catch (Exception $e) {
+        $error = true;
 
-        $newGuestOid = $persist->addGuest($name, $last_name, $phone, $amount, $now_date, $group, $side);
-        $guest = new stdClass();
-        $guest->oid = $newGuestOid;
-        $guest->name = $name;
-        $guest->last_name = $last_name;
-        $guest->phone = $phone;
-        $guest->amount = $amount;
-        $guest->group_id = $group;
-        $guest->side_id = $side;
-        $guest->invitation_sent=0;
-        $guest->arrival_approved=0;
-
-        $groups = $persist->getGroups();
-        $sides = $persist->getSides();
-
-
-//        $smarty->left_delimiter = '<%';
-//        $smarty->right_delimiter = '%>';
-
-        $smarty->assign("loc",'guests');
-
-        $smarty->assign("groups",$groups);
-        $smarty->assign("sides",$sides);
-
-        $smarty->assign("guest",(array)$guest);
-        $smarty->assign("data",$smarty->fetch('guest_content.tpl'));
-        $smarty->assign("error",'false');
-//        $smarty->display('guest_content.tpl');
-
-
-        $smarty->display('common/response.tpl');
-        //return $guest;
-
-
-    } else {
-        echo $persist->editGuest($guestOid, $name, $last_name, $phone, $amount, $group, $side);
     }
+    $guest = new stdClass();
+    $guest->oid = $guestOid;
+    $guest->name = $name;
+    $guest->last_name = $last_name;
+    $guest->phone = $phone;
+    $guest->amount = $amount;
+    $guest->group_id = $group;
+    $guest->side_id = $side;
+    $guest->invitation_sent = 0;
+    $guest->arrival_approved = 0;
+
+    $groups = $persist->getGroups();
+    $sides = $persist->getSides();
+
+    $smarty->assign("loc", 'guests');
+
+    $smarty->assign("groups", $groups);
+    $smarty->assign("sides", $sides);
+
+    $smarty->assign("guest", (array)$guest);
+    $smarty->assign("data", $smarty->fetch('guest_content.tpl'));
+    $smarty->assign("error", $error);
+
+    $smarty->display('common/response.tpl');
+
+
 }
 ?>

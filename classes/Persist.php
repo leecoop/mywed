@@ -60,26 +60,26 @@ class Persist
 
     public function addGuest($name, $last_name, $phone, $amount, $now_date, $group_id, $side_id)
     {
-        try {
+//        try {
             $sql = "INSERT INTO guests(name,last_name,phone,amount,add_date,group_id,side_id) VALUES('$name','$last_name','$phone','$amount','$now_date','$group_id', '$side_id')";
             $res = $this->db->prepare($sql);
             $res->execute();
-        } catch (Exception $e) {
-            return $e;
-        }
+//        } catch (Exception $e) {
+//            return $e;
+//        }
 
         return $this->db->lastInsertId();
     }
 
     public function editGuest($guestOid, $name, $lastName, $phone, $amount, $groupOid, $sideOid)
     {
-        try {
+//        try {
             $sql = "UPDATE guests set name='$name',last_name='$lastName',phone='$phone',amount='$amount',group_id='$groupOid',side_id='$sideOid' where oid='$guestOid'";
             $res = $this->db->prepare($sql);
             $res->execute();
-        } catch (Exception $e) {
-            return $e;
-        }
+//        } catch (Exception $e) {
+//            return $e;
+//        }
 
         //return true;
     }
@@ -154,7 +154,7 @@ class Persist
     public function toMap($objArray)
     {
         $result = array();
-        $result[0] = "ללא";
+//        $result[0] = "ללא";
         foreach ($objArray as $key => $value) {
             $result[$value->oid] = $value->title;
         }

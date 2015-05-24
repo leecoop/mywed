@@ -1,3 +1,14 @@
+var URLs = {
+    addEditGuest: 'execute/add_edit_guest.php?',
+    deleteGuest: 'execute/delete_guest.php?',
+    search: 'execute/search.php?',
+    createGroup: 'execute/create_group.php?',
+    updateInvitationSent: 'execute/update_invitation_sent.php?',
+    updateArrivalApproved: 'execute/update_arrival_approved.php?',
+    filter: 'execute/filter.php?'
+};
+
+
 var Ajax = {
     sendRequest: function (url, options) {
 
@@ -35,10 +46,6 @@ function trim(str) {
     return str.replace(/^\s+|\s+$/g, "");
 }
 
-
-
-
-
 function addEditGuest(guestOid) {
     var add = guestOid == 0;
     var name = "";
@@ -62,13 +69,14 @@ function addEditGuest(guestOid) {
         group = $("#editGroups");
         side = $("#editSides");
 
+
     }
 
 
-    Ajax.sendRequest("execute/add_edit_guest.php?", {
+    Ajax.sendRequest(URLs.addEditGuest, {
         data: {name: name.val(), lastName: lastName.val(), phone: phone.val(), amount: amount.val(), group: group.val(), side: side.val(), guestOid: guestOid},
         contentType: 'application/json;charset=UTF-8',
-        params: {edit: !add},
+        params: {edit: !add, guestOid: guestOid},
         loader: true,
         callback: 'addEditGuestResponse'
     });
@@ -76,27 +84,35 @@ function addEditGuest(guestOid) {
 
 }
 
-function deleteGuest(guestOid) {
-    $.post("execute/delete_guest.php?", {
-        guestOid: guestOid
-    }, deleteGuestResponse);
-}
-
-function deleteGuestResponse(data) {
-    closeEditGuestDialog();
-    fadeOutAndRemoveElement("guest" + data);
-
-}
-
 
 function addEditGuestResponse(responseData, params) {
-    $("#guestsTable tr:first").after(responseData.data);
-    if(params.edit) {
+    if (params.edit) {
+        var guest = $("#guest" + params.guestOid);
+        guest.after(responseData.data);
+        guest.remove();
         closeEditGuestDialog();
+    } else {
+        $("#guestsTable tr:first").after(responseData.data);
+
     }
 
 }
 
+function deleteGuest(guestOid) {
+    Ajax.sendRequest(URLs.deleteGuest, {
+        data: {guestOid: guestOid},
+        //contentType: 'application/json;charset=UTF-8',
+        params: {guestOid: guestOid},
+        loader: true,
+        callback: 'deleteGuestResponse'
+    });
+}
+
+function deleteGuestResponse(response, params) {
+    closeEditGuestDialog();
+    fadeOutAndRemoveElement("guest" + params.guestOid);
+
+}
 
 function searchKeyPress(e) {
     if (window.event) {
@@ -110,7 +126,7 @@ function searchKeyPress(e) {
 function search() {
 
     var searchValue = $('#search_text');
-    $.post("execute/search.php?", {search_value: searchValue.val()}, searchResponse);
+    $.post(URLs.search, {search_value: searchValue.val()}, searchResponse);
 }
 
 function searchResponse(data) {
@@ -135,18 +151,19 @@ function closeEditGuestDialog() {
 }
 
 function createGroup() {
-    var groupName = $("#group_name");
+    var groupName = $("#group_name").val();
+    Ajax.sendRequest(URLs.createGroup, {
+        data: {groupName: groupName},
+        //contentType: 'application/json;charset=UTF-8',
+        params: {groupName: groupName},
+        loader: true,
+        callback: 'createGroupResponse'
+    });
 
-    var allValidationPassed = 0;
-    //allValidationPassed += valid(groupName);
-
-    if (allValidationPassed == 0) {
-        $.post("execute/create_group.php?", {groupName: groupName.val()}, createGroupResponse);
-    }
 }
-function createGroupResponse(data) {
-    var newId = data;
-    var name = $("#group_name").val();
+function createGroupResponse(response, params) {
+    var newId = response;
+    var name = params.groupName;
 
     var option = $('<option/>');
     option.attr({'value': newId}).text(name);
@@ -168,6 +185,18 @@ function openEditGuest(guestOid) {
     $("#editAmount").val(guest.attr("amount"));
     $("#editGroups").val(guest.attr("group"));
     $("#editSides").val(guest.attr("side"));
+
+    var invitationSent = guest.attr("invitationSent");
+    var invitationSentClass = (invitationSent == 0) ? "checkOff" : "checkOn";
+    var toggleClass = (invitationSent == 0) ? "checkOn" : "checkOff";
+
+    var editInvitationSent = $("#editInvitationSent");
+    editInvitationSent.addClass(invitationSentClass);
+    editInvitationSent.attr("invitationSent", invitationSent);
+    editInvitationSent.attr("onclick", "$( this ).toggleClass('" + toggleClass + "')");
+
+    var arrivalApproved = parseInt(guest.attr("arrivalApproved"), 10);
+    toggleArrivalApprovedClass("ediArrivalApproved", arrivalApproved);
 
     editGuestDialog.dialog("option", "buttons",
         [
@@ -199,18 +228,10 @@ function openEditGuest(guestOid) {
 
         ]
     );
-
-
     openEditGuestDialog();
-
-
 }
 
 function updateInvitationSent(guestOid) {
-    updateInvitationSent(guestOid, false);
-}
-
-function updateInvitationSent(guestOid, updateUI) {
     var element = $("#invitationSent" + guestOid);
     var currentStatus = element.attr("invitationSent");
     var newStatus;
@@ -224,13 +245,19 @@ function updateInvitationSent(guestOid, updateUI) {
         newStatus = 0;
     }
 
-    $.post("execute/update_invitation_sent.php?", {guestOid: guestOid, newStatus: newStatus});
+    Ajax.sendRequest(URLs.updateInvitationSent, {
+        data: {guestOid: guestOid, newStatus: newStatus},
+        params: {guestOid: guestOid, counter: "invitationsCount"},
+        loader: true,
+        callback: 'updateGuestStatusResponse'
+    });
 
-    if (updateUI) {
-        fadeOutAndRemoveElement("guest" + guestOid);
-        updateCounters("invitationsCount");
-    }
 
+}
+
+function updateGuestStatusResponse(response, params) {
+    fadeOutAndRemoveElement("guest" + params.guestOid);
+    updateCounters(params.counter);
 
 }
 
@@ -257,8 +284,8 @@ function updateArrivalApproved(guestOid, arrivalApproved) {
     updateArrivalApproved(guestOid, arrivalApproved, false);
 }
 
-function updateArrivalApproved(guestOid, arrivalApproved, updateUI) {
-    var element = $("#arrivalApproved" + guestOid + " a");
+function toggleArrivalApprovedClass(id, arrivalApproved) {
+    var element = $("#" + id + " a");
     element.each(function (index) {
         if ($(this).attr("val") == arrivalApproved) {
             $(this).attr("class", $(this).attr("onClass"));
@@ -266,13 +293,17 @@ function updateArrivalApproved(guestOid, arrivalApproved, updateUI) {
             $(this).attr("class", $(this).attr("offClass"));
         }
     });
+}
 
-    $.post("execute/update_arrival_approved.php?", {guestOid: guestOid, arrivalApproved: arrivalApproved});
+function updateArrivalApproved(guestOid, arrivalApproved, updateUI) {
+    toggleArrivalApprovedClass("arrivalApproved" + guestOid, arrivalApproved);
 
-    if (updateUI) {
-        fadeOutAndRemoveElement("guest" + guestOid);
-        updateCounters("rsvpsCount");
-    }
+    Ajax.sendRequest(URLs.updateArrivalApproved, {
+        data: {guestOid: guestOid, arrivalApproved: arrivalApproved},
+        params: {guestOid: guestOid, updateUI: updateUI, counter: "rsvpsCount"},
+        loader: true,
+        callback: 'updateGuestStatusResponse'
+    });
 
 
 }
@@ -307,41 +338,38 @@ function selectAllCheckboxes(id) {
 }
 
 function selectAllCheckedCheckboxes(id) {
-    return $("#" + id + " input[type='checkbox']:checked");
+    var array = [];
+
+    $("#" + id + " input[type='checkbox']:checked").each(function (i, element) {
+        array.push(element.value);
+    });
+
+    return array;
 }
 
 function filter(loc) {
-    var sidesIds = [];
-    selectAllCheckedCheckboxes("filterSides").each(function (i, element) {
-        sidesIds.push(element.value);
-    });
+    var sidesIds = selectAllCheckedCheckboxes("filterSides");
 
-    var groupsIds = [];
-    selectAllCheckedCheckboxes("filterGroups").each(function (i, element) {
-        groupsIds.push(element.value);
+    var groupsIds = selectAllCheckedCheckboxes("filterGroups");
+
+    Ajax.sendRequest(URLs.filter, {
+        data: {sidesIds: sidesIds.join(","), groupsIds: groupsIds.join(","), loc: loc},
+        loader: true,
+        callback: 'filterResponse'
     });
-    showLoading();
-    $.post("execute/filter.php?", {sidesIds: sidesIds.join(","), groupsIds: groupsIds.join(","), loc: loc}, filterResponse);
+}
+
+function filterResponse(response) {
+    $('#guestsArea').html(response);
 }
 
 function report(loc) {
-    var sidesIds = [];
-    selectAllCheckedCheckboxes("filterSides").each(function (i, element) {
-        sidesIds.push(element.value);
-    });
+    var sidesIds = selectAllCheckedCheckboxes("filterSides");
+    var groupsIds = selectAllCheckedCheckboxes("filterGroups");
 
-    var groupsIds = [];
-    selectAllCheckedCheckboxes("filterGroups").each(function (i, element) {
-        groupsIds.push(element.value);
-    });
     $(location).prop('href', "execute/reports.php?sidesIds=" + sidesIds.join(",") + "&groupsIds=" + groupsIds.join(",") + "&loc=" + loc);
-
 }
 
-function filterResponse(data) {
-    $('#guestsArea').html(data);
-    hideLoading();
-}
 
 function updateStatisticPanel(data) {
     $('#totalAmount').html(data);

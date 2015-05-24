@@ -1,4 +1,5 @@
-<tr id="guest{$guest.oid}" name="{$guest.name}" lastName="{$guest.last_name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}">
+<tr id="guest{$guest.oid}" name="{$guest.name}" lastName="{$guest.last_name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}"
+    invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}">
     <td class="edit" onclick='openEditGuest("{$guest.oid}")'></td>
     <td>{$guest.name}</td>
     <td>{$guest.last_name}</td>
@@ -10,7 +11,7 @@
         {if $loc eq 'invitations' or $loc eq 'search' }
             <td>
                 <a id="invitationSent{$guest.oid}" title="Mark this guest as accepted" invitationSent="{$guest.invitation_sent}"
-                   class="{if $guest.invitation_sent == 1}checkOn{else}checkOff{/if}" onclick="updateInvitationSent({$guest.oid}{if $loc eq 'invitations'},true{/if});"
+                   class="{if $guest.invitation_sent == 1}checkOn{else}checkOff{/if}" onclick="updateInvitationSent({$guest.oid});"
                    href="javascript:void(0)"></a>
             </td>
         {/if}
