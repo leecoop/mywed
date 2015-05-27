@@ -165,8 +165,6 @@ class Persist
     public function getGuestGroupedByGroup()
     {
 
-        //TODO: get from getGuests()
-
         $sql = "Select * From guests where deleted=false";
 
         $sql .= " ORDER BY oid desc";
