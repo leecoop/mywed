@@ -1,5 +1,4 @@
 <div id="guestsArea">
-    <input type="hidden" id="loc" value="{$loc}">
     <fieldset class="border1 padd5 bg3 border_radius">
         <legend align="center" class="seperator1 font18" dir="rtl"><h5>סך הכל : <span id="totalCount" value="{$count}">{$count}</span></h5>
         </legend>

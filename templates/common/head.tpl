@@ -9,4 +9,5 @@
           </form>-->
     </div>
     {include file="common/menu.tpl"}
+    <input type="hidden" id="loc" value="{$loc}">
 </div>

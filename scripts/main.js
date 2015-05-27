@@ -54,6 +54,8 @@ function addEditGuest(guestOid) {
     var amount = "";
     var group = "";
     var side = "";
+    var invitationSent = 0;
+    var arrivalApproved = 0;
     if (add) {
         name = $("#name");
         lastName = $("#lastName");
@@ -68,13 +70,27 @@ function addEditGuest(guestOid) {
         amount = $("#editAmount");
         group = $("#editGroups");
         side = $("#editSides");
+        invitationSent = ($("#editInvitationSent").hasClass("checkOn")) ? 1 : 0;
+        var ediArrivalApproved = $("#ediArrivalApproved a");
+        arrivalApproved = (ediArrivalApproved.hasClass("checkOn")) ? 1 : (ediArrivalApproved.hasClass("xOn")) ? 2 : 0;
 
 
     }
 
 
     Ajax.sendRequest(URLs.addEditGuest, {
-        data: {name: name.val(), lastName: lastName.val(), phone: phone.val(), amount: amount.val(), group: group.val(), side: side.val(), guestOid: guestOid},
+        data: {
+            name: name.val(),
+            lastName: lastName.val(),
+            phone: phone.val(),
+            amount: amount.val(),
+            group: group.val(),
+            side: side.val(),
+            guestOid: guestOid,
+            invitationSent: invitationSent,
+            arrivalApproved: arrivalApproved,
+            loc: $("#loc").val()
+        },
         contentType: 'application/json;charset=UTF-8',
         params: {edit: !add, guestOid: guestOid},
         loader: true,
@@ -191,9 +207,9 @@ function openEditGuest(guestOid) {
     var toggleClass = (invitationSent == 0) ? "checkOn" : "checkOff";
 
     var editInvitationSent = $("#editInvitationSent");
-    editInvitationSent.addClass(invitationSentClass);
-    editInvitationSent.attr("invitationSent", invitationSent);
-    editInvitationSent.attr("onclick", "$( this ).toggleClass('" + toggleClass + "')");
+    editInvitationSent.attr("class", invitationSentClass);
+    //editInvitationSent.attr("invitationSent", invitationSent);
+    editInvitationSent.attr("onclick", "toggleInvitationSentClass('editInvitationSent')");
 
     var arrivalApproved = parseInt(guest.attr("arrivalApproved"), 10);
     toggleArrivalApprovedClass("ediArrivalApproved", arrivalApproved);
@@ -293,6 +309,11 @@ function toggleArrivalApprovedClass(id, arrivalApproved) {
             $(this).attr("class", $(this).attr("offClass"));
         }
     });
+}
+
+function toggleInvitationSentClass(id) {
+    var element = $("#" + id);
+    (element.hasClass("checkOff")) ? element.attr("class", "checkOn") : element.attr("class", "checkOff");
 }
 
 function updateArrivalApproved(guestOid, arrivalApproved, updateUI) {

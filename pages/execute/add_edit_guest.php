@@ -30,6 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $group = decodeParams($_POST['group']);
     $side = decodeParams($_POST['side']);
     $guestOid = decodeParams($_POST['guestOid']);
+    $invitationSent = decodeParams($_POST['invitationSent']);
+    $arrivalApproved = decodeParams($_POST['arrivalApproved']);
+    $loc = decodeParams($_POST['loc']);
     $now_date = date('Y-m-d');
 
     require_once('smarty.php');
@@ -37,9 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $error = false;
     try {
         if ($guestOid == "0") {
-            $guestOid = $persist->addGuest($name, $last_name, $phone, $amount, $now_date, $group, $side);
+            $guestOid = $persist->addGuest($name, $last_name, $phone, $amount, $now_date, $group, $side, $invitationSent, $arrivalApproved);
         } else {
-            $persist->editGuest($guestOid, $name, $last_name, $phone, $amount, $group, $side);
+            $persist->editGuest($guestOid, $name, $last_name, $phone, $amount, $group, $side, $invitationSent, $arrivalApproved);
         }
     } catch (Exception $e) {
         $error = true;
@@ -53,13 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $guest->amount = $amount;
     $guest->group_id = $group;
     $guest->side_id = $side;
-    $guest->invitation_sent = 0;
-    $guest->arrival_approved = 0;
+    $guest->invitation_sent = $invitationSent;
+    $guest->arrival_approved = $arrivalApproved;
 
     $groups = $persist->getGroups();
     $sides = $persist->getSides();
 
-    $smarty->assign("loc", 'guests');
+    $smarty->assign("loc", $loc);
 
     $smarty->assign("groups", $groups);
     $smarty->assign("sides", $sides);

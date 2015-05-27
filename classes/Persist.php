@@ -58,12 +58,12 @@ class Persist
         return $res;
     }
 
-    public function addGuest($name, $last_name, $phone, $amount, $now_date, $group_id, $side_id)
+    public function addGuest($name, $last_name, $phone, $amount, $now_date, $group_id, $side_id, $invitationSent, $arrivalApproved)
     {
 //        try {
-            $sql = "INSERT INTO guests(name,last_name,phone,amount,add_date,group_id,side_id) VALUES('$name','$last_name','$phone','$amount','$now_date','$group_id', '$side_id')";
-            $res = $this->db->prepare($sql);
-            $res->execute();
+        $sql = "INSERT INTO guests(name,last_name,phone,amount,add_date,group_id,side_id,invitation_sent,arrival_approved) VALUES('$name','$last_name','$phone','$amount','$now_date','$group_id', '$side_id','$invitationSent', '$arrivalApproved')";
+        $res = $this->db->prepare($sql);
+        $res->execute();
 //        } catch (Exception $e) {
 //            return $e;
 //        }
@@ -71,12 +71,12 @@ class Persist
         return $this->db->lastInsertId();
     }
 
-    public function editGuest($guestOid, $name, $lastName, $phone, $amount, $groupOid, $sideOid)
+    public function editGuest($guestOid, $name, $lastName, $phone, $amount, $groupOid, $sideOid, $invitationSent, $arrivalApproved)
     {
 //        try {
-            $sql = "UPDATE guests set name='$name',last_name='$lastName',phone='$phone',amount='$amount',group_id='$groupOid',side_id='$sideOid' where oid='$guestOid'";
-            $res = $this->db->prepare($sql);
-            $res->execute();
+        $sql = "UPDATE guests set name='$name',last_name='$lastName',phone='$phone',amount='$amount',group_id='$groupOid',side_id='$sideOid',invitation_sent='$invitationSent',arrival_approved='$arrivalApproved' where oid='$guestOid'";
+        $res = $this->db->prepare($sql);
+        $res->execute();
 //        } catch (Exception $e) {
 //            return $e;
 //        }

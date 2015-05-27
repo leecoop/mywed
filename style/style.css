@@ -908,9 +908,14 @@ table tr td {
 
 .edit {
     background: url("icons/edit.png")  no-repeat scroll 0 5px rgba(0, 0, 0, 0);
-    /*display: inline-block;*/
-    /*height: 16px;*/
+    display: inline-block;
+    height: 20px;
     vertical-align: middle;
-    /*width: 16px;*/
-    margin-bottom: 2px;
+    width: 16px;
+    /*margin-bottom: 2px;*/
+}
+
+
+.grey td{
+    background: none repeat scroll 0 0 #e6e6e0;
 }

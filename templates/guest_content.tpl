@@ -1,6 +1,6 @@
 <tr id="guest{$guest.oid}" name="{$guest.name}" lastName="{$guest.last_name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}"
-    invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}">
-    <td class="edit" onclick='openEditGuest("{$guest.oid}")'></td>
+    invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}" onmouseout="this.className='';" onmouseover="this.className='grey'">
+    <td><a href="javascript:void(0)" class="edit" onclick='openEditGuest("{$guest.oid}")'></a></td>
     <td>{$guest.name}</td>
     <td>{$guest.last_name}</td>
     <td>{$guest.amount}</td>
