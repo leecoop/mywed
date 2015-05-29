@@ -24,6 +24,10 @@
 
                 </tbody>
             </table>
+            <div class="blockHolder">
+                <div style="width: 52px;" class="greenBlock floatLeft"></div>
+                <div style="width:48px" class="redBlock floatLeft"></div>
+            </div>
         </div>
     </div>
 </div>

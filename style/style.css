@@ -919,3 +919,21 @@ table tr td {
 .grey td{
     background: none repeat scroll 0 0 #e6e6e0;
 }
+
+.blockHolder {
+    border: 1px solid #f0eded;
+    text-align: left;
+    width: 100px;
+}
+
+.greenBlock {
+    background: #85e079 none repeat-x scroll 0 0;
+    height: 10px;
+}
+.redBlock {
+    background: #fe7f7f none repeat-x scroll 0 0;
+    height: 10px;
+}
+.floatLeft {
+    float: left;
+}
