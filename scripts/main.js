@@ -108,7 +108,30 @@ function addEditGuestResponse(responseData, params) {
         guest.remove();
         closeEditGuestDialog();
     } else {
-        $("#guestsTable tr:first").after(responseData.data);
+        //$("#guestsTable tr:first").after(responseData.data);
+
+        var guest = responseData.guest;
+        var rowNode = table.row.add([
+            guest.name,
+            guest.lastName,
+            guest.amount,
+            guest.phone,
+            guest.side,
+            guest.group
+        ])
+            .draw()
+            .node();
+        $(rowNode).attr({
+            id: "guest" + guest.oid,
+            name: guest.name,
+            lastname: guest.lastName,
+            amount: guest.amount,
+            phone: guest.phone,
+            side: guest.sideId,
+            group: guest.groupId,
+            arrivalapproved: guest.arrivalApproved,
+            invitationsent: guest.invitationSent
+        });
 
     }
 

@@ -2,11 +2,23 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <script src="../scripts/jquery-1.10.2.js"></script>
-    <script src="../scripts/jquery-ui.js"></script>
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{$title}</title>
-    <link href="../style/style.css" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" type="text/css" href="../style/style.css"  />
+    <link rel="stylesheet" type="text/css" href="../style/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="../style/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="../style/dataTables.tableTools.css">
+
+
+
+    <script src="../scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" language="javascript" src="../scripts/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="../scripts/dataTables.tableTools.js"></script>
+
+
+    <script src="../scripts/jquery-ui.js"></script>
     <script type="text/javascript" src="../scripts/main.js"></script>
-    <link rel="stylesheet" href="../style/jquery-ui.css">
+    {*<script type="text/javascript" language="javascript" src="../scripts/jquery.js"></script>*}
 </head>

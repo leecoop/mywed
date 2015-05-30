@@ -52,10 +52,10 @@
 
                 </tbody>
             </table>
-            <div style="float: left; cursor: pointer;">
-                <img id="xls" class="xls" onclick="report('{$loc}')"/>
-                <label for="xls">יצוא לאקסל</label>
-            </div>
+            {*<div style="float: left; cursor: pointer;">*}
+                {*<img id="xls" class="xls" onclick="report('{$loc}')"/>*}
+                {*<label for="xls">יצוא לאקסל</label>*}
+            {*</div>*}
 
 
 
