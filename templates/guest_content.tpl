@@ -2,7 +2,7 @@
     invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}"
     {*onmouseout="this.className='';" onmouseover="this.className='grey'*}
     ">
-    {*<td><a href="javascript:void(0)" class="edit" onclick='openEditGuest("{$guest.oid}")'></a></td>*}
+    <td><a href="javascript:void(0)" class="edit" onclick='openEditGuest("{$guest.oid}")'></a></td>
     <td>{$guest.name}</td>
     <td>{$guest.last_name}</td>
     <td>{$guest.amount}</td>

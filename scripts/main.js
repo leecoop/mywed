@@ -103,37 +103,35 @@ function addEditGuest(guestOid) {
 
 function addEditGuestResponse(responseData, params) {
     if (params.edit) {
-        var guest = $("#guest" + params.guestOid);
-        guest.after(responseData.data);
-        guest.remove();
+        table.row("#guest" + params.guestOid).remove();
         closeEditGuestDialog();
-    } else {
-        //$("#guestsTable tr:first").after(responseData.data);
-
-        var guest = responseData.guest;
-        var rowNode = table.row.add([
-            guest.name,
-            guest.lastName,
-            guest.amount,
-            guest.phone,
-            guest.side,
-            guest.group
-        ])
-            .draw()
-            .node();
-        $(rowNode).attr({
-            id: "guest" + guest.oid,
-            name: guest.name,
-            lastname: guest.lastName,
-            amount: guest.amount,
-            phone: guest.phone,
-            side: guest.sideId,
-            group: guest.groupId,
-            arrivalapproved: guest.arrivalApproved,
-            invitationsent: guest.invitationSent
-        });
-
     }
+    //$("#guestsTable tr:first").after(responseData.data);
+
+    var guest = responseData.guest;
+    var rowNode = table.row.add([
+        "<a href=\"javascript:void(0)\" class=\"edit\" onclick='openEditGuest(\""+params.guestOid+"\")'></a>",
+        guest.name,
+        guest.lastName,
+        guest.amount,
+        guest.phone,
+        guest.side,
+        guest.group
+    ])
+        .draw()
+        .node();
+    $(rowNode).attr({
+        id: "guest" + guest.oid,
+        name: guest.name,
+        lastname: guest.lastName,
+        amount: guest.amount,
+        phone: guest.phone,
+        side: guest.sideId,
+        group: guest.groupId,
+        arrivalapproved: guest.arrivalApproved,
+        invitationsent: guest.invitationSent
+    });
+
 
 }
 
@@ -303,7 +301,7 @@ function updateGuestStatusResponse(response, params) {
 
 function fadeOutAndRemoveElement(id) {
     $("#" + id).fadeOut("slow", function () {
-        $(this).remove();
+        table.row(this).remove().draw();
     });
 }
 
