@@ -9,10 +9,10 @@
         {*<li {if $loc eq 'reports'} class="selected" {/if}>*}
             {*<a href="reports.php">דוחות</a>*}
         {*</li>*}
-        {*<li {if $loc eq 'seating_arrangement'} class="selected" {/if}>*}
-            {*<span id="seatingArrangementsCount" value='{$statisticsMap["notHasTable"]}' class="countRedSmall">{$statisticsMap["notHasTable"]}</span>*}
-            {*<a href="seating_arrangement.php">סידור ישיבה</a>*}
-        {*</li>*}
+        <li {if $loc eq 'seating_arrangement'} class="selected" {/if}>
+            <span id="seatingArrangementsCount" value='{$statisticsMap["notHasTable"]}' class="countRedSmall">{$statisticsMap["notHasTable"]}</span>
+            <a href="seating_arrangement.php">סידור ישיבה</a>
+        </li>
         <li {if $loc eq 'rsvps'} class="selected" {/if}>
             <span id="rsvpsCount" value='{$statisticsMap["arrivalNotApproved"]}' class="countRedSmall">{$statisticsMap["arrivalNotApproved"]}</span>
             <a href="rsvps.php">אישורי הגעה</a>

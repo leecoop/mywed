@@ -5,7 +5,8 @@ var URLs = {
     createGroup: 'execute/create_group.php?',
     updateInvitationSent: 'execute/update_invitation_sent.php?',
     updateArrivalApproved: 'execute/update_arrival_approved.php?',
-    filter: 'execute/filter.php?'
+    filter: 'execute/filter.php?',
+    addNewTable: 'execute/add_new_table.php?'
 };
 
 
@@ -435,6 +436,37 @@ function showLoading() {
 }
 
 
+function addTable(){
+    Ajax.sendRequest(URLs.addNewTable, {
+        //data: {sidesIds: sidesIds.join(","), groupsIds: groupsIds.join(","), loc: loc},
+        contentType: 'application/json;charset=UTF-8',
+        loader: true,
+        callback: 'addTableResponse'
+    });
+}
 
+function addTableResponse(response, params){
+    $("#tables").append(response.data);
+    $( "#tables ol" ).droppable({
+        activeClass: "ui-state-default",
+        hoverClass: "ui-state-hover",
+        accept: ":not(.ui-sortable-helper)",
+        drop: function( event, ui ) {
+            $( this ).find( ".placeholder" ).remove();
+            $( "<li id='"+ui.draggable.attr("id")+"'></li>" ).text( ui.draggable.text() ).appendTo( this );
+            ui.draggable.hide();
+
+        }
+    }).sortable({
+        items: "li:not(.placeholder)",
+        sort: function() {
+            // gets added unintentionally by droppable interacting with sortable
+            // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
+            $( this ).removeClass( "ui-state-default" );
+        }
+    });
+    $( ".seating_table" ).draggable();
+
+}
 
 
