@@ -14,6 +14,7 @@ $groups = $persist->getGroups();
 $tables = $persist->getTables(0);
 $sides = $persist->getSides();
 $guestGroupedByGroup = $persist->getGuestGroupedByGroup();
+$guestGroupedByTable = $persist->getGuestGroupedByTable();
 //var_dump($guestGroupedByGroup);
 $statisticsMap = $persist->getStatisticsMap();
 
@@ -24,4 +25,5 @@ $smarty->assign("groups",$groups);
 $smarty->assign("sides",$sides);
 $smarty->assign("statisticsMap",$statisticsMap);
 $smarty->assign("guestGroupedByGroup",$guestGroupedByGroup);
+$smarty->assign("guestGroupedByTable",$guestGroupedByTable);
 $smarty->display('tmpl_seating_arrangement.tpl');

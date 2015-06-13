@@ -148,7 +148,6 @@ class Persist
     }
 
 
-
     public function getSides()
     {
         $sql = "Select * From sides";
@@ -393,5 +392,40 @@ class Persist
         $res->execute();
 
     }
+
+    public function updateGuestTable($guestOid, $tableOid)
+    {
+        $sql = "UPDATE guests set table_id='$tableOid' where oid='$guestOid'";
+        $res = $this->db->prepare($sql);
+        $res->execute();
+
+    }
+
+    public function getGuestGroupedByTable()
+    {
+
+        $sql = "Select * From guests where deleted=false and table_id>0";
+
+
+        $res = $this->db->prepare($sql);
+        $res->execute();
+        $guests = $res->fetchAll(PDO::FETCH_CLASS);
+        //
+
+        $guestsByTableMap = array();
+        foreach ($guests as $key => $value) {
+            if (!isset($guestsByTableMap[$value->table_id])) {
+                $guestsArray = array();
+            } else {
+
+                $guestsArray = $guestsByTableMap[$value->table_id];
+            }
+            array_push($guestsArray, $value);
+            $guestsByTableMap[$value->table_id] = $guestsArray;
+
+        }
+        return $guestsByTableMap;
+    }
+
 
 }

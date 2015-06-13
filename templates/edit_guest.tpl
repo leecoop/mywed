@@ -78,7 +78,7 @@
 
         editGuestDialog = $("#edit_guest").dialog({
             autoOpen: false,
-            height: 480,
+            height: 390,
             width: 550,
             modal: true,
             close: function () {
