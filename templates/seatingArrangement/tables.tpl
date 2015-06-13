@@ -1,4 +1,5 @@
 <div id="tables">
-    {include file="seatingArrangement/table.tpl"}
-    {include file="seatingArrangement/table.tpl"}
+    {foreach $tables as $table}
+        {include file="seatingArrangement/table.tpl"}
+    {/foreach}
 </div>

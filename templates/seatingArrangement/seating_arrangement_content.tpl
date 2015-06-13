@@ -1,15 +1,9 @@
 <style>
     h1 { padding: .2em; margin: 0; }
-    #products { float:right; width: 300px; margin-right: 2em }
-    #tables { width: 250px; float: left; margin-top: 1em; max-height: 300px}
-    /* style the list to maximize the droppable hitarea */
-    #tables ol li{ margin: 0; padding: 1em 1em 1em 0; display:block }
+
 </style>
 
-
-<button id="add_table" class="registerBtn" onclick="addTable()">חדש</button>
-
-
+<div>
 <div id="products">
     <h1 class="ui-widget-header">מוזמנים</h1>
     <div id="catalog" >
@@ -19,7 +13,7 @@
             <div style="max-height: 100px">
                 <ul>
                     {foreach $group as $guest}
-                    <li id="{$guest->oid}">{$guest->name} {$guest->last_name} <b>({$guest->amount})</b></li>
+                    <li id="{$guest->oid}" amount="{$guest->amount}">{$guest->name} {$guest->last_name} <b>({$guest->amount})</b></li>
                     {/foreach}
                 </ul>
             </div>
@@ -29,23 +23,8 @@
     </div>
 </div>
 
-{*<div id="cart">*}
-    {*<h1 class="ui-widget-header">Shopping Cart</h1>*}
-    {*<div class="ui-widget-content">*}
-        {*<ol>*}
-            {*<li class="placeholder">Add your items here</li>*}
-        {*</ol>*}
-    {*</div>*}
-
-    {*<h1 class="ui-widget-header">Shopping Cart</h1>*}
-    {*<div class="ui-widget-content">*}
-        {*<ol>*}
-            {*<li class="placeholder">Add your items here</li>*}
-        {*</ol>*}
-    {*</div>*}
-{*</div>*}
 {include file="seatingArrangement/tables.tpl"}
-
+</div>
 <script>
     $(function() {
         $( "#catalog" ).accordion();
@@ -61,6 +40,7 @@
                 $( this ).find( ".placeholder" ).remove();
                 $( "<li id='"+ui.draggable.attr("id")+"'></li>" ).text( ui.draggable.text() ).appendTo( this );
                 ui.draggable.hide();
+                tableDropResponse(event, ui,this.offsetParent.id);
 
             }
         }).sortable({

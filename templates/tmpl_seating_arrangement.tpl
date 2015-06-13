@@ -5,6 +5,7 @@
     {include file="common/head.tpl"}
     <div id="site_content">
         {*{include file="top_panel.tpl"}*}
+        {include file="seatingArrangement/add_table.tpl"}
         {include file="seatingArrangement/seating_arrangement_content.tpl"}
     </div>
 </div>

@@ -6,7 +6,7 @@ var URLs = {
     updateInvitationSent: 'execute/update_invitation_sent.php?',
     updateArrivalApproved: 'execute/update_arrival_approved.php?',
     filter: 'execute/filter.php?',
-    addNewTable: 'execute/add_new_table.php?'
+    addEditTable: 'execute/add_edit_table.php?'
 };
 
 
@@ -111,7 +111,7 @@ function addEditGuestResponse(responseData, params) {
 
     var guest = responseData.guest;
     var rowNode = table.row.add([
-        "<a href=\"javascript:void(0)\" class=\"edit\" onclick='openEditGuest(\""+params.guestOid+"\")'></a>",
+        "<a href=\"javascript:void(0)\" class=\"edit\" onclick='openEditGuest(\"" + params.guestOid + "\")'></a>",
         guest.name,
         guest.lastName,
         guest.amount,
@@ -436,36 +436,51 @@ function showLoading() {
 }
 
 
-function addTable(){
-    Ajax.sendRequest(URLs.addNewTable, {
-        //data: {sidesIds: sidesIds.join(","), groupsIds: groupsIds.join(","), loc: loc},
+function addTable(oid) {
+    var title = $("#title").val();
+    var capacity = $("#amount").val();
+
+    Ajax.sendRequest(URLs.addEditTable, {
+        data: {title: title, capacity: capacity, tableOid: oid},
         contentType: 'application/json;charset=UTF-8',
         loader: true,
         callback: 'addTableResponse'
     });
 }
 
-function addTableResponse(response, params){
+function addTableResponse(response, params) {
     $("#tables").append(response.data);
-    $( "#tables ol" ).droppable({
+    $("#tables ol").droppable({
         activeClass: "ui-state-default",
         hoverClass: "ui-state-hover",
         accept: ":not(.ui-sortable-helper)",
-        drop: function( event, ui ) {
-            $( this ).find( ".placeholder" ).remove();
-            $( "<li id='"+ui.draggable.attr("id")+"'></li>" ).text( ui.draggable.text() ).appendTo( this );
+        drop: function (event, ui) {
+            $(this).find(".placeholder").remove();
+            $("<li id='" + ui.draggable.attr("id") + "'></li>").text(ui.draggable.text()).appendTo(this);
             ui.draggable.hide();
 
         }
     }).sortable({
         items: "li:not(.placeholder)",
-        sort: function() {
+        sort: function () {
             // gets added unintentionally by droppable interacting with sortable
             // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
-            $( this ).removeClass( "ui-state-default" );
+            $(this).removeClass("ui-state-default");
         }
     });
-    $( ".seating_table" ).draggable();
+    $(".seating_table").draggable();
+
+}
+
+function tableDropResponse(event, ui, tableId) {
+
+    var tableCurrentAmountSpan = $("#" + tableId + " .current_amount");
+    var currentAmount = parseInt(tableCurrentAmountSpan.html(), 10);
+    var guestAmount = parseInt(ui.draggable.attr("amount"), 10);
+    var newAmount = currentAmount+guestAmount;
+
+
+    tableCurrentAmountSpan.html(newAmount);
 
 }
 

@@ -136,6 +136,19 @@ class Persist
         return $this->toMap($arr);
     }
 
+    public function getTables($projectId)
+    {
+        $sql = "Select * From tables where deleted=false ORDER BY oid asc";
+
+        $res = $this->db->prepare($sql);
+        $res->execute();
+        $res->setFetchMode(PDO::FETCH_LAZY);
+
+        return $res;
+    }
+
+
+
     public function getSides()
     {
         $sql = "Select * From sides";
@@ -268,7 +281,7 @@ class Persist
         $res = $res->fetch(PDO::FETCH_OBJ);
         $map["arrivalNotApproved"] = $res->total;
 
-        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=1 && arrival_approved=1 && has_table=0";
+        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=1 && arrival_approved=1";
         $res = $this->db->prepare($sql);
         $res->execute();
         $res = $res->fetch(PDO::FETCH_OBJ);
@@ -363,4 +376,22 @@ class Persist
 
         return $res;
     }
+
+
+    public function addTable($title, $capacity, $projectId)
+    {
+        $sql = "INSERT INTO tables(title,capacity,project_id) VALUES('$title','$capacity','$projectId')";
+        $res = $this->db->prepare($sql);
+        $res->execute();
+        return $this->db->lastInsertId();
+    }
+
+    public function editTable($tableOid, $title, $capacity)
+    {
+        $sql = "UPDATE tables set title='$title',capacity='$capacity' where oid='$tableOid'";
+        $res = $this->db->prepare($sql);
+        $res->execute();
+
+    }
+
 }

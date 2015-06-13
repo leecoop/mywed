@@ -90,7 +90,6 @@
     overflow: hidden;
 }
 
-
 .box {
     /*background: url("http://sceaguda.zxq.net/register.png") no-repeat scroll 0 0 transparent;
     /*height: 204px;
@@ -125,15 +124,15 @@
 }
 
 /*#site_content_small table tr td {*/
-    /*background: none repeat scroll 0 0 #FFF;*/
-    /*border-top: 1px solid #FFFFFF;*/
-    /*color: #47433F;*/
+/*background: none repeat scroll 0 0 #FFF;*/
+/*border-top: 1px solid #FFFFFF;*/
+/*color: #47433F;*/
 /*}*/
 
 /*.box table tr td {*/
-    /*background: none repeat scroll 0 0 #FFFFFF;*/
-    /*color: #47433F;*/
-    /*border-top: 1px solid #FFFFFF;*/
+/*background: none repeat scroll 0 0 #FFFFFF;*/
+/*color: #47433F;*/
+/*border-top: 1px solid #FFFFFF;*/
 /*}*/
 
 .fieldBg {
@@ -200,9 +199,9 @@ h6 {
 }
 
 /*a, a:hover {*/
-    /*outline: none;*/
-    /*text-decoration: underline;*/
-    /*color: #A4AA04;*/
+/*outline: none;*/
+/*text-decoration: underline;*/
+/*color: #A4AA04;*/
 /*}*/
 
 a:hover {
@@ -535,40 +534,40 @@ table {
 }
 
 /*table tr th {*/
-    /*text-align: center;*/
-    /*background: #3B3B3B;*/
-    /*color: #FFF;*/
-    /*padding: 7px 4px;*/
+/*text-align: center;*/
+/*background: #3B3B3B;*/
+/*color: #FFF;*/
+/*padding: 7px 4px;*/
 /*}*/
 
 /*table tr td {*/
-    /*background: none repeat scroll 0 0 #F4F4EE;*/
-    /*color: #47433F;*/
-    /*padding: 5px 2px;*/
-    /*text-align: right;*/
-    /*border-top: 1px solid #FFFFFF;*/
+/*background: none repeat scroll 0 0 #F4F4EE;*/
+/*color: #47433F;*/
+/*padding: 5px 2px;*/
+/*text-align: right;*/
+/*border-top: 1px solid #FFFFFF;*/
 /*}*/
 
 /*.guest_table {*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*background: #f4f4ee;*/
-    /*margin: 0;*/
+/*width: 100%;*/
+/*height: 100%;*/
+/*background: #f4f4ee;*/
+/*margin: 0;*/
 /*}*/
 
 /*.guest_table tr th {*/
-    /*text-align:center;*/
-    /*background: #3B3B3B;*/
-    /*color: #FFF;*/
-    /*padding: 7px 4px;*/
+/*text-align:center;*/
+/*background: #3B3B3B;*/
+/*color: #FFF;*/
+/*padding: 7px 4px;*/
 /*}*/
 
 /*.guest_table tr td {*/
-    /*background: #ffffff;*/
-    /*color: #47433F;*/
-    /*padding: 0;*/
-    /*text-align: right;*/
-    /*border-top: 0;*/
+/*background: #ffffff;*/
+/*color: #47433F;*/
+/*padding: 0;*/
+/*text-align: right;*/
+/*border-top: 0;*/
 /*}*/
 
 .leadnews {
@@ -812,16 +811,17 @@ table {
 .maxWidth {
     width: 100%;
 }
-.marginB10{
+
+.marginB10 {
     margin-bottom: 10px;
 }
 
-.margin3{
+.margin3 {
     margin: 3px;
 }
 
-.largeOff{
-    background: -moz-linear-gradient(center top , #fff, #f1f1f1) repeat scroll 0 0 transparent;
+.largeOff {
+    background: -moz-linear-gradient(center top, #fff, #f1f1f1) repeat scroll 0 0 transparent;
     border: 1px solid #dedede;
     border-radius: 3px;
     color: #595959;
@@ -838,7 +838,7 @@ table {
 }
 
 .buttonCss, .buttonCss a {
-    background: -moz-linear-gradient(center top , #fff, #f1f1f1) repeat scroll 0 0 transparent;
+    background: -moz-linear-gradient(center top, #fff, #f1f1f1) repeat scroll 0 0 transparent;
     border: 1px solid #dedede;
     border-radius: 3px;
     color: #595959;
@@ -852,6 +852,7 @@ table {
     text-decoration: none !important;
     width: 11px;
 }
+
 .buttonCss:hover {
     border: 1px solid #bebebe;
 }
@@ -866,12 +867,11 @@ table {
     margin-bottom: 2px;
 }
 
-.absolute{
+.absolute {
     position: absolute
 }
 
-
-.relative{
+.relative {
     position: relative;
 }
 
@@ -886,6 +886,7 @@ table {
     position: relative;
     width: 151px;
 }
+
 #loader {
     background: url("icons/loader.gif") no-repeat scroll 0 0 transparent;
     display: inline-block;
@@ -895,6 +896,7 @@ table {
     padding-bottom: 2px;
     width: 16px;
 }
+
 #loadingTop {
     background: none repeat scroll 0 0 #c9ff30;
     height: 5px;
@@ -907,7 +909,7 @@ table {
 }
 
 .edit {
-    background: url("icons/edit.png")  no-repeat scroll 0 5px rgba(0, 0, 0, 0);
+    background: url("icons/edit.png") no-repeat scroll 0 5px rgba(0, 0, 0, 0);
     display: inline-block;
     height: 20px;
     vertical-align: middle;
@@ -915,8 +917,7 @@ table {
     /*margin-bottom: 2px;*/
 }
 
-
-.grey td{
+.grey td {
     background: none repeat scroll 0 0 #e6e6e0;
 }
 
@@ -930,10 +931,32 @@ table {
     background: #85e079 none repeat-x scroll 0 0;
     height: 10px;
 }
+
 .redBlock {
     background: #fe7f7f none repeat-x scroll 0 0;
     height: 10px;
 }
+
 .floatLeft {
     float: left;
+}
+
+#products {
+    float: right;
+    width: 25%;
+    margin-right: 2em
+}
+
+#tables {
+    width: 71%;
+    float: right;
+    /*height: 270px*/
+}
+
+/* style the list to maximize the droppable hitarea */
+#tables ol li {
+    margin: 0;
+    padding: 2px;
+    display: block;
+
 }
