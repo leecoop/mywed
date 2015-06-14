@@ -15,6 +15,6 @@
 
         </ol>
     </div>
-    <div class="ui-widget-header" style="font-size: small"><span class="current_amount">{$currentAmount}</span>/{$table.capacity}</div>
+    <div class="ui-widget-header" style="font-size: small"><span class="current_amount">{$currentAmount}</span>/{$table.capacity}<a style="float: left" onclick="deleteTable({$table.oid})" href="#">מחק</a></div>
 
 </div>

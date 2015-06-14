@@ -427,5 +427,23 @@ class Persist
         return $guestsByTableMap;
     }
 
+    public function deleteTable($tableOid)
+    {
+        try {
+            $sql = "UPDATE tables set deleted=true where oid='$tableOid'";
+            $res = $this->db->prepare($sql);
+            $res->execute();
+
+            $sql = "UPDATE guests set table_id=0 where table_id='$tableOid'";
+            $res = $this->db->prepare($sql);
+            $res->execute();
+
+
+        } catch (Exception $e) {
+            return $e;
+        }
+
+    }
+
 
 }
