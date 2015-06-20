@@ -213,6 +213,13 @@ function createGroupResponse(response, params) {
     option1.attr({'value': newId}).text(name);
     $("#editGroups").append(option1);
 
+    var $div = $("<div>", {id: "group_" + newId, class: "tagBG", value: newId});
+    $div.attr("onclick","filter('group_"+newId+"')");
+    $div.text(name);
+
+    $("#filterGroups").append($div);
+
+
     closeCreateGroupDialog();
 }
 
@@ -369,7 +376,7 @@ function updateCounters(menuElementId) {
 function toggleCheckboxes(caller, id) {
     var newStatus = selectAllCheckedCheckboxes(id).length == 0;
     var title;
-    selectAllCheckboxes(id).prop("checked", newStatus);
+    selectAllCheckboxes(id).prop("class", (newStatus) ? "tagBGActive" : "tagBG");
     if (newStatus) {
         title = "כלום";
     } else {
@@ -379,26 +386,28 @@ function toggleCheckboxes(caller, id) {
 }
 
 function selectAllCheckboxes(id) {
-    return $("#" + id + " input[type='checkbox']");
+    return $("#" + id + " div");
 }
 
 function selectAllCheckedCheckboxes(id) {
     var array = [];
 
-    $("#" + id + " input[type='checkbox']:checked").each(function (i, element) {
-        array.push(element.value);
+    $("#" + id + " .tagBGActive").each(function (i, element) {
+        array.push(element.getAttribute("value"));
     });
 
     return array;
 }
 
-function filter(loc) {
+function filter(id) {
+    var item = $('#' + id);
+    toggleFilterItemClass(item);
     var sidesIds = selectAllCheckedCheckboxes("filterSides");
-
+    //
     var groupsIds = selectAllCheckedCheckboxes("filterGroups");
 
     Ajax.sendRequest(URLs.filter, {
-        data: {sidesIds: sidesIds.join(","), groupsIds: groupsIds.join(","), loc: loc},
+        data: {sidesIds: sidesIds.join(","), groupsIds: groupsIds.join(","), loc: $("#loc").val()},
         loader: true,
         callback: 'filterResponse'
     });
@@ -526,6 +535,15 @@ function deleteTableResponse(response, params) {
             $("#guest" + element.id).show();
         });
     });
+}
+
+function toggleFilterItemClass(item) {
+    if (item.attr('class') == "tagBG") {
+        item.attr('class', "tagBGActive");
+    } else {
+        item.attr('class', "tagBG")
+    }
+
 }
 
 

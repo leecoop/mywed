@@ -240,8 +240,8 @@ ul {
 
 ul li {
     list-style-type: none;
-    margin: 0 0 6px 0;
-    padding: 0 0 4px 5px;
+    margin: 0 0 2px 0;
+    /*padding: 0 0 4px 5px;*/
 }
 
 ol {
@@ -952,8 +952,9 @@ table {
     float: right;
     /*height: 270px*/
 }
+
 #tables ol {
-   width: 100%;
+    width: 100%;
     height: 100%;
 
 }
@@ -965,3 +966,39 @@ table {
     display: block;
 
 }
+.tagBG {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+    line-height: 23px;
+    margin: 0 5px 5px 0;
+    padding: 0 5px;
+    text-align:center;
+}
+
+.tagBG:hover {
+    background-color: #286090;
+    border-color: #204d74;
+    color: #fff;
+}
+
+.tagBGActive {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+    line-height: 23px;
+    margin: 0 5px 5px 0;
+    padding: 0 5px;
+    text-align:center;
+}
+
+.tagBGActive:hover {
+    background-color: #449d44;
+    border-color: #398439;
+    color: #fff;
+}
+
