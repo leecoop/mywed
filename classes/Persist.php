@@ -17,15 +17,26 @@ class Persist
 
     function __construct()
     {
-        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
-        $login = 'b3_15690100';
-        $passwd = 'q1w2e3';
 
-        $this->db = new PDO($dsn, $login, $passwd, array(
-            PDO::ATTR_PERSISTENT => true));
-        $this->db->prepare("SET NAMES 'UTF8'")->execute();
-        $this->db->prepare("Set Character Set utf8")->execute();
+        try {
+//            $dsn = 'mysql:host=sql208.byethost3.com;dbname=b3_15690100_wedding';
+            $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
+            $login = 'b3_15690100';
+            $passwd = 'q1w2e3';
 
+            $this->db = new PDO($dsn, $login, $passwd, array(
+                PDO::ATTR_PERSISTENT => true));
+            $this->db->prepare("SET NAMES 'UTF8'")->execute();
+            $this->db->prepare("Set Character Set utf8")->execute();
+        } catch (Exception $e) {
+            die('Could not connect Database. Error:' . $e->getMessage());
+        }
+
+    }
+
+    function __destruct()
+    {
+        $this->db = null;
     }
 
     public function hasText($element)
@@ -35,13 +46,17 @@ class Persist
 
     public function getGuests()
     {
-        $sql = "Select * From guests where deleted=false ORDER BY oid desc";
+        try {
+            $sql = "Select * From guests where deleted=false ORDER BY oid desc";
 
-        $res = $this->db->prepare($sql);
-        $res->execute();
-        $res->setFetchMode(PDO::FETCH_LAZY);
+            $res = $this->db->prepare($sql);
+            $res->execute();
+            $res->setFetchMode(PDO::FETCH_LAZY);
 
-        return $res;
+            return $res;
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 
     public function getGuestsWithFilter($sidesIds, $groupsIds)
@@ -265,26 +280,59 @@ class Persist
     }
 
 
+//    public function getStatisticsMap()
+//    {
+//        $map = array();
+//        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=0";
+//        $res = $this->db->prepare($sql);
+//        $res->execute();
+//        $res = $res->fetch(PDO::FETCH_OBJ);
+//        $map["invitationNotSent"] = $res->total;
+//
+//        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=1 && arrival_approved=0";
+//        $res = $this->db->prepare($sql);
+//        $res->execute();
+//        $res = $res->fetch(PDO::FETCH_OBJ);
+//        $map["arrivalNotApproved"] = $res->total;
+//
+//        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=1 && arrival_approved=1";
+//        $res = $this->db->prepare($sql);
+//        $res->execute();
+//        $res = $res->fetch(PDO::FETCH_OBJ);
+//        $map["notHasTable"] = $res->total;
+//
+//        return $map;
+//
+//    }
+
     public function getStatisticsMap()
     {
+        $totalGuests = 0;
+        $invitationSent = 0;
+        $arrivalApproved = 0;
+        $hasTable = 0;
+
         $map = array();
-        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=0";
-        $res = $this->db->prepare($sql);
-        $res->execute();
-        $res = $res->fetch(PDO::FETCH_OBJ);
-        $map["invitationNotSent"] = $res->total;
+        $allGuest = $this->getGuests();
+        foreach ($allGuest as $key => $guest) {
+            $guestsAmount = $guest->amount;
+            $totalGuests += $guestsAmount;
+            if ($guest->invitation_sent == 1) {
+                $invitationSent += $guestsAmount;
+            }
+            if ($guest->arrival_approved == 1) {
+                $arrivalApproved += $guestsAmount;
+            }
+            if ($guest->table_id > 0) {
+                $hasTable += $guestsAmount;
+            }
+        }
 
-        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=1 && arrival_approved=0";
-        $res = $this->db->prepare($sql);
-        $res->execute();
-        $res = $res->fetch(PDO::FETCH_OBJ);
-        $map["arrivalNotApproved"] = $res->total;
 
-        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=1 && arrival_approved=1";
-        $res = $this->db->prepare($sql);
-        $res->execute();
-        $res = $res->fetch(PDO::FETCH_OBJ);
-        $map["notHasTable"] = $res->total;
+        $map["totalGuests"] = $totalGuests;
+        $map["invitationSent"] = $invitationSent;
+        $map["arrivalApproved"] = $arrivalApproved;
+        $map["hasTable"] = $hasTable;
 
         return $map;
 
@@ -387,17 +435,25 @@ class Persist
 
     public function editTable($tableOid, $title, $capacity)
     {
-        $sql = "UPDATE tables set title='$title',capacity='$capacity' where oid='$tableOid'";
-        $res = $this->db->prepare($sql);
-        $res->execute();
+        try {
+            $sql = "UPDATE tables set title='$title',capacity='$capacity' where oid='$tableOid'";
+            $res = $this->db->prepare($sql);
+            $res->execute();
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
 
     }
 
     public function updateGuestTable($guestOid, $tableOid)
     {
-        $sql = "UPDATE guests set table_id='$tableOid' where oid='$guestOid'";
-        $res = $this->db->prepare($sql);
-        $res->execute();
+        try {
+            $sql = "UPDATE guests set table_id='$tableOid' where oid='$guestOid'";
+            $res = $this->db->prepare($sql);
+            $res->execute();
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
 
     }
 

@@ -1,5 +1,5 @@
 <div id="edit_guest" style="display: none" title="עריכת מוזמן">
-    <div id="site_content_small" style="float:left">
+    <div class="site_content_small" style="float:left">
         <div style="float:right; padding-right:40px">
             <table id="add_new_guest_table" width="400" class="w3" cellspacing="0" cellpadding="1" border="0"
                    style="padding: 5px; font-weight: bolder; margin:10px">

@@ -8,7 +8,8 @@ var URLs = {
     filter: 'execute/filter.php?',
     addEditTable: 'execute/add_edit_table.php?',
     addGuestToTable: 'execute/add_guest_to_table.php?',
-    deleteTable: 'execute/delete_table.php?'
+    deleteTable: 'execute/delete_table.php?',
+    getStatistics: 'execute/get_statistics.php?'
 };
 
 
@@ -32,6 +33,7 @@ var Ajax = {
                 var callback = (options.callback) ? eval(options.callback) : null;
                 if (typeof callback == 'function') callback(response, options.params);
                 if (options.loader) hideLoading();
+                if (options.refreshStats) refreshStats();
 
             },
             error: function () {
@@ -97,6 +99,7 @@ function addEditGuest(guestOid) {
         contentType: 'application/json;charset=UTF-8',
         params: {edit: !add, guestOid: guestOid},
         loader: true,
+        refreshStats: true,
         callback: 'addEditGuestResponse'
     });
 
@@ -214,7 +217,7 @@ function createGroupResponse(response, params) {
     $("#editGroups").append(option1);
 
     var $div = $("<div>", {id: "group_" + newId, class: "tagBG", value: newId});
-    $div.attr("onclick","filter('group_"+newId+"')");
+    $div.attr("onclick", "filter('group_" + newId + "')");
     $div.text(name);
 
     $("#filterGroups").append($div);
@@ -449,48 +452,67 @@ function showLoading() {
 
 function addTable(oid) {
     var title = $("#title").val();
-    var capacity = $("#amount").val();
+    if (title == "") {
+        tooltips.tooltip("open");
+    } else {
+        var capacity = $("#amount").val();
 
-    Ajax.sendRequest(URLs.addEditTable, {
-        data: {title: title, capacity: capacity, tableOid: oid},
-        contentType: 'application/json;charset=UTF-8',
-        loader: true,
-        callback: 'addTableResponse'
-    });
+        Ajax.sendRequest(URLs.addEditTable, {
+            data: {title: title, capacity: capacity, tableOid: oid},
+            params: {newTable: oid == 0},
+            contentType: 'application/json;charset=UTF-8',
+            loader: true,
+            callback: 'addTableResponse'
+        });
+    }
+}
+
+function addTableResponse(response, params) {
+    $("#tables").append(response.data);
+    initSeatingArrangement();
+    $("#title").val("");
+    //if(params.newTable){
+    //    var title = $('#title');
+    //    var currentTableCount= parseInt(title.attr('count'),10);
+    //    var newTableCount = currentTableCount+1;
+    //    title.attr('count',newTableCount);
+    //    title.val("שולחן " + newTableCount);
+    //
+    //}
+
 }
 
 function initSeatingArrangement() {
     $("#catalog").accordion();
     $("#catalog li").draggable({
         appendTo: "body",
-        helper: "clone"
+        helper: "clone",
+        cursor: "move",
+        cursorAt: {left: 90}
+
     });
     $("#tables ol").droppable({
-        activeClass: "ui-state-default",
-        hoverClass: "ui-state-hover",
+        //activeClass: "ui-state-default",
+        //hoverClass: "ui-state-hover",
         accept: ":not(.ui-sortable-helper)",
         drop: function (event, ui) {
-            $(this).find(".placeholder").remove();
-            $("<li id='" + ui.draggable.attr("oid") + "'></li>").text(ui.draggable.text()).appendTo(this);
-            ui.draggable.hide();
-            tableDrop(ui.draggable, this.offsetParent.id);
+            if (parseInt(this.parentNode.parentNode.getAttribute("max"), 10) >= parseInt(ui.draggable.attr("amount"), 10) + parseInt($("#" + this.parentNode.parentNode.id + " .current_amount").html(), 10)) {
+                $(this).find(".placeholder").remove();
+                $("<li id='" + ui.draggable.attr("oid") + "'></li>").text(ui.draggable.text()).appendTo(this);
+                ui.draggable.hide();
+                tableDrop(ui.draggable, this.parentNode.parentNode.id);
+            }
 
         }
     }).sortable({
-        items: "li:not(.placeholder)",
+        items: "div:not(.placeholder)",
         sort: function () {
             // gets added unintentionally by droppable interacting with sortable
             // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
             $(this).removeClass("ui-state-default");
         }
     });
-    $(".seating_table").draggable();
-
-}
-
-function addTableResponse(response, params) {
-    $("#tables").append(response.data);
-    initSeatingArrangement();
+    //$(".seating_table").draggable();
 
 }
 
@@ -546,5 +568,20 @@ function toggleFilterItemClass(item) {
 
 }
 
+function refreshStats() {
+    Ajax.sendRequest(URLs.getStatistics, {
+        callback: 'refreshStatsResponse'
+    });
+}
+
+function refreshStatsResponse(responseData, params) {
+
+    g1.refresh(responseData.totalGuests);
+    g2.refresh(responseData.invitationSent);
+    g3.refresh(responseData.arrivalApproved);
+    g4.refresh(responseData.hasTable);
+
+
+}
 
 

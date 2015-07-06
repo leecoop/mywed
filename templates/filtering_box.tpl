@@ -1,5 +1,5 @@
-<div class="filter_box_div">
-    <div id="site_content_small">
+{*<div class="filter_box_div">*}
+    <div class="site_content_small" style="width: 70%;margin-bottom: 25px">
         <div class="box_title">
             <div class="title_text">סינון</div>
         </div>
@@ -25,7 +25,7 @@
                         <div class="marginB10">קבוצה(<a onclick="toggleCheckboxes(this,'filterGroups');" class="underline" href="javascript:void(0);">כלום</a>)
                             <img id="add_group_btn" src="../style/Button-Add-icon.png" onclick="openCreateGroupDialog()" style="margin: -4px;padding-right: 4px">
                         </div>
-                        <div style="max-height: 140px; overflow-y: scroll;direction: ltr;">
+                        <div style="max-height: 140px; overflow-y: auto;direction: ltr;">
                             <div style="direction: rtl">
                                 <div id="filterGroups">
                                     {foreach $groups as $value}
@@ -46,7 +46,7 @@
 
         </div>
     </div>
-</div>
+{*</div>*}
 {*<script>*}
 {*$(function() {*}
 {*$( "#filterSides" ).buttonset();*}

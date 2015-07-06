@@ -7,7 +7,7 @@
         <div class="top_box_div">
 
 
-            <div id="site_content_small">
+            <div class="site_content_small">
                 <div class="box_title">
                     <div class="title_text">חיפוש</div>
                 </div>

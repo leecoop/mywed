@@ -7,7 +7,9 @@
                 <thead>
 
                 <tr>
+                    {if $loc eq 'guests'}
                     <th></th>
+                    {/if}
                     <th>שם</th>
                     <th>שם משפחה</th>
                     <th>מוזמנים</th>

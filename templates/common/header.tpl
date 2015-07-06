@@ -7,6 +7,7 @@
     <title>{$title}</title>
 
     <link rel="stylesheet" type="text/css" href="../style/style.css"  />
+    <link rel="stylesheet" type="text/css" href="../style/newStyle.css"  />
     <link rel="stylesheet" type="text/css" href="../style/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="../style/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="../style/dataTables.tableTools.css">
@@ -21,4 +22,7 @@
     <script src="../scripts/jquery-ui.js"></script>
     <script type="text/javascript" src="../scripts/main.js"></script>
     {*<script type="text/javascript" language="javascript" src="../scripts/jquery.js"></script>*}
+
+    <script src="../scripts/raphael.2.1.0.min.js"></script>
+    <script src="../scripts/justgage.1.0.1.js"></script>
 </head>

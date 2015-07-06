@@ -107,10 +107,11 @@
     /*margin-bottom: 20px; */
 }
 
-#site_content_small {
-    width: 520px;
+.site_content_small {
+    /*width: 520px;*/
+    width: 100%;
     overflow: hidden;
-    margin: 0 auto 0 auto;
+    margin: 15px auto;
     background: #FFF;
     border-left: 1px solid #ECECE0;
     border-right: 1px solid #ECECE0;
@@ -384,11 +385,29 @@ ul#menu li a:hover {
     border-left: 1px solid #ECECE0;
     border-right: 1px solid #ECECE0;
     border-radius: 10px 10px 10px 10px;
-    margin: 0 auto;
+    margin: 0 120px 0 auto;
     overflow: hidden;
     padding: 0 20px 20px 40px;
-    width: 878px;
+    /*width: 878px;*/
+    width: 60%;
     box-shadow: 0 3px 10px rgba(200, 200, 200, 0.6), 0 0 1px #D4D4D4, 0 0 1px #D4D4D4;
+    float: right;
+
+
+}
+
+#site_content_left {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-left: 1px solid #ECECE0;
+    border-right: 1px solid #ECECE0;
+    border-radius: 10px 10px 10px 10px;
+    margin: 0 auto 0 170px;
+    overflow: hidden;
+    padding: 10px 20px 20px 20px;
+    /*width: 878px;*/
+    width: 15%;
+    box-shadow: 0 3px 10px rgba(200, 200, 200, 0.6), 0 0 1px #D4D4D4, 0 0 1px #D4D4D4;
+    float: left;
 
 }
 
@@ -597,7 +616,8 @@ table {
     display: block;
     float: left;
     height: 48px;
-    width: 520px;
+    /*width: 520px;*/
+    width: 100%;
 
 }
 
@@ -1003,3 +1023,40 @@ table {
     border-color: #398439;
 }
 
+.narrow{
+    display: inline-block;
+    width: 104px;
+    float: left;
+
+}
+
+.smallWidget{
+    display: inline-block;
+    height: 60px;
+    margin-top: 1em;
+    width: 80px;
+
+}
+
+div.dataTables_wrapper { min-height: 300px; }
+
+/*.form-control {*/
+    /*background-color: #fff;*/
+    /*background-image: none;*/
+    /*border: 1px solid #ccc;*/
+    /*border-radius: 4px;*/
+    /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;*/
+    /*color: #555;*/
+    /*display: block;*/
+    /*font-size: 14px;*/
+    /*height: 34px;*/
+    /*line-height: 1.42857;*/
+    /*padding: 0px 12px;*/
+    /*transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;*/
+    /*width: 100%;*/
+/*}*/
+.leadnews:focus {
+    border-color: #66afe9;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+    outline: 0 none;
+}

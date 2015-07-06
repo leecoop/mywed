@@ -1,4 +1,4 @@
-<div id="table{$table.oid}" oid="{$table.oid}" class="seating_table" style="padding: 5px;float: right;">
+<div id="table{$table.oid}" oid="{$table.oid}" max="{$table.capacity}" class="seating_table" style="padding: 5px;float: right;">
     <h1 class="ui-widget-header" style="font-size: small">{$table.title}</h1>
     {$currentAmount = 0}
     <div class="ui-widget-content" style="height: 270px;width: 140px">

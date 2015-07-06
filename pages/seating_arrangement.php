@@ -21,6 +21,8 @@ $statisticsMap = $persist->getStatisticsMap();
 //$smarty->assign("guests",$guests);
 //$smarty->assign("count",$count);
 $smarty->assign("tables",$tables);
+$smarty->assign("tablesCount",$tables->rowCount());
+
 $smarty->assign("groups",$groups);
 $smarty->assign("sides",$sides);
 $smarty->assign("statisticsMap",$statisticsMap);
