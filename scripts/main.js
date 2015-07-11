@@ -488,6 +488,7 @@ function initSeatingArrangement() {
         appendTo: "body",
         helper: "clone",
         cursor: "move",
+        revert: "invalid",
         cursorAt: {left: 90}
 
     });
@@ -498,7 +499,10 @@ function initSeatingArrangement() {
         drop: function (event, ui) {
             if (parseInt(this.parentNode.parentNode.getAttribute("max"), 10) >= parseInt(ui.draggable.attr("amount"), 10) + parseInt($("#" + this.parentNode.parentNode.id + " .current_amount").html(), 10)) {
                 $(this).find(".placeholder").remove();
-                $("<li id='" + ui.draggable.attr("oid") + "'></li>").text(ui.draggable.text()).appendTo(this);
+                var li = $("<li amount='" + ui.draggable.attr("amount") + "' oid='" + ui.draggable.attr("oid") + "'></li>").text(ui.draggable.text());
+                var a = $("<a onclick='removeGuestFromTable(" + ui.draggable.attr("oid") + "," + this.parentNode.parentNode.getAttribute('oid') + ");' class='removeIconSmall' ></a>");
+                li.append(a);
+                li.appendTo(this);
                 ui.draggable.hide();
                 tableDrop(ui.draggable, this.parentNode.parentNode.id);
             }
@@ -538,6 +542,30 @@ function tableDropResponse(response, params) {
 
 
     tableCurrentAmountSpan.html(newAmount);
+
+}
+
+function removeGuestFromTable(guestOid, tableId) {
+    Ajax.sendRequest(URLs.addGuestToTable, {
+        data: {guestOid: guestOid, tableOid: 0},
+        params: {guestOid: guestOid, tableId: tableId},
+        loader: true,
+        callback: 'removeGuestFromTableResponse'
+    });
+}
+
+function removeGuestFromTableResponse(response, params) {
+
+    var guest = $("#table" + params.tableId + " li[oid='" + params.guestOid + "']");
+
+    var tableCurrentAmountSpan = $("#table" + params.tableId + " .current_amount");
+    var currentAmount = parseInt(tableCurrentAmountSpan.html(), 10);
+    var guestAmount = parseInt(guest.attr("amount"), 10);
+    var newAmount = currentAmount - guestAmount;
+    tableCurrentAmountSpan.html(newAmount);
+    guest.remove();
+    $("#guest" + params.guestOid).show();
+
 
 }
 

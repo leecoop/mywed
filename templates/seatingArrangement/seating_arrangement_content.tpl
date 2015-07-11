@@ -1,39 +1,32 @@
 <style>
-    h1 { padding: .2em; margin: 0; }
+    h1 {
+        padding: .2em;
+        margin: 0;
+    }
+
     .item-catalog {
         margin-bottom: 7px;
         /*border: 1px solid #aaa; */
         /*position: relative; */
         /*text-align: center; */
         cursor: move;
-        list-style-type:circle;
+        list-style-type: circle;
 
         /*width: 180px*/
     }
 </style>
 
-<div>
-<div id="products">
-    <h1 class="ui-widget-header">מוזמנים</h1>
-    <div id="catalog" >
+    <div class="panel panel-default" id="products" style="margin-top: 5px">
+        <div class="panel-heading"> מוזמנים</div>
 
-        {foreach $guestGroupedByGroup as $group}
-            <h2 ><a href="#" id="group_{$group@key}">{$groups[$group@key]}</a></h2>
-            <div style="max-height: 100px">
-                <ul>
-                    {foreach $group as $guest}
-                    <li class="item-catalog" {if $guest->table_id > 0 }style="display: none" {/if} oid="{$guest->oid}" id="guest{$guest->oid}" amount="{$guest->amount}">{$guest->name} {$guest->last_name} <b>({$guest->amount})</b></li>
-                    {/foreach}
-                </ul>
+        <div class="panel-body">
+            <div id="catalog" class="panel-group">
+                {include file="seatingArrangement/guest_group.tpl"}
             </div>
-
-        {/foreach}
-
+        </div>
     </div>
-</div>
 
-{include file="seatingArrangement/tables.tpl"}
-</div>
+    {include file="seatingArrangement/tables.tpl"}
 <script>
     initSeatingArrangement();
 </script>

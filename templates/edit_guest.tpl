@@ -56,7 +56,7 @@
 
                 <tr>
                     <td align="right" valign="middle" class="w3">אישר הגעה:</td>
-                    <td>
+                    <td style="margin: 0.5em 0">
                          <span id="ediArrivalApproved">
                         <a val="1" onClass="checkOn" offClass="checkOff" onclick="toggleArrivalApprovedClass('ediArrivalApproved',1)" title="Mark this guest as accepted" href="javascript:void(0)"></a>
                         <a val="0" onClass="questionOn" offClass="questionOff" onclick="toggleArrivalApprovedClass('ediArrivalApproved',0)" title="Mark this guest as not responded"
@@ -78,7 +78,7 @@
 
         editGuestDialog = $("#edit_guest").dialog({
             autoOpen: false,
-            height: 390,
+            height: 450,
             width: 550,
             modal: true,
             close: function () {

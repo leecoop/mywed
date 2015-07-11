@@ -1,13 +1,9 @@
 <div style="text-align: center">
 
-    <div id="g1" style="width:200px; height:160px; display: inline-block; margin-top: 27px"></div>
-    {*<div>*}
-    {*<div class="narrow">*}
-        <div id="g2" style="width:200px; height:160px; display: inline-block; margin-top: 27px"></div>
-        <div id="g3" style="width:200px; height:160px; display: inline-block; margin-top: 27px"></div>
-        <div id="g4" style="width:200px; height:160px; display: inline-block; margin-top: 27px"></div>
-    {*</div>*}
-    {*</div>*}
+    <div id="g1" class="statisticGage"></div>
+    <div id="g2" class="statisticGage"></div>
+    <div id="g3" class="statisticGage"></div>
+    <div id="g4" class="statisticGage"></div>
 
 
 </div>
@@ -26,7 +22,7 @@
         max: 400,
         title: "הוזמנו",
         label: "מוזמנים",
-        levelColors:colors
+        levelColors: colors
     });
 
     var g2 = new JustGage({
@@ -36,7 +32,7 @@
         max: {$statisticsMap["totalGuests"]},
         title: "קיבלו הזמנה",
         label: "מוזמנים",
-        levelColors:colors
+        levelColors: colors
 
     });
 
@@ -47,7 +43,7 @@
         max: {$statisticsMap["totalGuests"]},
         title: "אישרו הגעה",
         label: "מוזמנים",
-        levelColors:colors
+        levelColors: colors
     });
 
     var g4 = new JustGage({
@@ -57,7 +53,7 @@
         max: {$statisticsMap["totalGuests"]},
         title: "קיבלו שולחן",
         label: "מוזמנים",
-        levelColors:colors
+        levelColors: colors
 
     });
 

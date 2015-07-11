@@ -1,5 +1,5 @@
 {*<div class="filter_box_div">*}
-    <div class="site_content_small" style="width: 70%;margin-bottom: 25px">
+    <div class="site_content_small" style="width: 85%;margin-bottom: 25px">
         <div class="box_title">
             <div class="title_text">סינון</div>
         </div>
@@ -11,7 +11,7 @@
 
                     <td valign="top" style="padding-left: 5px">
                         <div class="marginB10">צד(<a onclick="toggleCheckboxes(this,'filterSides');" class="underline" href="javascript:void(0);">כלום</a>)</div>
-                        <div id="filterSides" style="width: 67px">
+                        <div id="filterSides" style="width: 130px">
                             {foreach $sides as $value}
                                 <div style="width: 50px" class="tagBG" onclick="filter('side_{$value@key}')" id="side_{$value@key}" value="{$value@key}">{$value}</div>
                             {/foreach}
