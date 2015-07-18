@@ -401,13 +401,14 @@ ul#menu li a:hover {
     border-left: 1px solid #ECECE0;
     border-right: 1px solid #ECECE0;
     border-radius: 10px 10px 10px 10px;
-    margin: 0 auto 0 230px;
+    /*margin: 0 auto 0 230px;*/
     overflow: hidden;
     padding: 10px 20px 20px 20px;
     /*width: 878px;*/
     width: 12%;
     box-shadow: 0 3px 10px rgba(200, 200, 200, 0.6), 0 0 1px #D4D4D4, 0 0 1px #D4D4D4;
-    float: left;
+    float: right;
+    margin-right: 20px;
 
 }
 
@@ -1067,7 +1068,7 @@ div.dataTables_wrapper {
     width: 180px;
     height: 140px;
     display: inline-block;
-    margin-top: 27px
+    /*margin-top: 27px*/
 }
 
 /*.removeIconSmall{*/

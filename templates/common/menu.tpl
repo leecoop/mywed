@@ -1,4 +1,4 @@
-<div id="menubar">
+<div id="menubar" role="navigation">
     <ul id="menu">
         {*<li>*}
             {*<a href="../../Logout.php">יציאה</a>*}

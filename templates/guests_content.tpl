@@ -98,3 +98,6 @@
                     updateStatisticPanel({$total});
                 </script>
             </table>
+        </div>
+    </fieldset>
+</div>

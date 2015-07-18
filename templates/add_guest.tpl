@@ -1,12 +1,12 @@
 {*<div id="add_guest">*}
 
-    <div class="site_content_small" style="margin-bottom: 10px">
+    <div class="site_content_small" style="margin-bottom: 20px">
         <div class="box_title" >
             <div class="title_text">חדש</div>
         </div>
-        <div style="float:right;margin-right:10px">
+        {*<div style="float:right;margin-right:10px">*}
             <table id="add_guest_table"  class="w3" cellspacing="0" cellpadding="1" border="0"
-                   style="font-weight: bolder; margin:4px; width:980px">
+                   style="font-weight: bolder; margin:4px; width:100%">
                 <tr>
                     <td align="right" valign="middle" class="w3">שם:</td>
                     <td align="right" valign="middle"><input id="name" name="name" type="text" class="leadnews"/></td>
@@ -54,7 +54,7 @@
                     </td>
                 </tr>
             </table>
-        </div>
+        {*</div>*}
     </div>
 
 {*</div>*}

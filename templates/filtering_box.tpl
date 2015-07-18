@@ -1,5 +1,5 @@
 {*<div class="filter_box_div">*}
-    <div class="site_content_small" style="width: 85%;margin-bottom: 25px">
+    <div class="site_content_small" style="width: 100%;margin-bottom: 25px">
         <div class="box_title">
             <div class="title_text">סינון</div>
         </div>
@@ -34,7 +34,14 @@
                                 </div>
                             </div>
                         </div>
+                    </td>
+                    <td style="border: 1px solid rgb(222, 222, 222);"></td>
+                    <td valign="top" style="padding-right:5px">
+                    {include file="common/statistic_gage.tpl"}
+                    </td>
+
                 </tr>
+
 
                 </tbody>
             </table>
@@ -46,6 +53,8 @@
 
         </div>
     </div>
+
+
 {*</div>*}
 {*<script>*}
 {*$(function() {*}
