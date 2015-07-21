@@ -136,7 +136,7 @@
 	<link href="style/style.css" rel="stylesheet" type="text/css" />
 </head>
 <script type="text/javascript">
-		window.location = "pages/guests.php";
+		window.location = "pages/index.php";
 </script>
 <body bgcolor="#F8F8F8">
 

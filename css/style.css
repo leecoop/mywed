@@ -1,0 +1,202 @@
+.tagBG,
+.tagBGActive {
+    cursor: pointer;
+    float: right;
+    line-height: 23px;
+    margin: 0 3px 3px 0;
+    padding: 0 5px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+.tagBG {
+    background-color: #fff;
+    border-color: #ccc;
+    color: #333;
+}
+
+.tagBG:hover {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+    color: #333;
+}
+
+.tagBGActive {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.tagBGActive:hover {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #398439;
+}
+
+.border1 {
+    border: 1px solid #E2E1E1;
+}
+
+.padd5 {
+    padding: 5px;
+}
+
+.paddR20 {
+    padding-right: 20px;
+}
+
+.bg3 {
+    background: none repeat scroll 0 0 #FCFCFC;
+}
+
+.border_radius {
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.checkOn {
+    background: url("icons/check_on.png");
+    /*no-repeat scroll 0 5px rgba(0, 0, 0, 0);*/
+    display: inline-block;
+    height: 18px;
+    vertical-align: middle;
+    width: 18px;
+    margin-bottom: 2px;
+}
+
+.checkOff {
+    background: url("icons/check‬‏_off.png");
+    /*no-repeat scroll 0 5px rgba(0, 0, 0, 0);*/
+    display: inline-block;
+    height: 18px;
+    vertical-align: middle;
+    width: 18px;
+    margin-bottom: 2px;
+
+}
+
+.xOn {
+    background: url("icons/x_on.png");
+    /*no-repeat scroll 0 5px rgba(0, 0, 0, 0);*/
+    display: inline-block;
+    height: 18px;
+    vertical-align: middle;
+    width: 18px;
+    margin-bottom: 2px;
+}
+
+.xOff {
+    background: url("icons/x_off.png");
+    /*no-repeat scroll 0 5px rgba(0, 0, 0, 0);*/
+    display: inline-block;
+    height: 18px;
+    vertical-align: middle;
+    width: 18px;
+    margin-bottom: 2px;
+}
+
+.questionOn {
+    background: url("icons/question_on.png");
+    /*no-repeat scroll 0 5px rgba(0, 0, 0, 0);*/
+    display: inline-block;
+    height: 18px;
+    vertical-align: middle;
+    width: 18px;
+    margin-bottom: 2px;
+}
+
+.questionOff {
+    background: url("icons/question_off.png");
+    /*no-repeat scroll 0 5px rgba(0, 0, 0, 0);*/
+    display: inline-block;
+    height: 18px;
+    vertical-align: middle;
+    width: 18px;
+    margin-bottom: 2px;
+}
+
+.buttonCss, .buttonCss a {
+    background: -moz-linear-gradient(center top, #fff, #f1f1f1) repeat scroll 0 0 transparent;
+    border: 1px solid #dedede;
+    border-radius: 3px;
+    color: #595959;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-size: 21px;
+    line-height: 20px;
+    /*margin-right: 5px;*/
+    /*padding: 0 7px;*/
+    text-decoration: none !important;
+    width: 11px;
+}
+
+.buttonCss:hover {
+    border: 1px solid #bebebe;
+}
+
+#loadingDiv {
+    background: url("icons/loadingBg.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #595858;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 27px;
+    margin: 0 auto;
+    padding-left: 34px;
+    position: relative;
+    width: 151px;
+}
+
+#loader {
+    background: url("icons/loader.gif") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 14px;
+    margin-bottom: -2px;
+    margin-left: 10px;
+    padding-bottom: 2px;
+    width: 16px;
+}
+#loadingTop {
+    background: none repeat scroll 0 0 #c9ff30;
+    height: 5px;
+    left: 0;
+    min-width: 100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100000;
+}
+
+.statisticGage {
+    /*width: 167px;*/
+    /*height: 137px;*/
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    /*margin-top: 27px*/
+}
+
+
+/*#tables {*/
+    /*width: 71%;*/
+    /*float: right;*/
+    /*height: 270px*/
+/*}*/
+
+#tables ol {
+    width: 100%;
+    height: 100%;
+    padding-right: 0px;
+
+}
+
+/* style the list to maximize the droppable hitarea */
+#tables ol li {
+    margin: 0;
+    padding: 2px;
+    display: block;
+
+}
