@@ -81,7 +81,7 @@
                         </div>
                         <div id="filterSides" style="width: 130px">
                             {foreach $sides as $value}
-                                <div style="width: 60px" class="tagBG" onclick="filter('side_{$value@key}')" id="side_{$value@key}" value="{$value@key}">{$value}</div>
+                                <div class="tagBG" onclick="filter('side_{$value@key}')" id="side_{$value@key}" value="{$value@key}">{$value}</div>
                             {/foreach}
                         </div>
 

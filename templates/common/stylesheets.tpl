@@ -19,10 +19,8 @@
 
 <link href="../css/style.css" rel="stylesheet" type="text/css">
 
-{*<link href="../css/plugins/dataTables.bootstrap.css" rel="stylesheet">*}
 
 
 <link rel="stylesheet" type="text/css" href="../css/plugins/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="../css/plugins/dataTables.tableTools.css">
 <link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="../css/plugins/flipclock.css">

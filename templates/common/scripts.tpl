@@ -24,4 +24,4 @@
 <script src="../js/jquery-ui.js"></script>
 
 <script src="../js/plugins/justgage.1.0.1.js"></script>
-<script src="../js/plugins/flipclock.js"></script>
+<script type="text/javascript" language="javascript" src="../js/plugins/jquery.countdown.js"></script>

@@ -330,9 +330,13 @@ class Persist
 
 
         $map["totalGuests"] = $totalGuests;
+        $map["totalGuestsInPercent"] = $totalGuests;
         $map["invitationSent"] = $invitationSent;
+        $map["invitationSentInPercent"] = number_format(($invitationSent/$totalGuests)*100);
         $map["arrivalApproved"] = $arrivalApproved;
+        $map["arrivalApprovedInPercent"] = number_format(($arrivalApproved/$totalGuests)*100);
         $map["hasTable"] = $hasTable;
+        $map["hasTableInPercent"] = number_format(($hasTable/$totalGuests)*100);
 
         return $map;
 

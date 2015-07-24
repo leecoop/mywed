@@ -21,37 +21,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $persist = Persist::getInstance();
 
     $guestOid = decodeParams($_POST['guestOid']);
-    $name = decodeParams($_POST['name']);
-    $lastName = decodeParams($_POST['lastName']);
-    $amount = decodeParams($_POST['amount']);
-    $tableOid = decodeParams($_POST['tableOid']);
 
     require_once('smarty.php');
 
     $error = false;
     try {
 
-        $persist->updateGuestTable($guestOid,$tableOid);
+        $persist->updateGuestTable($guestOid,0);
 
     } catch (Exception $e) {
         $error = true;
 
     }
-
-    $guest = new stdClass();
-    $guest->oid = $guestOid;
-    $guest->name = $name;
-    $guest->last_name = $lastName;
-    $guest->amount = $amount;
-
-    $table = new stdClass();
-    $table->oid = $tableOid;
-
-    $smarty->assign("guest", $guest);
-    $smarty->assign("table", (array)$table);
-
-    $smarty->assign("data", $smarty->fetch('seatingArrangement/guest_in_table.tpl'));
-    $smarty->clearassign('guest');
 
     $smarty->assign("error", $error);
 

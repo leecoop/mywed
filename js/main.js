@@ -8,6 +8,7 @@ var URLs = {
     filter: 'execute/filter.php?',
     addEditTable: 'execute/add_edit_table.php?',
     addGuestToTable: 'execute/add_guest_to_table.php?',
+    removeGuestFromTable: 'execute/remove_guest_from_table.php?',
     deleteTable: 'execute/delete_table.php?',
     getStatistics: 'execute/get_statistics.php?'
 };
@@ -44,9 +45,8 @@ var Ajax = {
 };
 
 function clear(id, val) {
-    $("#" +id).val(val);
+    $("#" + id).val(val);
 }
-
 
 
 function trim(str) {
@@ -140,12 +140,12 @@ function addEditGuestResponse(responseData, params) {
         invitationsent: guest.invitationSent
     });
 
-    clear("name","");
-    clear("lastName","");
-    clear("phone","");
-    clear("sides","0");
-    clear("groups","0");
-    clear("amount","1");
+    clear("name", "");
+    clear("lastName", "");
+    clear("phone", "");
+    clear("sides", "0");
+    clear("groups", "0");
+    clear("amount", "1");
 
 
 }
@@ -156,6 +156,7 @@ function deleteGuest(guestOid) {
         //contentType: 'application/json;charset=UTF-8',
         params: {guestOid: guestOid},
         loader: true,
+        refreshStats: true,
         callback: 'deleteGuestResponse'
     });
 }
@@ -308,6 +309,7 @@ function updateInvitationSent(guestOid) {
         data: {guestOid: guestOid, newStatus: newStatus},
         params: {guestOid: guestOid, counter: "invitationsCount"},
         loader: true,
+        refreshStats: true,
         callback: 'updateGuestStatusResponse'
     });
 
@@ -366,6 +368,7 @@ function updateArrivalApproved(guestOid, arrivalApproved, updateUI) {
         data: {guestOid: guestOid, arrivalApproved: arrivalApproved},
         params: {guestOid: guestOid, updateUI: updateUI, counter: "rsvpsCount"},
         loader: true,
+        refreshStats: true,
         callback: 'updateGuestStatusResponse'
     });
 
@@ -492,7 +495,7 @@ function addTableResponse(response, params) {
 }
 
 function initSeatingArrangement() {
-    $("#catalog").accordion();
+    //$("#catalog").accordion();
     $("#catalog li").draggable({
         appendTo: "body",
         helper: "clone",
@@ -508,12 +511,12 @@ function initSeatingArrangement() {
         drop: function (event, ui) {
             if (parseInt(this.parentNode.parentNode.getAttribute("max"), 10) >= parseInt(ui.draggable.attr("amount"), 10) + parseInt($("#" + this.parentNode.parentNode.id + " .current_amount").html(), 10)) {
                 $(this).find(".placeholder").remove();
-                var li = $("<li amount='" + ui.draggable.attr("amount") + "' oid='" + ui.draggable.attr("oid") + "'></li>").text(ui.draggable.text());
-                var a = $("<a onclick='removeGuestFromTable(" + ui.draggable.attr("oid") + "," + this.parentNode.parentNode.getAttribute('oid') + ");' class='removeIconSmall' ></a>");
-                li.append(a);
-                li.appendTo(this);
-                ui.draggable.hide();
-                tableDrop(ui.draggable, this.parentNode.parentNode.id);
+                //var li = $("<li amount='" + ui.draggable.attr("amount") + "' oid='" + ui.draggable.attr("oid") + "'></li>").text(ui.draggable.text());
+                //var a = $("<a onclick='removeGuestFromTable(" + ui.draggable.attr("oid") + "," + this.parentNode.parentNode.getAttribute('oid') + ");' class='fa fa-minus-circle fa-fw' ></a>");
+                //li.append(a);
+                //li.appendTo(this);
+                //ui.draggable.hide();
+                tableDrop(ui.draggable, this, this.parentNode.parentNode.id);
             }
 
         }
@@ -530,11 +533,12 @@ function initSeatingArrangement() {
 }
 
 
-function tableDrop(guest, tableId) {
+function tableDrop(guest, table, tableId) {
     Ajax.sendRequest(URLs.addGuestToTable, {
-        data: {guestOid: guest.attr("oid"), tableOid: $("#" + tableId).attr("oid")},
-        params: {guest: guest, tableId: tableId},
+        data: {guestOid: guest.attr("oid"),name: guest.attr("firstName"),lastName: guest.attr("lastName"),amount: guest.attr("amount"),tableOid: $("#" + tableId).attr("oid")},
+        params: {guest: guest, table:table, tableId: tableId},
         loader: true,
+        refreshStats: true,
         callback: 'tableDropResponse'
     });
 
@@ -543,6 +547,9 @@ function tableDrop(guest, tableId) {
 
 
 function tableDropResponse(response, params) {
+    params.guest.hide();
+    var li = $(response.data);
+    li.appendTo(params.table);
 
     var tableCurrentAmountSpan = $("#" + params.tableId + " .current_amount");
     var currentAmount = parseInt(tableCurrentAmountSpan.html(), 10);
@@ -555,10 +562,11 @@ function tableDropResponse(response, params) {
 }
 
 function removeGuestFromTable(guestOid, tableId) {
-    Ajax.sendRequest(URLs.addGuestToTable, {
-        data: {guestOid: guestOid, tableOid: 0},
+    Ajax.sendRequest(URLs.removeGuestFromTable, {
+        data: {guestOid: guestOid},
         params: {guestOid: guestOid, tableId: tableId},
         loader: true,
+        refreshStats: true,
         callback: 'removeGuestFromTableResponse'
     });
 }
@@ -613,10 +621,22 @@ function refreshStats() {
 
 function refreshStatsResponse(responseData, params) {
 
-    g1.refresh(responseData.totalGuests);
-    g2.refresh(responseData.invitationSent);
-    g3.refresh(responseData.arrivalApproved);
-    g4.refresh(responseData.hasTable);
+    try {
+        g1.refresh(responseData.totalGuests);
+    } catch (e) {
+    }
+    try {
+        g2.refresh(responseData.invitationSent);
+    } catch (e) {
+    }
+    try {
+        g3.refresh(responseData.arrivalApproved);
+    } catch (e) {
+    }
+    try {
+        g4.refresh(responseData.hasTable);
+    } catch (e) {
+    }
 
 
 }

@@ -7,9 +7,8 @@
             <ol>
                 {if isset($guestGroupedByTable) and isset($guestGroupedByTable[$table.oid])}
                     {foreach $guestGroupedByTable[$table.oid] as $guest}
-                        <li oid="{$guest->oid}" amount="{$guest->amount}">{$guest->name} {$guest->last_name} ({$guest->amount})
-                            <a onclick="removeGuestFromTable({$guest->oid},{$table.oid});" class="removeIconSmall"></a>
-                        </li>
+                        {include file="seatingArrangement/guest_in_table.tpl"}
+
                         {$currentAmount = $currentAmount + $guest->amount}
                     {/foreach}
 

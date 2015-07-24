@@ -17,18 +17,18 @@
 
 {include file="common/head.tpl"}
 <style>
-    h1 {
-        padding: .2em;
-        margin: 0;
-    }
+    {*h1 {*}
+        {*padding: .2em;*}
+        {*margin: 0;*}
+    {*}*}
 
     .item-catalog {
-        margin-bottom: 7px;
+        /*margin-bottom: 7px;*/
         /*border: 1px solid #aaa; */
         /*position: relative; */
         /*text-align: center; */
         cursor: move;
-        list-style-type: circle;
+        /*list-style-type: circle;*/
 
         /*width: 180px*/
     }
