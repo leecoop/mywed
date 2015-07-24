@@ -167,24 +167,27 @@ function deleteGuestResponse(response, params) {
 
 }
 
-function searchKeyPress(e) {
-    if (window.event) {
-        e = window.event;
-    }
-    if (e.keyCode == 13 || event.keyCode == 13) {
+function searchKeyPress(e)
+{
+    var keycode;
+    if (window.event) keycode = window.event.keyCode;
+    else if (e) keycode = e.which;
+    else return true;
+
+    if (keycode == 13)
+    {
         search();
+        return false;
     }
+    else
+        return true;
 }
 
 function search() {
-
-    var searchValue = $('#search_text');
-    $.post(URLs.search, {search_value: searchValue.val()}, searchResponse);
+    var searchValue = $('#search_text').val();
+    $(location).prop('href', "search.php?search_value=" + searchValue);
 }
 
-function searchResponse(data) {
-    $('#searchContent').html(data);
-}
 
 function openCreateGroupDialog() {
     createGroupDialog.dialog("open");
