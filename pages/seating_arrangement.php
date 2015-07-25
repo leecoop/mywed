@@ -1,4 +1,5 @@
 <?php
+require_once '../utils/HttpUtils.php';
 
 require_once('smarty.php');
 require_once('../classes/Persist.php');

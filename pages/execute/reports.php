@@ -1,12 +1,14 @@
 <?php
-//if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+require_once '../../utils/HttpUtils.php';
+
+
 require_once('smarty.php');
 
 require_once('../../classes/Persist.php');
 require_once '../../utils/xsl/toXsl.php';
-$sidesIds = $_GET['sidesIds'];
-$groupsIds = $_GET['groupsIds'];
-$loc = $_GET['loc'];
+$sidesIds = $requestParams['sidesIds'];
+$groupsIds = $requestParams['groupsIds'];
+$loc = $requestParams['loc'];
 
 $persist = Persist::getInstance();
 
@@ -35,5 +37,3 @@ $translates = array(
 
 toXsl($guests, $translates, $file_name, $file_name);
 
-
-//}

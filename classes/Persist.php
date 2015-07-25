@@ -17,8 +17,8 @@ class Persist
 
     function __construct()
     {
-
-        try {
+//
+//        try {
 //            $dsn = 'mysql:host=sql208.byethost3.com;dbname=b3_15690100_wedding';
             $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
             $login = 'b3_15690100';
@@ -28,9 +28,10 @@ class Persist
                 PDO::ATTR_PERSISTENT => true));
             $this->db->prepare("SET NAMES 'UTF8'")->execute();
             $this->db->prepare("Set Character Set utf8")->execute();
-        } catch (Exception $e) {
-            die('Could not connect Database. Error:' . $e->getMessage());
-        }
+//        } catch (Exception $e) {
+//            throw new PDOException("Blas");
+////            die('Could not connect Database. Error:' . $e->getMessage());
+//        }
 
     }
 
@@ -451,13 +452,13 @@ class Persist
 
     public function updateGuestTable($guestOid, $tableOid)
     {
-        try {
+//        try {
             $sql = "UPDATE guests set table_id='$tableOid' where oid='$guestOid'";
             $res = $this->db->prepare($sql);
             $res->execute();
-        } catch (PDOException $e) {
-            echo 'Error: ' . $e->getMessage();
-        }
+//        } catch (PDOException $e) {
+//            echo 'Error: ' . $e->getMessage();
+//        }
 
     }
 

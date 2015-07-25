@@ -1,4 +1,5 @@
 <?php
+require_once '../../utils/HttpUtils.php';
 
 header("Content-Type: application/json");
 header("Cache-Control: no-cache");
@@ -11,16 +12,10 @@ function decodeParams($param)
 }
 
 
-//session_start();
-//if (!session_is_registered('myusername')) {
-//    header("Location: ../index.php");
-//    exit();
-//}
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once('../../classes/Persist.php');
     $persist = Persist::getInstance();
 
-    $guestOid = decodeParams($_POST['guestOid']);
+    $guestOid = $requestParams['guestOid'];
 
     require_once('smarty.php');
 
@@ -39,5 +34,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $smarty->display('common/response.tpl');
 
 
-}
+
 ?>

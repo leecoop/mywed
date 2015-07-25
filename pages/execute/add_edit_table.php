@@ -1,24 +1,13 @@
 <?php
+require_once '../../utils/HttpUtils.php';
 
 header("Content-Type: application/json");
 header("Cache-Control: no-cache");
 header("Pragma: no-cache");
 
-function decodeParams($param)
-{
-//    return mysql_real_escape_string(stripslashes(strip_tags(urldecode(trim($param)))));
-    return $param;
-}
-
-
-//session_start();
-//if (!session_is_registered('myusername')) {
-//    header("Location: ../index.php");
-//    exit();
-//}
-$title = decodeParams($_POST['title']);
-$capacity = decodeParams($_POST['capacity']);
-$tableOid = decodeParams($_POST['tableOid']);
+$title = $requestParams['title'];
+$capacity = $requestParams['capacity'];
+$tableOid = $requestParams['tableOid'];
 
 require_once('../../classes/Persist.php');
 $persist = Persist::getInstance();

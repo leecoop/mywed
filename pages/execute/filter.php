@@ -1,11 +1,12 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+require_once '../../utils/HttpUtils.php';
+
     require_once('smarty.php');
 
     require_once('../../classes/Persist.php');
-    $sidesIds = $_POST['sidesIds'];
-    $groupsIds = $_POST['groupsIds'];
-    $loc = $_POST['loc'];
+    $sidesIds = $requestParams['sidesIds'];
+    $groupsIds = $requestParams['groupsIds'];
+    $loc = $requestParams['loc'];
 
     $persist = Persist::getInstance();
 
@@ -32,4 +33,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-}

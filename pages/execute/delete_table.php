@@ -1,10 +1,10 @@
 <?php
-
+require_once '../../utils/HttpUtils.php';
 header("Content-Type: application/json");
 header("Cache-Control: no-cache");
 header("Pragma: no-cache");
 
-$tableOid = $_POST['tableOid'];
+$tableOid = $requestParams['tableOid'];
 
 require_once('../../classes/Persist.php');
 require_once('smarty.php');
