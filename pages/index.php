@@ -25,5 +25,7 @@ $statisticsMap = $persist->getStatisticsMap();
 //$smarty->assign("type_side", $type_side);
 //$smarty->assign("groups", $groups);
 //$smarty->assign("sides", $sides);
+
+$smarty->assign("date", $sessionParams['date']);
 $smarty->assign("statisticsMap", $statisticsMap);
 $smarty->display('index.tpl');

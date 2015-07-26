@@ -509,12 +509,39 @@ class Persist
 
     public function getUser($email, $password)
     {
-        $sql = "Select * From users u where email='$email' and password='$password'";
+        $sql = "Select u.oid as user_id, p.oid as project_id, p.date From users u INNER JOIN projects p on p.user_id=u.oid where u.email='$email' and u.password='$password'";
+        $stmt = $this->db->query($sql);
+        $obj = $stmt->fetch(PDO::FETCH_OBJ);
+
+        return $obj;
+    }
+
+    public function registerUser($email, $password)
+    {
+//        try {
+        $sql = "INSERT INTO users(email,password) VALUES('$email','$password')";
         $res = $this->db->prepare($sql);
         $res->execute();
-        $res->setFetchMode(PDO::FETCH_LAZY);
-        return $res;
+//        } catch (Exception $e) {
+//            return $e;
+//        }
+
+        return $this->db->lastInsertId();
     }
+
+    public function createProject($userOid, $groomName, $brideName, $date)
+    {
+//        try {
+        $sql = "INSERT INTO projects(user_id, groom_name, bride_name, date) VALUES('$userOid','$groomName','$brideName','$date')";
+        $res = $this->db->prepare($sql);
+        $res->execute();
+//        } catch (Exception $e) {
+//            return $e;
+//        }
+
+        return $this->db->lastInsertId();
+    }
+
 
 
 

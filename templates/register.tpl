@@ -11,23 +11,23 @@
                     {*<form role="form" action="register.php">*}
                         {*<fieldset>*}
                             <div class="form-group">
-                                <input class="form-control" placeholder="שם החתן" name="groom_name"  autofocus>
+                                <input class="form-control" placeholder="שם החתן" id="groom_name"  autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="שם השכלה" name="bride_name"  >
+                                <input class="form-control" placeholder="שם השכלה" id="bride_name"  >
                             </div>
 
                             <div class="form-group">
                                 <input class="form-control" id="date"  placeholder="תאריך" >
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="אימייל" name="email" type="email">
+                                <input class="form-control" placeholder="אימייל" id="email" type="email">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="סיסמא" name="password" type="password" value="">
+                                <input class="form-control" placeholder="סיסמא" id="password" type="password" value="">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="סיסמא שנית" name="repassword" type="password" value="">
+                                <input class="form-control" placeholder="סיסמא שנית" id="repassword" type="password" value="">
                             </div>
 
 
@@ -46,7 +46,8 @@
 <script>
     $(function() {
         $( "#date" ).datepicker({
-            dateFormat: "dd/mm/yy"
+//            dateFormat: "dd/mm/yy"
+            dateFormat: "yy-mm-dd"
         });
     });
 </script>

@@ -3,7 +3,6 @@
 session_start();
 if (!isset($_SESSION['isLoggedIn'])) {
     header("Location: login.php");
-    $_SESSION['name'] = 'Leon';
     exit();
 }
 
@@ -13,9 +12,7 @@ foreach ($_SESSION as $key => $value) {
 }
 
 
-$requestParams = array();
-foreach ($_REQUEST as $key => $value) {
-    $requestParams[$key] = strip_tags($value);
-}
+require_once("GetRequestParams.php");
+
 
 ?>

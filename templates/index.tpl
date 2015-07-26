@@ -105,7 +105,7 @@
 <script type="text/javascript">
     var $clock = $('#clock');
 
-    $clock.countdown(new Date("2015-09-09"), function (event) {
+    $clock.countdown(new Date("{$date}"), function (event) {
 //                $(this).html(event.strftime('ימים %D  שעות %H דקות %M שניות %S'));
         $(this).html(event.strftime(''
                 + '<table class="table" style="direction: ltr;">'

@@ -1,17 +1,22 @@
 <?php
 
+require_once '../utils/GetRequestParams.php';
 require_once('../classes/Persist.php');
 
 
-$email = strip_tags($_REQUEST['email']);
-$password = strip_tags($_REQUEST['password']);
+$email = $requestParams['email'];
+$password = $requestParams['password'];
 
 
 $persist = Persist::getInstance();
 $user = $persist->getUser($email, md5($password));
-if ($user->rowCount() > 0) {
+if ($user) {
     session_start();
     $_SESSION['isLoggedIn'] = true;
+    $_SESSION['userId'] = $user->user_id;
+    $_SESSION['projectId'] = $user->project_id;
+    $_SESSION['date'] = $user->date;
+
     header("Location: index.php");
 } else {
     header("Location: login.php");

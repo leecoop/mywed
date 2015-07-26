@@ -1,7 +1,7 @@
 var URLs = {
     addEditGuest: 'execute/add_edit_guest.php?',
     deleteGuest: 'execute/delete_guest.php?',
-    search: 'execute/search.php?',
+    registerUser: 'execute/register_user.php?',
     createGroup: 'execute/create_group.php?',
     updateInvitationSent: 'execute/update_invitation_sent.php?',
     updateArrivalApproved: 'execute/update_arrival_approved.php?',
@@ -160,15 +160,13 @@ function deleteGuestResponse(response, params) {
 
 }
 
-function searchKeyPress(e)
-{
+function searchKeyPress(e) {
     var keycode;
     if (window.event) keycode = window.event.keyCode;
     else if (e) keycode = e.which;
     else return true;
 
-    if (keycode == 13)
-    {
+    if (keycode == 13) {
         search();
         return false;
     }
@@ -530,8 +528,8 @@ function initSeatingArrangement() {
 
 function tableDrop(guest, table, tableId) {
     Ajax.sendRequest(URLs.addGuestToTable, {
-        data: {guestOid: guest.attr("oid"),name: guest.attr("firstName"),amount: guest.attr("amount"),tableOid: $("#" + tableId).attr("oid")},
-        params: {guest: guest, table:table, tableId: tableId},
+        data: {guestOid: guest.attr("oid"), name: guest.attr("firstName"), amount: guest.attr("amount"), tableOid: $("#" + tableId).attr("oid")},
+        params: {guest: guest, table: table, tableId: tableId},
         loader: true,
         refreshStats: true,
         callback: 'tableDropResponse'
@@ -636,9 +634,38 @@ function refreshStatsResponse(responseData, params) {
 
 }
 
-function register(){
+function register() {
+    var groomName = $("#groom_name").val();
+    var brideName = $("#bride_name").val();
+    var date = $("#date").val();
+    var email = $("#email").val();
+    var password = $("#password").val();
+    var repassword = $("#repassword").val();
 
+
+    Ajax.sendRequest(URLs.registerUser, {
+        data: {
+            groomName: groomName,
+            brideName: brideName,
+            date: date,
+            email: email,
+            password: password
+
+        },
+        contentType: 'application/json;charset=UTF-8',
+        //params: {edit: !add, guestOid: guestOid},
+        loader: true,
+        //refreshStats: true,
+        callback: 'registerResponse'
+    });
 
 
 }
 
+function registerResponse(response, params) {
+   if(response.error == false){
+       window.location.href = "index.php";
+
+   }
+
+}
