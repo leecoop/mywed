@@ -74,10 +74,10 @@ class Persist
         return $res;
     }
 
-    public function addGuest($name, $last_name, $phone, $amount, $now_date, $group_id, $side_id, $invitationSent, $arrivalApproved)
+    public function addGuest($name, $phone, $amount, $now_date, $group_id, $side_id, $invitationSent, $arrivalApproved)
     {
 //        try {
-        $sql = "INSERT INTO guests(name,last_name,phone,amount,add_date,group_id,side_id,invitation_sent,arrival_approved) VALUES('$name','$last_name','$phone','$amount','$now_date','$group_id', '$side_id','$invitationSent', '$arrivalApproved')";
+        $sql = "INSERT INTO guests(name,phone,amount,add_date,group_id,side_id,invitation_sent,arrival_approved) VALUES('$name','$phone','$amount','$now_date','$group_id', '$side_id','$invitationSent', '$arrivalApproved')";
         $res = $this->db->prepare($sql);
         $res->execute();
 //        } catch (Exception $e) {
@@ -87,10 +87,10 @@ class Persist
         return $this->db->lastInsertId();
     }
 
-    public function editGuest($guestOid, $name, $lastName, $phone, $amount, $groupOid, $sideOid, $invitationSent, $arrivalApproved)
+    public function editGuest($guestOid, $name, $phone, $amount, $groupOid, $sideOid, $invitationSent, $arrivalApproved)
     {
 //        try {
-        $sql = "UPDATE guests set name='$name',last_name='$lastName',phone='$phone',amount='$amount',group_id='$groupOid',side_id='$sideOid',invitation_sent='$invitationSent',arrival_approved='$arrivalApproved' where oid='$guestOid'";
+        $sql = "UPDATE guests set name='$name',phone='$phone',amount='$amount',group_id='$groupOid',side_id='$sideOid',invitation_sent='$invitationSent',arrival_approved='$arrivalApproved' where oid='$guestOid'";
         $res = $this->db->prepare($sql);
         $res->execute();
 //        } catch (Exception $e) {
@@ -115,7 +115,7 @@ class Persist
 
     public function search($text)
     {
-        $sql = "Select * From guests where deleted=false and name like :text or last_name like :text";
+        $sql = "Select * From guests where deleted=false and name like :text";
         $res = $this->db->prepare($sql);
 
         $res->execute(array(':text' => '%' . $text . '%'));
@@ -416,7 +416,7 @@ class Persist
 
     public function getGuestForReport($sidesIds, $groupsIds, $loc)
     {
-        $sql = "Select name,last_name,phone,amount,g.title as group_title, s.title as side_title From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id where deleted=false";
+        $sql = "Select name,phone,amount,g.title as group_title, s.title as side_title From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id where deleted=false";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql = $this->filterByLocation($sql, $loc);
         $sql .= " ORDER BY o.oid desc";
@@ -505,6 +505,17 @@ class Persist
         }
 
     }
+
+
+    public function getUser($email, $password)
+    {
+        $sql = "Select * From users u where email='$email' and password='$password'";
+        $res = $this->db->prepare($sql);
+        $res->execute();
+        $res->setFetchMode(PDO::FETCH_LAZY);
+        return $res;
+    }
+
 
 
 }

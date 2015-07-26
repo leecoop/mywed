@@ -11,7 +11,6 @@
     {ldelim}
     "oid":{$guest.oid|json_encode},
     "name":{$guest.name|json_encode},
-    "lastName":{$guest.last_name|json_encode},
     "phone":{$guest.phone|json_encode},
     "amount":{$guest.amount|json_encode},
     "side":{$sides[$guest.side_id]|json_encode},

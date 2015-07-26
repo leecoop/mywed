@@ -26,7 +26,10 @@
         <div class="row">
             <div class="col-lg-12">
                 {*<div class="table-responsive">*}
-                <table id="guestsTable" class="display" cellspacing="0">
+                <table id="guestsTable" class="display"  >
+                {*<div class="dataTable_wrapper">*}
+
+                {*<table id="guestsTable" class="table table-striped table-bordered table-hover">*}
                         <thead>
 
                         <tr>
@@ -34,7 +37,6 @@
                                 <th></th>
                             {/if}
                             <th>שם</th>
-                            <th>שם משפחה</th>
                             <th>מוזמנים</th>
                             <th>טלפון</th>
                             <th>צד</th>
@@ -59,9 +61,9 @@
                         </tbody>
                         <script>
                             var table = $('#guestsTable').DataTable({
-                                "columnDefs": [
-                                    { className: "dt-body-center", "targets": "_all" }
-                                ],
+//                                "columnDefs": [
+//                                    { className: "dt-body-center", "targets": "_all" }
+//                                ],
                                 "pageLength": 15,
                                 "lengthMenu": [[10, 15, 25, 50, -1], [10, 15, 25, 50, "הכל"]],
                                 "dom": 'frtip',

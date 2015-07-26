@@ -1,10 +1,10 @@
 <?php
 
 session_start();
-if (!isset($_SESSION['views'])) {
-//    header("Location: index.php");
+if (!isset($_SESSION['isLoggedIn'])) {
+    header("Location: login.php");
     $_SESSION['name'] = 'Leon';
-//    exit();
+    exit();
 }
 
 $sessionParams = array();

@@ -27,7 +27,7 @@ $file_name = "report_".$loc;
 
 $translates = array(
     'name' => 'שם',
-    'last_name' => 'שם משפחה',
+//    'last_name' => 'שם משפחה',
     'phone' => "פלאפון",
     'amount' => "כמות",
     'group_title' => "קבוצה",

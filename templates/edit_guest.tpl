@@ -6,10 +6,6 @@
         <input class="form-control" id="editName">
     </div>
 
-    <div class="form-group">
-        <label>שם משפחה</label>
-        <input class="form-control" id="editLastName">
-    </div>
 
     <div class="form-group">
         <label>טלפון</label>

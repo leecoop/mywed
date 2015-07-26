@@ -21,7 +21,6 @@ try {
 if (!$error) {
     $guestOid = $requestParams['guestOid'];
     $name = $requestParams['name'];
-    $lastName = $requestParams['lastName'];
     $amount = $requestParams['amount'];
     $tableOid = $requestParams['tableOid'];
 
@@ -40,7 +39,6 @@ if (!$error) {
         $guest = new stdClass();
         $guest->oid = $guestOid;
         $guest->name = $name;
-        $guest->last_name = $lastName;
         $guest->amount = $amount;
 
         $table = new stdClass();

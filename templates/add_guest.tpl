@@ -6,13 +6,9 @@
     <div class="panel-body">
 
         <div class="form-group">
-            <input class="form-control" placeholder="שם פרטי" id="name">
+            <input class="form-control" placeholder="שם" id="name">
         </div>
 
-        <div class="form-group">
-            {*<label>שם משפחה</label>*}
-            <input class="form-control" placeholder="שם משפחה" id="lastName">
-        </div>
 
         <div class="form-group">
             {*<label>טלפון</label>*}

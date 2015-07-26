@@ -56,7 +56,6 @@ function trim(str) {
 function addEditGuest(guestOid) {
     var add = guestOid == 0;
     var name = "";
-    var lastName = "";
     var phone = "";
     var amount = "";
     var group = "";
@@ -65,14 +64,12 @@ function addEditGuest(guestOid) {
     var arrivalApproved = 0;
     if (add) {
         name = $("#name");
-        lastName = $("#lastName");
         phone = $("#phone");
         amount = $("#amount");
         group = $("#groups");
         side = $("#sides");
     } else {
         name = $("#editName");
-        lastName = $("#editLastName");
         phone = $("#editPhone");
         amount = $("#editAmount");
         group = $("#editGroups");
@@ -88,7 +85,6 @@ function addEditGuest(guestOid) {
     Ajax.sendRequest(URLs.addEditGuest, {
         data: {
             name: name.val(),
-            lastName: lastName.val(),
             phone: phone.val(),
             amount: amount.val(),
             group: group.val(),
@@ -120,7 +116,6 @@ function addEditGuestResponse(responseData, params) {
     var rowNode = table.row.add([
         "<a href=\"javascript:void(0)\" class=\"edit\" onclick='openEditGuest(\"" + params.guestOid + "\")'></a>",
         guest.name,
-        guest.lastName,
         guest.amount,
         guest.phone,
         guest.side,
@@ -131,7 +126,6 @@ function addEditGuestResponse(responseData, params) {
     $(rowNode).attr({
         id: "guest" + guest.oid,
         name: guest.name,
-        lastname: guest.lastName,
         amount: guest.amount,
         phone: guest.phone,
         side: guest.sideId,
@@ -141,7 +135,6 @@ function addEditGuestResponse(responseData, params) {
     });
 
     clear("name", "");
-    clear("lastName", "");
     clear("phone", "");
     clear("sides", "0");
     clear("groups", "0");
@@ -243,7 +236,6 @@ function openEditGuest(guestOid) {
     var guest = $('#guest' + guestOid);
 
     $("#editName").val(guest.attr("name"));
-    $("#editLastName").val(guest.attr("lastName"));
     $("#editPhone").val(guest.attr("phone"));
     $("#editAmount").val(guest.attr("amount"));
     $("#editGroups").val(guest.attr("group"));
@@ -538,7 +530,7 @@ function initSeatingArrangement() {
 
 function tableDrop(guest, table, tableId) {
     Ajax.sendRequest(URLs.addGuestToTable, {
-        data: {guestOid: guest.attr("oid"),name: guest.attr("firstName"),lastName: guest.attr("lastName"),amount: guest.attr("amount"),tableOid: $("#" + tableId).attr("oid")},
+        data: {guestOid: guest.attr("oid"),name: guest.attr("firstName"),amount: guest.attr("amount"),tableOid: $("#" + tableId).attr("oid")},
         params: {guest: guest, table:table, tableId: tableId},
         loader: true,
         refreshStats: true,
@@ -644,4 +636,9 @@ function refreshStatsResponse(responseData, params) {
 
 }
 
+function register(){
+
+
+
+}
 

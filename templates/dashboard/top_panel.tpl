@@ -53,7 +53,7 @@
         </div>
 
 
-        <div class="col-md-6 well well-sm text-center">
+        <div class="col-md-6 well well-sm text-center" style="font-family:Times New Roman ">
             <div class="lead text" id="clock"></div>
 
         </div>

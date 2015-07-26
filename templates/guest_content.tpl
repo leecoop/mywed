@@ -1,10 +1,9 @@
-<tr id="guest{$guest.oid}" name="{$guest.name}" lastName="{$guest.last_name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}"
+<tr id="guest{$guest.oid}" name="{$guest.name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}"
     invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}">
     {if $loc eq 'guests'}
     <td><a href="javascript:void(0)" class="fa fa-pencil fa-fw" onclick='openEditGuest("{$guest.oid}")'></a></td>
     {/if}
     <td>{$guest.name}</td>
-    <td>{$guest.last_name}</td>
     <td>{$guest.amount}</td>
     <td>{$guest.phone}</td>
     <td>{$sides[$guest.side_id]}</td>

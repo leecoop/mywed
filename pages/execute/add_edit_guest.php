@@ -9,7 +9,6 @@ require_once('../../classes/Persist.php');
 $persist = Persist::getInstance();
 
 $name = $requestParams['name'];
-$last_name = $requestParams['lastName'];
 $phone = "";
 //    if ($persist->hasText($_POST['phone'])) {
 //        $phone = $requestParams['phone']);
@@ -28,9 +27,9 @@ require_once('smarty.php');
 $error = false;
 try {
     if ($guestOid == "0") {
-        $guestOid = $persist->addGuest($name, $last_name, $phone, $amount, $now_date, $group, $side, $invitationSent, $arrivalApproved);
+        $guestOid = $persist->addGuest($name, $phone, $amount, $now_date, $group, $side, $invitationSent, $arrivalApproved);
     } else {
-        $persist->editGuest($guestOid, $name, $last_name, $phone, $amount, $group, $side, $invitationSent, $arrivalApproved);
+        $persist->editGuest($guestOid, $name, $phone, $amount, $group, $side, $invitationSent, $arrivalApproved);
     }
 } catch (Exception $e) {
     $error = true;
@@ -39,7 +38,6 @@ try {
 $guest = new stdClass();
 $guest->oid = $guestOid;
 $guest->name = $name;
-$guest->last_name = $last_name;
 $guest->phone = $phone;
 $guest->amount = $amount;
 $guest->group_id = $group;
