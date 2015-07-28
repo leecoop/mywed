@@ -11,13 +11,13 @@ $persist = Persist::getInstance();
 
 //$guests = $persist->getArrivalNotApprovedGuests();
 //$count = $guests->rowCount();
-$groups = $persist->getGroups();
-$tables = $persist->getTables(0);
+$groups = $persist->getGroups($projectId);
+$tables = $persist->getTables($projectId);
 $sides = $persist->getSides();
-$guestGroupedByGroup = $persist->getGuestGroupedByGroup();
-$guestGroupedByTable = $persist->getGuestGroupedByTable();
+$guestGroupedByGroup = $persist->getGuestGroupedByGroup($projectId);
+$guestGroupedByTable = $persist->getGuestGroupedByTable($projectId);
 //var_dump($guestGroupedByGroup);
-$statisticsMap = $persist->getStatisticsMap();
+$statisticsMap = $persist->getStatisticsMap($projectId);
 
 //$smarty->assign("guests",$guests);
 //$smarty->assign("count",$count);

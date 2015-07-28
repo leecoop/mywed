@@ -13,7 +13,7 @@ $persist = Persist::getInstance();
 $error = false;
 
 try {
-    $statMap = $persist->getStatisticsMap();
+    $statMap = $persist->getStatisticsMap($projectId);
 } catch (Exception $e) {
     $error = true;
 }

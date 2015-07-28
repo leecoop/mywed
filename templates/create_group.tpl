@@ -8,7 +8,7 @@
             <input class="form-control" placeholder="שם הקבוצה" id="group_name">
         </div>
 
-        <button class="btn btn-success btn-lg btn-block" type="button" id="add_new_guest_btn" onclick="addEditGuest(0)">
+        <button class="btn btn-success btn-lg btn-block" type="button" id="add_group_btn" onclick="createGroup()">
 צור
         </button>
 

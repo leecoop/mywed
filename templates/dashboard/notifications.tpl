@@ -4,11 +4,13 @@
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
-        <div class="well">
-            <i class="fa fa-star fa-fw"></i>
-            {$statisticsMap["totalGuests"] - $statisticsMap["invitationSent"]} אורחים שעדיין לא קיבלו הזמנה
+        {if $statisticsMap["totalGuests"] - $statisticsMap["invitationSent"] > 0}
+            <div class="well">
+                <i class="fa fa-star fa-fw"></i>
+                {$statisticsMap["totalGuests"] - $statisticsMap["invitationSent"]} אורחים שעדיין לא קיבלו הזמנה
 
-        </div>
+            </div>
+        {/if}
         {if $statisticsMap["totalGuests"] - $statisticsMap["arrivalApproved"] > 0}
             <div class="well">
                 <i class="fa fa-star fa-fw"></i>

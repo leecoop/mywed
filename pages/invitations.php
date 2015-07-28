@@ -9,15 +9,15 @@ $type_side = 0;
 
 $persist = Persist::getInstance();
 
-$guests = $persist->getInvitationNotSentGuests();
-$count = $guests->rowCount();
-$groups = $persist->getGroups();
+$guests = $persist->getInvitationNotSentGuests($projectId);
+//$count = $guests->rowCount();
+$groups = $persist->getGroups($projectId);
 
-$statisticsMap = $persist->getStatisticsMap();
+$statisticsMap = $persist->getStatisticsMap($projectId);
 
 $sides = $persist->getSides();
 $smarty->assign("guests",$guests);
-$smarty->assign("count",$count);
+//$smarty->assign("count",$count);
 $smarty->assign("groups",$groups);
 $smarty->assign("sides",$sides);
 $smarty->assign("statisticsMap",$statisticsMap);

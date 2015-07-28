@@ -28,7 +28,7 @@ if (!$error) {
 //    $error = false;
     try {
 
-        $persist->updateGuestTable($guestOid, $tableOid);
+        $persist->updateGuestTable($guestOid, $tableOid, $projectId);
 
     } catch (Exception $e) {
         $error = true;

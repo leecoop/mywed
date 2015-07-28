@@ -20,14 +20,14 @@ class Persist
 //
 //        try {
 //            $dsn = 'mysql:host=sql208.byethost3.com;dbname=b3_15690100_wedding';
-            $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
-            $login = 'b3_15690100';
-            $passwd = 'q1w2e3';
+        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
+        $login = 'b3_15690100';
+        $passwd = 'q1w2e3';
 
-            $this->db = new PDO($dsn, $login, $passwd, array(
-                PDO::ATTR_PERSISTENT => true));
-            $this->db->prepare("SET NAMES 'UTF8'")->execute();
-            $this->db->prepare("Set Character Set utf8")->execute();
+        $this->db = new PDO($dsn, $login, $passwd, array(
+            PDO::ATTR_PERSISTENT => true));
+        $this->db->prepare("SET NAMES 'UTF8'")->execute();
+        $this->db->prepare("Set Character Set utf8")->execute();
 //        } catch (Exception $e) {
 //            throw new PDOException("Blas");
 ////            die('Could not connect Database. Error:' . $e->getMessage());
@@ -45,10 +45,10 @@ class Persist
         return isset($element) && !empty($element);
     }
 
-    public function getGuests()
+    public function getGuests($projectId)
     {
         try {
-            $sql = "Select * From guests where deleted=false ORDER BY oid desc";
+            $sql = "Select * From guests where project_id='$projectId' and deleted=false ORDER BY oid desc";
 
             $res = $this->db->prepare($sql);
             $res->execute();
@@ -60,9 +60,9 @@ class Persist
         }
     }
 
-    public function getGuestsWithFilter($sidesIds, $groupsIds)
+    public function getGuestsWithFilter($sidesIds, $groupsIds, $projectId)
     {
-        $sql = "Select * From guests where deleted=false";
+        $sql = "Select * From guests where project_id='$projectId' and deleted=false";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql .= " ORDER BY oid desc";
 
@@ -74,10 +74,10 @@ class Persist
         return $res;
     }
 
-    public function addGuest($name, $phone, $amount, $now_date, $group_id, $side_id, $invitationSent, $arrivalApproved)
+    public function addGuest($name, $phone, $amount, $now_date, $group_id, $side_id, $invitationSent, $arrivalApproved, $projectId)
     {
 //        try {
-        $sql = "INSERT INTO guests(name,phone,amount,add_date,group_id,side_id,invitation_sent,arrival_approved) VALUES('$name','$phone','$amount','$now_date','$group_id', '$side_id','$invitationSent', '$arrivalApproved')";
+        $sql = "INSERT INTO guests(name,phone,amount,add_date,group_id,side_id,invitation_sent,arrival_approved, project_id) VALUES('$name','$phone','$amount','$now_date','$group_id', '$side_id','$invitationSent', '$arrivalApproved','$projectId')";
         $res = $this->db->prepare($sql);
         $res->execute();
 //        } catch (Exception $e) {
@@ -87,10 +87,10 @@ class Persist
         return $this->db->lastInsertId();
     }
 
-    public function editGuest($guestOid, $name, $phone, $amount, $groupOid, $sideOid, $invitationSent, $arrivalApproved)
+    public function editGuest($guestOid, $name, $phone, $amount, $groupOid, $sideOid, $invitationSent, $arrivalApproved, $projectId)
     {
 //        try {
-        $sql = "UPDATE guests set name='$name',phone='$phone',amount='$amount',group_id='$groupOid',side_id='$sideOid',invitation_sent='$invitationSent',arrival_approved='$arrivalApproved' where oid='$guestOid'";
+        $sql = "UPDATE guests set name='$name',phone='$phone',amount='$amount',group_id='$groupOid',side_id='$sideOid',invitation_sent='$invitationSent',arrival_approved='$arrivalApproved' where oid='$guestOid' and project_id='$projectId'";
         $res = $this->db->prepare($sql);
         $res->execute();
 //        } catch (Exception $e) {
@@ -100,10 +100,10 @@ class Persist
         //return true;
     }
 
-    public function deleteGuest($guestOid)
+    public function deleteGuest($guestOid, $projectId)
     {
         try {
-            $sql = "UPDATE guests set deleted=true where oid='$guestOid'";
+            $sql = "UPDATE guests set deleted=true where oid='$guestOid' and project_id='$projectId'";
             $res = $this->db->prepare($sql);
             $res->execute();
         } catch (Exception $e) {
@@ -113,9 +113,9 @@ class Persist
         return $guestOid;
     }
 
-    public function search($text)
+    public function search($text, $projectId)
     {
-        $sql = "Select * From guests where deleted=false and name like :text";
+        $sql = "Select * From guests where project_id='$projectId' and deleted=false and name like :text";
         $res = $this->db->prepare($sql);
 
         $res->execute(array(':text' => '%' . $text . '%'));
@@ -123,10 +123,10 @@ class Persist
         return $res;
     }
 
-    public function createGroup($name)
+    public function createGroup($name, $projectId)
     {
         try {
-            $sql = "INSERT INTO groups(title) VALUES('$name')";
+            $sql = "INSERT INTO groups(title,project_id) VALUES('$name','$projectId')";
             $res = $this->db->prepare($sql);
             $res->execute();
         } catch (Exception $e) {
@@ -137,9 +137,9 @@ class Persist
         return $this->db->lastInsertId();
     }
 
-    public function getGroups()
+    public function getGroups($projectId)
     {
-        $sql = "Select * From groups";
+        $sql = "Select * From groups where project_id='$projectId'";
 
         $sql .= " ORDER BY oid";
 
@@ -154,7 +154,7 @@ class Persist
 
     public function getTables($projectId)
     {
-        $sql = "Select * From tables where deleted=false ORDER BY oid asc";
+        $sql = "Select * From tables where project_id='$projectId' and deleted=false ORDER BY oid asc";
 
         $res = $this->db->prepare($sql);
         $res->execute();
@@ -190,10 +190,10 @@ class Persist
     }
 
 
-    public function getGuestGroupedByGroup()
+    public function getGuestGroupedByGroup($projectId)
     {
 
-        $sql = "Select * From guests where deleted=false";
+        $sql = "Select * From guests where project_id='$projectId' and deleted=false";
 
         $sql .= " ORDER BY oid desc";
 
@@ -217,12 +217,12 @@ class Persist
         return $guestsByGroupMap;
     }
 
-    public function getGuestGroupedByGroupWithFilter($sidesIds, $groupsIds)
+    public function getGuestGroupedByGroupWithFilter($sidesIds, $groupsIds, $projectId)
     {
 
         //TODO: get from getGuests()
 
-        $sql = "Select * From guests where deleted=false";
+        $sql = "Select * From guests where project_id='$projectId' and  deleted=false";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
 
         $sql .= " ORDER BY oid desc";
@@ -247,13 +247,14 @@ class Persist
         return $guestsByGroupMap;
     }
 
-    public function updateInvitationSent($guestOid, $newStatus)
+    public function updateInvitationSent($guestOid, $newStatus, $projectId)
     {
         try {
-            $sql = "UPDATE guests set invitation_sent=:newStatus where oid=:guestOid";
+            $sql = "UPDATE guests set invitation_sent=:newStatus where oid=:guestOid and project_id=:projectId";
             $res = $this->db->prepare($sql);
             $res->bindParam(':newStatus', $newStatus, PDO::PARAM_INT);
             $res->bindParam(':guestOid', $guestOid, PDO::PARAM_INT);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
             $res->execute();
         } catch (Exception $e) {
@@ -264,13 +265,14 @@ class Persist
     }
 
 
-    public function updateArrivalApproved($guestOid, $arrivalApproved)
+    public function updateArrivalApproved($guestOid, $arrivalApproved, $projectId)
     {
         try {
-            $sql = "UPDATE guests set arrival_approved=:arrivalApproved where oid=:guestOid";
+            $sql = "UPDATE guests set arrival_approved=:arrivalApproved where oid=:guestOid and project_id=:projectId";
             $res = $this->db->prepare($sql);
             $res->bindParam(':arrivalApproved', $arrivalApproved, PDO::PARAM_INT);
             $res->bindParam(':guestOid', $guestOid, PDO::PARAM_INT);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
             $res->execute();
         } catch (Exception $e) {
@@ -281,32 +283,7 @@ class Persist
     }
 
 
-//    public function getStatisticsMap()
-//    {
-//        $map = array();
-//        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=0";
-//        $res = $this->db->prepare($sql);
-//        $res->execute();
-//        $res = $res->fetch(PDO::FETCH_OBJ);
-//        $map["invitationNotSent"] = $res->total;
-//
-//        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=1 && arrival_approved=0";
-//        $res = $this->db->prepare($sql);
-//        $res->execute();
-//        $res = $res->fetch(PDO::FETCH_OBJ);
-//        $map["arrivalNotApproved"] = $res->total;
-//
-//        $sql = "select count(*) as total from guests where deleted=false and invitation_sent=1 && arrival_approved=1";
-//        $res = $this->db->prepare($sql);
-//        $res->execute();
-//        $res = $res->fetch(PDO::FETCH_OBJ);
-//        $map["notHasTable"] = $res->total;
-//
-//        return $map;
-//
-//    }
-
-    public function getStatisticsMap()
+    public function getStatisticsMap($projectId)
     {
         $totalGuests = 0;
         $invitationSent = 0;
@@ -314,7 +291,7 @@ class Persist
         $hasTable = 0;
 
         $map = array();
-        $allGuest = $this->getGuests();
+        $allGuest = $this->getGuests($projectId);
         foreach ($allGuest as $key => $guest) {
             $guestsAmount = $guest->amount;
             $totalGuests += $guestsAmount;
@@ -333,57 +310,70 @@ class Persist
         $map["totalGuests"] = $totalGuests;
         $map["totalGuestsInPercent"] = $totalGuests;
         $map["invitationSent"] = $invitationSent;
-        $map["invitationSentInPercent"] = number_format(($invitationSent/$totalGuests)*100);
+        $map["invitationSentInPercent"] = $this->calcPercent($invitationSent, $totalGuests);
         $map["arrivalApproved"] = $arrivalApproved;
-        $map["arrivalApprovedInPercent"] = number_format(($arrivalApproved/$totalGuests)*100);
+        $map["arrivalApprovedInPercent"] = $this->calcPercent($arrivalApproved, $totalGuests);
         $map["hasTable"] = $hasTable;
-        $map["hasTableInPercent"] = number_format(($hasTable/$totalGuests)*100);
+        $map["hasTableInPercent"] = $this->calcPercent($hasTable, $totalGuests);
 
         return $map;
 
     }
 
-    public function getInvitationNotSentGuests()
+    public function calcPercent($val, $total)
     {
-        $sql = "Select * From guests where deleted=false and invitation_sent=0 ORDER BY oid desc";
+        if ($total == 0) {
+            return 0;
+        }
+        return number_format(($val / $total) * 100);
+    }
+
+    public function getInvitationNotSentGuests($projectId)
+    {
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and invitation_sent=0 ORDER BY oid desc";
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
         $res->execute();
         $res->setFetchMode(PDO::FETCH_LAZY);
         return $res;
     }
 
 
-    public function getInvitationNotSentGuestsWithFilter($sidesIds, $groupsIds)
+    public function getInvitationNotSentGuestsWithFilter($sidesIds, $groupsIds, $projectId)
     {
-        $sql = "Select * From guests where deleted=false and invitation_sent=0";
-        $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
-
-
-        $sql .= " ORDER BY oid desc";
-        $res = $this->db->prepare($sql);
-
-        $res->execute();
-        $res->setFetchMode(PDO::FETCH_LAZY);
-
-        return $res;
-    }
-
-
-    public function getArrivalNotApprovedGuests()
-    {
-        $sql = "Select * From guests where deleted=false and invitation_sent=1 and arrival_approved=0 ORDER BY oid desc";
-        $res = $this->db->prepare($sql);
-        $res->execute();
-        $res->setFetchMode(PDO::FETCH_LAZY);
-        return $res;
-    }
-
-    public function getArrivalNotApprovedGuestsWithFilter($sidesIds, $groupsIds)
-    {
-        $sql = "Select * From guests where deleted=false and invitation_sent=1 and arrival_approved=0";
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and invitation_sent=0";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql .= " ORDER BY oid desc";
+
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+        $res->execute();
+        $res->setFetchMode(PDO::FETCH_LAZY);
+
+        return $res;
+    }
+
+
+    public function getArrivalNotApprovedGuests($projectId)
+    {
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and invitation_sent=1 and arrival_approved=0 ORDER BY oid desc";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+        $res->execute();
+        $res->setFetchMode(PDO::FETCH_LAZY);
+        return $res;
+    }
+
+    public function getArrivalNotApprovedGuestsWithFilter($sidesIds, $groupsIds, $projectId)
+    {
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and invitation_sent=1 and arrival_approved=0";
+        $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
+        $sql .= " ORDER BY oid desc";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
         $res->execute();
         $res->setFetchMode(PDO::FETCH_LAZY);
@@ -414,14 +404,15 @@ class Persist
         return $query;
     }
 
-    public function getGuestForReport($sidesIds, $groupsIds, $loc)
+    public function getGuestForReport($sidesIds, $groupsIds, $loc, $projectId)
     {
-        $sql = "Select name,phone,amount,g.title as group_title, s.title as side_title From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id where deleted=false";
+        $sql = "Select name,phone,amount,g.title as group_title, s.title as side_title From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id where o.project_id=:projectId and deleted=false";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql = $this->filterByLocation($sql, $loc);
         $sql .= " ORDER BY o.oid desc";
 
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
         $res->execute();
         $res->setFetchMode(PDO::FETCH_LAZY);
@@ -432,17 +423,21 @@ class Persist
 
     public function addTable($title, $capacity, $projectId)
     {
-        $sql = "INSERT INTO tables(title,capacity,project_id) VALUES('$title','$capacity','$projectId')";
+        $sql = "INSERT INTO tables(title,capacity,project_id) VALUES('$title','$capacity',:projectId)";
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
         $res->execute();
         return $this->db->lastInsertId();
     }
 
-    public function editTable($tableOid, $title, $capacity)
+    public function editTable($tableOid, $title, $capacity, $projectId)
     {
         try {
-            $sql = "UPDATE tables set title='$title',capacity='$capacity' where oid='$tableOid'";
+            $sql = "UPDATE tables set title='$title',capacity='$capacity' where project_id=:projectId and oid='$tableOid'";
             $res = $this->db->prepare($sql);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
             $res->execute();
         } catch (PDOException $e) {
             echo 'Error: ' . $e->getMessage();
@@ -450,25 +445,27 @@ class Persist
 
     }
 
-    public function updateGuestTable($guestOid, $tableOid)
+    public function updateGuestTable($guestOid, $tableOid, $projectId)
     {
 //        try {
-            $sql = "UPDATE guests set table_id='$tableOid' where oid='$guestOid'";
-            $res = $this->db->prepare($sql);
-            $res->execute();
+        $sql = "UPDATE guests set table_id='$tableOid' where project_id=:projectId and oid='$guestOid'";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+        $res->execute();
 //        } catch (PDOException $e) {
 //            echo 'Error: ' . $e->getMessage();
 //        }
 
     }
 
-    public function getGuestGroupedByTable()
+    public function getGuestGroupedByTable($projectId)
     {
 
-        $sql = "Select * From guests where deleted=false and table_id>0";
-
-
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and table_id>0";
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
         $res->execute();
         $guests = $res->fetchAll(PDO::FETCH_CLASS);
         //
@@ -488,15 +485,19 @@ class Persist
         return $guestsByTableMap;
     }
 
-    public function deleteTable($tableOid)
+    public function deleteTable($tableOid, $projectId)
     {
         try {
-            $sql = "UPDATE tables set deleted=true where oid='$tableOid'";
+            $sql = "UPDATE tables set deleted=true where project_id=:projectId and  oid='$tableOid'";
             $res = $this->db->prepare($sql);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
             $res->execute();
 
-            $sql = "UPDATE guests set table_id=0 where table_id='$tableOid'";
+            $sql = "UPDATE guests set table_id=0 where project_id=:projectId and table_id='$tableOid'";
             $res = $this->db->prepare($sql);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
             $res->execute();
 
 
@@ -541,8 +542,6 @@ class Persist
 
         return $this->db->lastInsertId();
     }
-
-
 
 
 }

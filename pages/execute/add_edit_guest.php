@@ -27,9 +27,9 @@ require_once('smarty.php');
 $error = false;
 try {
     if ($guestOid == "0") {
-        $guestOid = $persist->addGuest($name, $phone, $amount, $now_date, $group, $side, $invitationSent, $arrivalApproved);
+        $guestOid = $persist->addGuest($name, $phone, $amount, $now_date, $group, $side, $invitationSent, $arrivalApproved, $projectId);
     } else {
-        $persist->editGuest($guestOid, $name, $phone, $amount, $group, $side, $invitationSent, $arrivalApproved);
+        $persist->editGuest($guestOid, $name, $phone, $amount, $group, $side, $invitationSent, $arrivalApproved, $projectId);
     }
 } catch (Exception $e) {
     $error = true;

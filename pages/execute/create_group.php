@@ -5,4 +5,4 @@ require_once('../../classes/Persist.php');
 $name = $requestParams['groupName'];
 $persist = Persist::getInstance();
 
-echo $persist->createGroup($name);
+echo $persist->createGroup($name, $projectId);

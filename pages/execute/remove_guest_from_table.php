@@ -12,26 +12,26 @@ function decodeParams($param)
 }
 
 
-    require_once('../../classes/Persist.php');
-    $persist = Persist::getInstance();
+require_once('../../classes/Persist.php');
+$persist = Persist::getInstance();
 
-    $guestOid = $requestParams['guestOid'];
+$guestOid = $requestParams['guestOid'];
 
-    require_once('smarty.php');
+require_once('smarty.php');
 
-    $error = false;
-    try {
+$error = false;
+try {
 
-        $persist->updateGuestTable($guestOid,0);
+    $persist->updateGuestTable($guestOid, 0, $projectId);
 
-    } catch (Exception $e) {
-        $error = true;
+} catch (Exception $e) {
+    $error = true;
 
-    }
+}
 
-    $smarty->assign("error", $error);
+$smarty->assign("error", $error);
 
-    $smarty->display('common/response.tpl');
+$smarty->display('common/response.tpl');
 
 
 

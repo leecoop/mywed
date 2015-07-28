@@ -17,7 +17,7 @@ $persist = Persist::getInstance();
 //$count = $guests->rowCount();
 //$groups = $persist->getGroups();
 //
-$statisticsMap = $persist->getStatisticsMap();
+$statisticsMap = $persist->getStatisticsMap($projectId);
 //
 //$sides = $persist->getSides();
 //$smarty->assign("guests", $guests);

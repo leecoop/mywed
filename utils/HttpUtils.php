@@ -11,6 +11,7 @@ foreach ($_SESSION as $key => $value) {
     $sessionParams[$key] = strip_tags($value);
 }
 
+$projectId=$sessionParams['projectId'];
 
 require_once("GetRequestParams.php");
 

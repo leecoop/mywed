@@ -14,9 +14,9 @@ $persist = Persist::getInstance();
 
 try {
     if ($tableOid == "0") {
-        $tableOid = $persist->addTable($title, $capacity,0);
+        $tableOid = $persist->addTable($title, $capacity, $projectId);
     } else {
-        $persist->editTable($tableOid, $title, $capacity);
+        $persist->editTable($tableOid, $title, $capacity, $projectId);
     }
 } catch (Exception $e) {
     $error = true;

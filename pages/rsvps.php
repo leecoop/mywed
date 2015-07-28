@@ -9,14 +9,14 @@ $type_side = 0;
 
 $persist = Persist::getInstance();
 
-$guests = $persist->getArrivalNotApprovedGuests();
-$count = $guests->rowCount();
-$groups = $persist->getGroups();
+$guests = $persist->getArrivalNotApprovedGuests($projectId);
+//$count = $guests->rowCount();
+$groups = $persist->getGroups($projectId);
 $sides = $persist->getSides();
-$statisticsMap = $persist->getStatisticsMap();
+$statisticsMap = $persist->getStatisticsMap($projectId);
 
 $smarty->assign("guests",$guests);
-$smarty->assign("count",$count);
+//$smarty->assign("count",$count);
 $smarty->assign("groups",$groups);
 $smarty->assign("sides",$sides);
 $smarty->assign("statisticsMap",$statisticsMap);

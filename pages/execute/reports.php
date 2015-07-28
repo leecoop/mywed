@@ -12,7 +12,7 @@ $loc = $requestParams['loc'];
 
 $persist = Persist::getInstance();
 
-$guests = $persist->getGuestForReport($sidesIds, $groupsIds,$loc);
+$guests = $persist->getGuestForReport($sidesIds, $groupsIds, $loc, $projectId);
 //if ($loc == "guests")
 //    $guests = $persist->getGuestsWithFilter($sidesIds, $groupsIds);
 //if ($loc == "invitations")
@@ -23,7 +23,7 @@ $guests = $persist->getGuestForReport($sidesIds, $groupsIds,$loc);
 //        $guests = $persist->getGuestGroupedByGroupWithFilter($sidesIds, $groupsIds);
 
 
-$file_name = "report_".$loc;
+$file_name = "report_" . $loc;
 
 $translates = array(
     'name' => 'שם',

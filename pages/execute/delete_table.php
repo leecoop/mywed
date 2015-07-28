@@ -17,7 +17,7 @@ try {
     $error = true;
 }
 
-$persist->deleteTable($tableOid);
+$persist->deleteTable($tableOid, $projectId);
 
 $smarty->assign("error", $error);
 
