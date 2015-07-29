@@ -8,44 +8,62 @@
                     <h3 class="panel-title">הרשמה</h3>
                 </div>
                 <div class="panel-body">
-                    {*<form role="form" action="register.php">*}
-                        {*<fieldset>*}
-                            <div class="form-group">
-                                <input class="form-control" placeholder="שם החתן" id="groom_name"  autofocus>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="שם השכלה" id="bride_name"  >
-                            </div>
+                    {*<form role="form"">*}
+                    {*<fieldset>*}
+                    <div class="form-group input-group">
+                        <input style="direction: ltr" class="form-control" placeholder="אימייל" id="email" type="email" autofocus required>
+                        <span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
 
-                            <div class="form-group">
-                                <input class="form-control" id="date"  placeholder="תאריך" >
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="אימייל" id="email" type="email">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="סיסמא" id="password" type="password" value="">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="סיסמא שנית" id="repassword" type="password" value="">
-                            </div>
+                    </div>
+                    <div class="form-group input-group">
+                        <input style="direction: ltr" class="form-control" placeholder="סיסמא" id="password" type="password" value="" required>
+                        <span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>
+
+                    </div>
+                    <div class="form-group input-group">
+                        <input style="direction: ltr" class="form-control" placeholder="סיסמא שנית" id="repassword" type="password" value="" required>
+                        <span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>
+
+                    </div>
+                    <div style=" height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5"></div>
+
+                    <div class="form-group input-group">
+                        <input class="form-control" placeholder="שם החתן" id="groom_name"  required>
+                        <span class="input-group-addon"><i class="fa fa-male fa-fw"></i></span>
+
+                    </div>
+                    <div class="form-group input-group">
+                        <input class="form-control" placeholder="שם הכלה" id="bride_name" required>
+                        <span class="input-group-addon"><i class="fa  fa-female  fa-fw"></i></span>
+
+                    </div>
+
+                    <div class="form-group input-group">
+                        <input class="form-control" id="date" placeholder="תאריך" required>
+                        <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+
+                    </div>
 
 
-                            <!-- Change this to a button or input when using this as a form -->
-                            {*<a href="check_login.php" class="btn btn-lg btn-success btn-block">כניסה</a>*}
-                            {*<a href="check_login.php" class="btn btn-lg btn-success btn-block">כניסה</a>*}
-                            <button onclick="register()" class="btn btn-lg btn-success btn-block" type="submit">הרשם</button>
 
-                        {*</fieldset>*}
+                    <button onclick="register()" class="btn btn-lg btn-success btn-block" type="submit">הרשם</button>
+
+                    {*</fieldset>*}
                     {*</form>*}
+                </div>
+                <div class="panel-footer">
+                    <a href="login.php">התחבר</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    $(function() {
-        $( "#date" ).datepicker({
+    $(function () {
+        $("#date").datepicker({
 //            dateFormat: "dd/mm/yy"
             dateFormat: "yy-mm-dd"
         });

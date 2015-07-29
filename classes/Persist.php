@@ -48,9 +48,11 @@ class Persist
     public function getGuests($projectId)
     {
         try {
-            $sql = "Select * From guests where project_id='$projectId' and deleted=false ORDER BY oid desc";
+            $sql = "Select * From guests where project_id=:projectId and deleted=false ORDER BY oid desc";
 
             $res = $this->db->prepare($sql);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
             $res->execute();
             $res->setFetchMode(PDO::FETCH_LAZY);
 
@@ -62,11 +64,12 @@ class Persist
 
     public function getGuestsWithFilter($sidesIds, $groupsIds, $projectId)
     {
-        $sql = "Select * From guests where project_id='$projectId' and deleted=false";
+        $sql = "Select * From guests where project_id=:projectId and deleted=false";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql .= " ORDER BY oid desc";
 
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
         $res->execute();
         $res->setFetchMode(PDO::FETCH_LAZY);
@@ -74,11 +77,21 @@ class Persist
         return $res;
     }
 
-    public function addGuest($name, $phone, $amount, $now_date, $group_id, $side_id, $invitationSent, $arrivalApproved, $projectId)
+    public function addGuest($name, $phone, $amount, $nowDate, $groupId, $sideId, $invitationSent, $arrivalApproved, $projectId)
     {
 //        try {
-        $sql = "INSERT INTO guests(name,phone,amount,add_date,group_id,side_id,invitation_sent,arrival_approved, project_id) VALUES('$name','$phone','$amount','$now_date','$group_id', '$side_id','$invitationSent', '$arrivalApproved','$projectId')";
+        $sql = "INSERT INTO guests(name, phone, amount, add_date, group_id, side_id, invitation_sent, arrival_approved, project_id) VALUES(:name, :phone, :amount, :nowDate, :groupId, :sideId, :invitationSent, :arrivalApproved, :projectId)";
         $res = $this->db->prepare($sql);
+        $res->bindParam(':name', $name, PDO::PARAM_STR);
+        $res->bindParam(':phone', $phone, PDO::PARAM_STR);
+        $res->bindParam(':amount', $amount, PDO::PARAM_INT);
+        $res->bindParam(':nowDate', $nowDate, PDO::PARAM_STR);
+        $res->bindParam(':groupId', $groupId, PDO::PARAM_INT);
+        $res->bindParam(':sideId', $sideId, PDO::PARAM_INT);
+        $res->bindParam(':invitationSent', $invitationSent, PDO::PARAM_BOOL);
+        $res->bindParam(':arrivalApproved', $arrivalApproved, PDO::PARAM_BOOL);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
         $res->execute();
 //        } catch (Exception $e) {
 //            return $e;
@@ -87,11 +100,22 @@ class Persist
         return $this->db->lastInsertId();
     }
 
-    public function editGuest($guestOid, $name, $phone, $amount, $groupOid, $sideOid, $invitationSent, $arrivalApproved, $projectId)
+    public function editGuest($guestId, $name, $phone, $amount, $groupId, $sideId, $invitationSent, $arrivalApproved, $projectId)
     {
 //        try {
-        $sql = "UPDATE guests set name='$name',phone='$phone',amount='$amount',group_id='$groupOid',side_id='$sideOid',invitation_sent='$invitationSent',arrival_approved='$arrivalApproved' where oid='$guestOid' and project_id='$projectId'";
+        $sql = "UPDATE guests set name=:name ,phone=:phone ,amount=:amount, group_id=:groupId ,side_id=:sideId, invitation_sent=:invitationSent ,arrival_approved=:arrivalApproved where oid=:guestId and project_id=:projectId";
         $res = $this->db->prepare($sql);
+
+        $res->bindParam(':guestId', $guestId, PDO::PARAM_INT);
+        $res->bindParam(':name', $name, PDO::PARAM_STR);
+        $res->bindParam(':phone', $phone, PDO::PARAM_STR);
+        $res->bindParam(':amount', $amount, PDO::PARAM_INT);
+        $res->bindParam(':groupId', $groupId, PDO::PARAM_INT);
+        $res->bindParam(':sideId', $sideId, PDO::PARAM_INT);
+        $res->bindParam(':invitationSent', $invitationSent, PDO::PARAM_BOOL);
+        $res->bindParam(':arrivalApproved', $arrivalApproved, PDO::PARAM_BOOL);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
         $res->execute();
 //        } catch (Exception $e) {
 //            return $e;
@@ -100,23 +124,27 @@ class Persist
         //return true;
     }
 
-    public function deleteGuest($guestOid, $projectId)
+    public function deleteGuest($guestId, $projectId)
     {
         try {
-            $sql = "UPDATE guests set deleted=true where oid='$guestOid' and project_id='$projectId'";
+            $sql = "UPDATE guests set deleted=true where oid=:guestId and project_id=:projectId";
             $res = $this->db->prepare($sql);
+            $res->bindParam(':guestId', $guestId, PDO::PARAM_INT);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
             $res->execute();
         } catch (Exception $e) {
             return $e;
         }
 
-        return $guestOid;
+        return $guestId;
     }
 
     public function search($text, $projectId)
     {
-        $sql = "Select * From guests where project_id='$projectId' and deleted=false and name like :text";
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and name like :text";
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
         $res->execute(array(':text' => '%' . $text . '%'));
         $res->setFetchMode(PDO::FETCH_LAZY);
@@ -126,8 +154,11 @@ class Persist
     public function createGroup($name, $projectId)
     {
         try {
-            $sql = "INSERT INTO groups(title,project_id) VALUES('$name','$projectId')";
+            $sql = "INSERT INTO groups(title,project_id) VALUES(:name,:projectId)";
             $res = $this->db->prepare($sql);
+            $res->bindParam(':name', $name, PDO::PARAM_STR);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
             $res->execute();
         } catch (Exception $e) {
             echo $e;
@@ -139,12 +170,12 @@ class Persist
 
     public function getGroups($projectId)
     {
-        $sql = "Select * From groups where project_id='$projectId'";
-
+        $sql = "Select * From groups where project_id=:projectId";
         $sql .= " ORDER BY oid";
 
-
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
         $res->execute();
 //        $res->setFetchMode(PDO::FETCH_LAZY);
 
@@ -154,9 +185,11 @@ class Persist
 
     public function getTables($projectId)
     {
-        $sql = "Select * From tables where project_id='$projectId' and deleted=false ORDER BY oid asc";
+        $sql = "Select * From tables where project_id=:projectId and deleted=false ORDER BY oid asc";
 
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
         $res->execute();
         $res->setFetchMode(PDO::FETCH_LAZY);
 
@@ -193,11 +226,13 @@ class Persist
     public function getGuestGroupedByGroup($projectId)
     {
 
-        $sql = "Select * From guests where project_id='$projectId' and deleted=false";
+        $sql = "Select * From guests where project_id=:projectId and deleted=false";
 
         $sql .= " ORDER BY oid desc";
 
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
         $res->execute();
         $guests = $res->fetchAll(PDO::FETCH_CLASS);
         //
@@ -222,12 +257,14 @@ class Persist
 
         //TODO: get from getGuests()
 
-        $sql = "Select * From guests where project_id='$projectId' and  deleted=false";
+        $sql = "Select * From guests where project_id=:projectId and deleted=false";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
 
         $sql .= " ORDER BY oid desc";
-
         $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+
         $res->execute();
         $guests = $res->fetchAll(PDO::FETCH_CLASS);
         //
@@ -423,20 +460,25 @@ class Persist
 
     public function addTable($title, $capacity, $projectId)
     {
-        $sql = "INSERT INTO tables(title,capacity,project_id) VALUES('$title','$capacity',:projectId)";
+        $sql = "INSERT INTO tables(title,capacity,project_id) VALUES(:title,:capacity,:projectId)";
         $res = $this->db->prepare($sql);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+        $res->bindParam(':title', $title, PDO::PARAM_STR);
+        $res->bindParam(':capacity', $capacity, PDO::PARAM_INT);
 
         $res->execute();
         return $this->db->lastInsertId();
     }
 
-    public function editTable($tableOid, $title, $capacity, $projectId)
+    public function editTable($tableId, $title, $capacity, $projectId)
     {
         try {
-            $sql = "UPDATE tables set title='$title',capacity='$capacity' where project_id=:projectId and oid='$tableOid'";
+            $sql = "UPDATE tables set title=:title, capacity=:capacity where project_id=:projectId and oid=:tableId";
             $res = $this->db->prepare($sql);
             $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+            $res->bindParam(':title', $title, PDO::PARAM_STR);
+            $res->bindParam(':capacity', $capacity, PDO::PARAM_INT);
+            $res->bindParam(':tableId', $tableId, PDO::PARAM_INT);
 
             $res->execute();
         } catch (PDOException $e) {
@@ -445,12 +487,14 @@ class Persist
 
     }
 
-    public function updateGuestTable($guestOid, $tableOid, $projectId)
+    public function updateGuestTable($guestId, $tableId, $projectId)
     {
 //        try {
-        $sql = "UPDATE guests set table_id='$tableOid' where project_id=:projectId and oid='$guestOid'";
+        $sql = "UPDATE guests set table_id=:tableId where project_id=:projectId and oid=:guestId";
         $res = $this->db->prepare($sql);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+        $res->bindParam(':guestId', $guestId, PDO::PARAM_INT);
+        $res->bindParam(':tableId', $tableId, PDO::PARAM_INT);
 
         $res->execute();
 //        } catch (PDOException $e) {
@@ -488,15 +532,17 @@ class Persist
     public function deleteTable($tableOid, $projectId)
     {
         try {
-            $sql = "UPDATE tables set deleted=true where project_id=:projectId and  oid='$tableOid'";
+            $sql = "UPDATE tables set deleted=true where project_id=:projectId and  oid=:tableOid";
             $res = $this->db->prepare($sql);
             $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+            $res->bindParam(':tableOid', $tableOid, PDO::PARAM_INT);
 
             $res->execute();
 
-            $sql = "UPDATE guests set table_id=0 where project_id=:projectId and table_id='$tableOid'";
+            $sql = "UPDATE guests set table_id=0 where project_id=:projectId and table_id=:tableOid";
             $res = $this->db->prepare($sql);
             $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+            $res->bindParam(':tableOid', $tableOid, PDO::PARAM_INT);
 
             $res->execute();
 
@@ -520,8 +566,11 @@ class Persist
     public function registerUser($email, $password)
     {
 //        try {
-        $sql = "INSERT INTO users(email,password) VALUES('$email','$password')";
+        $sql = "INSERT INTO users(email,password) VALUES(:email,:password)";
         $res = $this->db->prepare($sql);
+        $res->bindParam(':email', $email, PDO::PARAM_STR);
+        $res->bindParam(':password', $password, PDO::PARAM_STR);
+
         $res->execute();
 //        } catch (Exception $e) {
 //            return $e;
@@ -533,8 +582,13 @@ class Persist
     public function createProject($userOid, $groomName, $brideName, $date)
     {
 //        try {
-        $sql = "INSERT INTO projects(user_id, groom_name, bride_name, date) VALUES('$userOid','$groomName','$brideName','$date')";
+        $sql = "INSERT INTO projects(user_id, groom_name, bride_name, date) VALUES(:userOid,:groomName,:brideName,:date)";
         $res = $this->db->prepare($sql);
+        $res->bindParam(':userOid', $userOid, PDO::PARAM_INT);
+        $res->bindParam(':groomName', $groomName, PDO::PARAM_STR);
+        $res->bindParam(':brideName', $brideName, PDO::PARAM_STR);
+        $res->bindParam(':date', $date, PDO::PARAM_STR);
+
         $res->execute();
 //        } catch (Exception $e) {
 //            return $e;

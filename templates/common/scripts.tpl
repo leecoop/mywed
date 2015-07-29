@@ -25,3 +25,4 @@
 
 <script src="../js/plugins/justgage.1.0.1.js"></script>
 <script type="text/javascript" language="javascript" src="../js/plugins/jquery.countdown.js"></script>
+<script type="text/javascript" language="javascript" src="../js/plugins/civem.js"></script>

@@ -45,7 +45,7 @@ $guest->side_id = $side;
 $guest->invitation_sent = $invitationSent;
 $guest->arrival_approved = $arrivalApproved;
 
-$groups = $persist->getGroups();
+$groups = $persist->getGroups($projectId);
 $sides = $persist->getSides();
 
 $smarty->assign("loc", $loc);

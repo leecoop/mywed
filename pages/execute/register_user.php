@@ -19,6 +19,19 @@ $password = $requestParams['password'];
 $userId = $persist->registerUser($email, md5($password));
 
 $projectId = $persist->createProject($userId, $groomName, $brideName, $date);
+$persist->createGroup("ללא",$projectId);
+$persist->createGroup("משפחה $groomName",$projectId);
+$persist->createGroup("משפחה $brideName",$projectId);
+$persist->createGroup("חברים של $groomName",$projectId);
+$persist->createGroup("חברים של $brideName",$projectId);
+$persist->createGroup("חברים משותפים",$projectId);
+$persist->createGroup("חברים לעבוד של $groomName",$projectId);
+$persist->createGroup("חברים לעבוד של $brideName",$projectId);
+$persist->createGroup("חברים של משפחת החתן ",$projectId);
+$persist->createGroup("חברים של משפחת הכלה ",$projectId);
+
+
+
 
 session_start();
 $_SESSION['isLoggedIn'] = true;
