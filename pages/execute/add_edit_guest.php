@@ -1,12 +1,11 @@
 <?php
 require_once '../../utils/HttpUtils.php';
-
-header("Content-Type: application/json");
-header("Cache-Control: no-cache");
-header("Pragma: no-cache");
-
+require_once '../../utils/HeaderJson.php';
 require_once('../../classes/Persist.php');
+require_once('smarty.php');
+
 $persist = Persist::getInstance();
+
 
 $name = $requestParams['name'];
 $phone = "";
@@ -22,7 +21,6 @@ $arrivalApproved = $requestParams['arrivalApproved'];
 $loc = $requestParams['loc'];
 $now_date = date('Y-m-d');
 
-require_once('smarty.php');
 
 $error = false;
 try {

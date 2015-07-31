@@ -9,7 +9,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>
+        {if isset($title)}
+            {$title}
+        {else}
+פלוס אחד
+        {/if}
+    </title>
 
     {include file="common/stylesheets.tpl"}
     {include file="common/scripts.tpl"}

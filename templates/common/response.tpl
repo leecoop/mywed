@@ -5,6 +5,9 @@
 {if isset($error)}
     "error": {$error|json_encode}
 {/if}
+{if isset($errorMsg)}
+    , "errorMsg": {$errorMsg|json_encode}
+{/if}
 {if isset($guest)}
     ,
     "guest":

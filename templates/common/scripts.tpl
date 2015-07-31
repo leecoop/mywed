@@ -25,4 +25,7 @@
 
 <script src="../js/plugins/justgage.1.0.1.js"></script>
 <script type="text/javascript" language="javascript" src="../js/plugins/jquery.countdown.js"></script>
-<script type="text/javascript" language="javascript" src="../js/plugins/civem.js"></script>
+<script type="text/javascript" language="javascript" src="../js/plugins/jquery.validate.js"></script>
+<script type="text/javascript" language="javascript" src="../js/plugins/localization/messages_he.js"></script>
+<script type="text/javascript" language="javascript" src="../js/translationMap.js"></script>
+<script type="text/javascript" language="javascript" src="../js/plugins/dataTables.plugins.js"></script>

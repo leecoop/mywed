@@ -1,11 +1,10 @@
 <?php
 require_once '../utils/HttpUtils.php';
-
 require_once('smarty.php');
 require_once('../classes/Persist.php');
+
 $smarty->assign("loc",'invitations');
 $smarty->assign("title",'חלוקת הזמנות');
-$type_side = 0;
 
 $persist = Persist::getInstance();
 

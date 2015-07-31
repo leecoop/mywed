@@ -1,10 +1,6 @@
 <?php
 require_once '../../utils/HttpUtils.php';
-
-header("Content-Type: application/json");
-header("Cache-Control: no-cache");
-header("Pragma: no-cache");
-
+require_once '../../utils/HeaderJson.php';
 require_once('../../classes/Persist.php');
 require_once('smarty.php');
 

@@ -208,3 +208,46 @@
 .no-text-decoration a:hover{
     text-decoration: none;
 }
+
+form label.error, label.error {
+    /* remove the next line when you have trouble in IE6 with labels in list */
+    color: red;
+    font-style: italic
+}
+
+input.error { border-color:red;
+
+}
+input.error:focus{
+    border-color:red;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(255, 0, 0);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(255, 0, 0)
+}
+
+.step{
+
+    background-color: #f0ad4e;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.4em;
+    height: 50px;
+    left: 50%;
+    line-height: 50px;
+    margin-left: -25px;
+    position: absolute;
+    text-align: center;
+    top: 16px;
+    width: 50px;
+    z-index: 100;
+}
+
+.line {
+    background-position: -1px -617px;
+    height: 1px;
+    position: absolute;
+    right: 47px;
+    top: 48px;
+    width: 107px;
+}
+

@@ -67,25 +67,11 @@
                                 "pageLength": 15,
                                 "lengthMenu": [[10, 15, 25, 50, -1], [10, 15, 25, 50, "הכל"]],
                                 "dom": 'frtip',
+                                "aoColumnDefs": [
+                                    { 'bSortable': false, 'aTargets': [ 0 ] }
+                                ],
+                                "order": [[ 1, "desc" ]],
 
-//                        dom: '<"top"T><"clear">lfrtip',
-//                        tableTools: {
-//                            "aButtons": [
-//                                {
-//                                    "sExtends": "copy",
-//                                    "sButtonText": "העתק"
-//                                },
-//                                {
-//                                    "sExtends": "xls",
-//                                    "sButtonText": "יצא לאקסל"
-//                                },
-//                                {
-//                                    "sExtends": "print",
-//                                    "sButtonText": "הצג להדפסה"
-//                                }
-//
-//                            ]
-//                        },
                                 "language": {
                                     "lengthMenu": "תוצאות בעמוד _MENU_",
                                     "zeroRecords": "אין תוצאות חיפוש",

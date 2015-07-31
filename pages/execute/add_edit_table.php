@@ -1,16 +1,14 @@
 <?php
 require_once '../../utils/HttpUtils.php';
+require_once '../../utils/HeaderJson.php';
+require_once('../../classes/Persist.php');
+$persist = Persist::getInstance();
 
-header("Content-Type: application/json");
-header("Cache-Control: no-cache");
-header("Pragma: no-cache");
 
 $title = $requestParams['title'];
 $capacity = $requestParams['capacity'];
 $tableOid = $requestParams['tableOid'];
 
-require_once('../../classes/Persist.php');
-$persist = Persist::getInstance();
 
 try {
     if ($tableOid == "0") {

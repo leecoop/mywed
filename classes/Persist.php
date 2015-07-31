@@ -20,6 +20,13 @@ class Persist
 //
 //        try {
 //            $dsn = 'mysql:host=sql208.byethost3.com;dbname=b3_15690100_wedding';
+//        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
+
+
+//        $dsn = 'mysql:host=localhost;dbname=plusonec_plusone';
+//        $login = 'plusonec_db';
+//        $passwd = 'kVwWQE84';
+
         $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
         $login = 'b3_15690100';
         $passwd = 'q1w2e3';
@@ -170,7 +177,7 @@ class Persist
 
     public function getGroups($projectId)
     {
-        $sql = "Select * From groups where project_id=:projectId";
+        $sql = "Select * From groups where oid=0 or project_id=:projectId";
         $sql .= " ORDER BY oid";
 
         $res = $this->db->prepare($sql);
@@ -556,7 +563,7 @@ class Persist
 
     public function getUser($email, $password)
     {
-        $sql = "Select u.oid as user_id, p.oid as project_id, p.date From users u INNER JOIN projects p on p.user_id=u.oid where u.email='$email' and u.password='$password'";
+        $sql = "Select u.oid as user_id, p.oid as project_id, p.date From users u Left JOIN projects p on p.user_id=u.oid where u.email='$email' and u.password='$password'";
         $stmt = $this->db->query($sql);
         $obj = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -579,14 +586,14 @@ class Persist
         return $this->db->lastInsertId();
     }
 
-    public function createProject($userOid, $groomName, $brideName, $date)
+    public function createProject($userOid, $maleName, $femaleName, $date)
     {
 //        try {
-        $sql = "INSERT INTO projects(user_id, groom_name, bride_name, date) VALUES(:userOid,:groomName,:brideName,:date)";
+        $sql = "INSERT INTO projects(user_id, male_name, female_name, date) VALUES(:userOid,:maleName,:femaleName,:date)";
         $res = $this->db->prepare($sql);
         $res->bindParam(':userOid', $userOid, PDO::PARAM_INT);
-        $res->bindParam(':groomName', $groomName, PDO::PARAM_STR);
-        $res->bindParam(':brideName', $brideName, PDO::PARAM_STR);
+        $res->bindParam(':maleName', $maleName, PDO::PARAM_STR);
+        $res->bindParam(':femaleName', $femaleName, PDO::PARAM_STR);
         $res->bindParam(':date', $date, PDO::PARAM_STR);
 
         $res->execute();

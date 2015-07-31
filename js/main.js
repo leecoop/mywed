@@ -10,7 +10,8 @@ var URLs = {
     addGuestToTable: 'execute/add_guest_to_table.php?',
     removeGuestFromTable: 'execute/remove_guest_from_table.php?',
     deleteTable: 'execute/delete_table.php?',
-    getStatistics: 'execute/get_statistics.php?'
+    getStatistics: 'execute/get_statistics.php?',
+    createProject: 'execute/create_project.php?'
 };
 
 
@@ -112,28 +113,29 @@ function addEditGuestResponse(responseData, params) {
     }
     //$("#guestsTable tr:first").after(responseData.data);
 
-    var guest = responseData.guest;
-    var rowNode = table.row.add([
-        "<a href=\"javascript:void(0)\" class=\"edit\" onclick='openEditGuest(\"" + params.guestOid + "\")'></a>",
-        guest.name,
-        guest.amount,
-        guest.phone,
-        guest.side,
-        guest.group
-    ])
-        .draw()
-        .node();
-    $(rowNode).attr({
-        id: "guest" + guest.oid,
-        name: guest.name,
-        amount: guest.amount,
-        phone: guest.phone,
-        side: guest.sideId,
-        group: guest.groupId,
-        arrivalapproved: guest.arrivalApproved,
-        invitationsent: guest.invitationSent
-    });
-
+    //var guest = responseData.guest;
+    //var rowNode = table.row.add([
+    //    "<a href=\"javascript:void(0)\" class=\"edit\" onclick='openEditGuest(\"" + params.guestOid + "\")'></a>",
+    //    guest.name,
+    //    guest.amount,
+    //    guest.phone,
+    //    guest.side,
+    //    guest.group
+    //])
+    //    .draw()
+    //    .node();
+    //$(rowNode).attr({
+    //    id: "guest" + guest.oid,
+    //    name: guest.name,
+    //    amount: guest.amount,
+    //    phone: guest.phone,
+    //    side: guest.sideId,
+    //    group: guest.groupId,
+    //    arrivalapproved: guest.arrivalApproved,
+    //    invitationsent: guest.invitationSent
+    //});
+    table.row.add($(responseData.data)).draw().show().draw(false);
+    //$(rowNode).focus();
     clear("name", "");
     clear("phone", "");
     clear("sides", "0");
@@ -528,7 +530,12 @@ function initSeatingArrangement() {
 
 function tableDrop(guest, table, tableId) {
     Ajax.sendRequest(URLs.addGuestToTable, {
-        data: {guestOid: guest.attr("oid"), name: guest.attr("firstName"), amount: guest.attr("amount"), tableOid: $("#" + tableId).attr("oid")},
+        data: {
+            guestOid: guest.attr("oid"),
+            name: guest.attr("firstName"),
+            amount: guest.attr("amount"),
+            tableOid: $("#" + tableId).attr("oid")
+        },
         params: {guest: guest, table: table, tableId: tableId},
         loader: true,
         refreshStats: true,
@@ -635,19 +642,18 @@ function refreshStatsResponse(responseData, params) {
 }
 
 function register() {
-    var groomName = $("#groom_name").val();
-    var brideName = $("#bride_name").val();
-    var date = $("#date").val();
+    //var groomName = $("#groom_name").val();
+    //var brideName = $("#bride_name").val();
+    //var date = $("#date").val();
     var email = $("#email").val();
     var password = $("#password").val();
-    var repassword = $("#repassword").val();
 
 
     Ajax.sendRequest(URLs.registerUser, {
         data: {
-            groomName: groomName,
-            brideName: brideName,
-            date: date,
+            //groomName: groomName,
+            //brideName: brideName,
+            //date: date,
             email: email,
             password: password
 
@@ -663,9 +669,91 @@ function register() {
 }
 
 function registerResponse(response, params) {
-   if(response.error == false){
-       window.location.href = "index.php";
+    if (response.error == false) {
+        window.location.href = "create_project.php";
 
-   }
+    }
+
+}
+
+function checkLogin() {
+    $('#errorMsg').addClass("hidden");
+    var email = $("#email").val();
+    var password = $("#password").val();
+
+    Ajax.sendRequest("check_login.php?", {
+        data: {
+            email: email,
+            password: password
+
+
+        },
+        contentType: 'application/json;charset=UTF-8',
+        //params: {edit: !add, guestOid: guestOid},
+        loader: true,
+        //refreshStats: true,
+        callback: 'checkLoginResponse'
+    });
+    //return false;
+}
+
+function checkLoginResponse(response, params) {
+    if (response.error == false) {
+        window.location.href = "index.php";
+    }
+
+    else {
+        $('#errorMsg').text(response.errorMsg).removeClass("hidden");
+    }
+
+}
+$(function () {
+    $(".only-numbers").keypress(function (event) {
+        // Backspace, tab, enter, end, home, left, right
+        // We don't support the del key in Opera because del == . == 46.
+        var controlKeys = [8, 9, 13, 35, 36, 37, 39];
+        // IE doesn't support indexOf
+        var isControlKey = controlKeys.join(",").match(new RegExp(event.which));
+        // Some browsers just don't raise events for control keys. Easy.
+        // e.g. Safari backspace.
+        if (!event.which || // Control keys in most browsers. e.g. Firefox tab is 0
+            (48 <= event.which && event.which <= 57) || // Always 1 through 9
+            isControlKey) { // Opera assigns values for control keys.
+            return;
+        } else {
+            event.preventDefault();
+        }
+    });
+});
+
+function createProject() {
+    var maleName = $("#maleName").val();
+    var femaleName = $("#femaleName").val();
+    var date = $("#date").val();
+
+
+    Ajax.sendRequest(URLs.createProject, {
+        data: {
+            maleName: maleName,
+            femaleName: femaleName,
+            date: date
+
+
+        },
+        contentType: 'application/json;charset=UTF-8',
+        //params: {edit: !add, guestOid: guestOid},
+        loader: true,
+        //refreshStats: true,
+        callback: 'createProjectResponse'
+    });
+
+
+}
+
+function createProjectResponse(response, params) {
+    if (response.error == false) {
+        window.location.href = "index.php";
+
+    }
 
 }
