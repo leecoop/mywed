@@ -16,15 +16,15 @@ $femaleName = $requestParams['femaleName'];
 $date = $requestParams['date'];
 
 $projectId = $persist->createProject($_SESSION['userId'], $maleName, $femaleName, $date);
-//$persist->createGroup("משפחה $maleName",$projectId);
-//$persist->createGroup("משפחה $femaleName",$projectId);
-//$persist->createGroup("חברים של $maleName",$projectId);
-//$persist->createGroup("חברים של $femaleName",$projectId);
-//$persist->createGroup("חברים משותפים",$projectId);
-//$persist->createGroup("חברים לעבוד של $maleName",$projectId);
-//$persist->createGroup("חברים לעבוד של $femaleName",$projectId);
-//$persist->createGroup("חברים של משפחת החתן ",$projectId);
-//$persist->createGroup("חברים של משפחת הכלה ",$projectId);
+$persist->createGroup("משפחה $maleName",$projectId);
+$persist->createGroup("משפחה $femaleName",$projectId);
+$persist->createGroup("חברים של $maleName",$projectId);
+$persist->createGroup("חברים של $femaleName",$projectId);
+$persist->createGroup("חברים משותפים",$projectId);
+$persist->createGroup("חברים לעבוד של $maleName",$projectId);
+$persist->createGroup("חברים לעבוד של $femaleName",$projectId);
+$persist->createGroup("חברים של משפחת החתן ",$projectId);
+$persist->createGroup("חברים של משפחת הכלה ",$projectId);
 
 
 $_SESSION['projectId'] = $projectId;

@@ -8,7 +8,12 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu">
-                    <li><a onclick="report('{$loc}')"> <li class="fa fa-file-excel-o fa-fw"></li> אקסל</a>
+                    <li>
+                        <a onclick="report('{$loc}')">
+                            <span class="fa fa-file-excel-o fa-fw">
+                            </span>
+                            אקסל
+                        </a>
                     </li>
                     {*<li><a href="#">Another action</a>*}
                     {*</li>*}
