@@ -8,10 +8,7 @@ $persist = Persist::getInstance();
 
 
 $name = $requestParams['name'];
-$phone = "";
-//    if ($persist->hasText($_POST['phone'])) {
-//        $phone = $requestParams['phone']);
-//    }
+$phone = $requestParams['phone'];
 $amount = $requestParams['amount'];
 $group = $requestParams['group'];
 $side = $requestParams['side'];
