@@ -10,10 +10,9 @@
     <meta name="author" content="">
 
     <title>
+        פלוס אחד -
         {if isset($title)}
             {$title}
-        {else}
-פלוס אחד
         {/if}
     </title>
 
