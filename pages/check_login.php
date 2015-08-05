@@ -24,7 +24,7 @@ if ($user) {
 }
 
 $smarty->assign("error", $error);
-$smarty->assign("errorMsg", "User not registered");
+$smarty->assign("errorMsg", "שם המשתמש או סיסמה שגויים");
 
 $smarty->display('common/response.tpl');
 

@@ -1,8 +1,8 @@
 {$currentAmount = 0}
 <div class="col-lg-4">
 
-    <div class="panel panel-green" id="table{$table.oid}" oid="{$table.oid}" max="{$table.capacity}" style="">
-        <div class="panel-heading"><i class="fa fa-group fa-fw"></i> {$table.title} </div>
+    <div class="panel panel-green" id="table{$table.oid}" oid="{$table.oid}" max="{$table.capacity}" title="{$table.title}">
+        <div class="panel-heading"><i class="fa fa-group fa-fw"></i> {$table.title} <i onclick="openEditTableModel('{$table.oid}')" class="fa fa-gear fa-fw pull-left"></i></div>
         <div class="panel-body" style="height: 240px;padding: 0 7px">
             <ol>
                 {if isset($guestGroupedByTable) and isset($guestGroupedByTable[$table.oid])}
@@ -13,7 +13,9 @@
                     {/foreach}
 
                 {else}
-                    <li class="placeholder">Add your items here</li>
+                    <li style="padding-top: 50%" class="placeholder text-center">גרור מוזמנים לכאן
+                    <br/><h2 class="fa fa-arrow-circle-down"></h2>
+                    </li>
                 {/if}
 
             </ol>

@@ -10,18 +10,18 @@
                 <div class="panel-body">
                     <form id="registerForm" role="form" action="javascript:register()" autocomplete="off">
                     <div class="form-group">
-                        <label>דוא"ל</label>
+                        <label><span class="fa fa-user"></span> דוא"ל</label>
                         <input style="direction: ltr" class="form-control" placeholder="example@gmail.com" id="email" type="email" autofocus name="email">
                         {*<span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>*}
                     </div>
                     <div class="form-group">
-                        <label>סיסמה</label>
+                        <label><span class="fa fa-lock"></span> סיסמה</label>
                         <input style="direction: ltr" class="form-control" placeholder="●●●●●●" id="password" type="password" name="password" >
                         {*<span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>*}
 
                     </div>
                     <div class="form-group">
-                        <label>חזור על הסיסמה שנית</label>
+                        <label><span class="fa fa-lock"></span> חזור על הסיסמה שנית</label>
                         <input style="direction: ltr" class="form-control" placeholder="●●●●●●" id="confirm_password" name="confirm_password" type="password" >
                         {*<span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>*}
 
@@ -41,6 +41,7 @@
 <script>
     $().ready(function() {
         $('#registerForm').validate({
+            onfocusout: false,
             rules:{
                 email: "required",
                 password: {

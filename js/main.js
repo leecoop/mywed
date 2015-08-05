@@ -109,7 +109,8 @@ function addEditGuest(guestOid) {
 function addEditGuestResponse(responseData, params) {
     if (params.edit) {
         table.row("#guest" + params.guestOid).remove();
-        closeEditGuestDialog();
+        $("#editGuestModal").modal("hide");
+        //closeEditGuestDialog();
     }
     //$("#guestsTable tr:first").after(responseData.data);
 
@@ -138,8 +139,8 @@ function addEditGuestResponse(responseData, params) {
     //$(rowNode).focus();
     clear("name", "");
     clear("phone", "");
-    clear("sides", "0");
-    clear("groups", "0");
+    //clear("sides", "0");
+    //clear("groups", "0");
     clear("amount", "1");
 
 
@@ -157,7 +158,8 @@ function deleteGuest(guestOid) {
 }
 
 function deleteGuestResponse(response, params) {
-    closeEditGuestDialog();
+    //closeEditGuestDialog();
+    $("#editGuestModal").modal("hide");
     fadeOutAndRemoveElement("guest" + params.guestOid);
 
 }
@@ -252,38 +254,13 @@ function openEditGuest(guestOid) {
 
     var arrivalApproved = parseInt(guest.attr("arrivalApproved"), 10);
     toggleArrivalApprovedClass("ediArrivalApproved", arrivalApproved);
+    $("#editGuestModal").modal();
 
-    editGuestDialog.dialog("option", "buttons",
-        [
+    $('#editGuestForm').attr('action', 'javascript:addEditGuest(' + guestOid + ')');
+    $("#deleteGuestBtn").click(function () {
+        deleteGuest(guestOid);
+    });
 
-            {
-                text: "עדכן",
-
-                click: function () {
-                    addEditGuest(guestOid);
-                }
-
-            },
-
-            {
-                text: "בטל",
-
-                click: function () {
-                    editGuestDialog.dialog("close");
-                }
-            },
-            {
-                text: "מחק",
-
-                click: function () {
-                    deleteGuest(guestOid);
-                }
-
-            }
-
-        ]
-    );
-    openEditGuestDialog();
 }
 
 function updateInvitationSent(guestOid) {
@@ -457,27 +434,35 @@ function showLoading() {
 }
 
 
-function addTable(oid) {
-    var title = $("#title").val();
-    if (title == "") {
-        tooltips.tooltip("open");
+function addEditTable(oid) {
+    var title;
+    var capacity;
+    if (oid == 0) {
+         title = $("#title").val();
+         capacity = $("#amount").val();
     } else {
-        var capacity = $("#amount").val();
-
-        Ajax.sendRequest(URLs.addEditTable, {
-            data: {title: title, capacity: capacity, tableOid: oid},
-            params: {newTable: oid == 0},
-            contentType: 'application/json;charset=UTF-8',
-            loader: true,
-            callback: 'addTableResponse'
-        });
+        title = $("#editTitle").val();
+        capacity = $("#editAmount").val();
     }
+    Ajax.sendRequest(URLs.addEditTable, {
+        data: {title: title, capacity: capacity, tableOid: oid},
+        params: {newTable: oid == 0, tableId: oid},
+        contentType: 'application/json;charset=UTF-8',
+        loader: true,
+        callback: 'addEditTableResponse'
+    });
+
 }
 
-function addTableResponse(response, params) {
-    $("#tables").append(response.data);
-    initSeatingArrangement();
-    $("#title").val("");
+function addEditTableResponse(response, params) {
+    if (params.newTable) {
+        $("#tables").append(response.data);
+        initSeatingArrangement();
+        $("#title").val("");
+    } else {
+        $("#editTableModal").modal("hide");
+
+    }
     //if(params.newTable){
     //    var title = $('#title');
     //    var currentTableCount= parseInt(title.attr('count'),10);
@@ -506,11 +491,6 @@ function initSeatingArrangement() {
         drop: function (event, ui) {
             if (parseInt(this.parentNode.parentNode.getAttribute("max"), 10) >= parseInt(ui.draggable.attr("amount"), 10) + parseInt($("#" + this.parentNode.parentNode.id + " .current_amount").html(), 10)) {
                 $(this).find(".placeholder").remove();
-                //var li = $("<li amount='" + ui.draggable.attr("amount") + "' oid='" + ui.draggable.attr("oid") + "'></li>").text(ui.draggable.text());
-                //var a = $("<a onclick='removeGuestFromTable(" + ui.draggable.attr("oid") + "," + this.parentNode.parentNode.getAttribute('oid') + ");' class='fa fa-minus-circle fa-fw' ></a>");
-                //li.append(a);
-                //li.appendTo(this);
-                //ui.draggable.hide();
                 tableDrop(ui.draggable, this, this.parentNode.parentNode.id);
             }
 
@@ -592,6 +572,7 @@ function deleteTable(tableOid) {
         data: {tableOid: tableOid},
         params: {tableOid: tableOid},
         loader: true,
+        refreshStats: true,
         callback: 'deleteTableResponse'
     });
 }
@@ -599,8 +580,9 @@ function deleteTable(tableOid) {
 function deleteTableResponse(response, params) {
     $("#table" + params.tableOid).fadeOut("slow", function () {
         $("#table" + params.tableOid + " li").each(function (i, element) {
-            $("#guest" + element.id).show();
+            $("#guest" + $(this).attr("oid")).show();
         });
+        $(this).parent().remove();
     });
 }
 
@@ -757,3 +739,24 @@ function createProjectResponse(response, params) {
     }
 
 }
+
+
+
+function openEditTableModel(tableId) {
+    var table = $('#table' + tableId);
+
+    $("#editTitle").val(table.attr("title"));
+    $("#editAmount").val(table.attr("max"));
+
+    $('#editTableForm').attr('action', 'javascript:addEditTable(' + tableId + ')');
+    $("#deleteTableBtn").click(function () {
+        deleteTable(tableId);
+    });
+
+
+    $("#editTableModal").modal();
+
+    //$('#editGuestForm').attr('action', 'javascript:addEditGuest(' + guestOid + ')');
+
+}
+

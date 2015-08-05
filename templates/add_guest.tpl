@@ -36,10 +36,15 @@
             <div class="form-group">
                 <label>מספר מוזמנים</label>
 
-                <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(1)"><i class="fa  fa-plus"></i></button>
-                <input id="amount" name="amount" value="1" readonly class="form-control" style="width:60px; text-align: center; display:inline "/>
-                <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(-1)"><i class="fa fa-minus"></i></button>
+                <div class="form-group">
 
+                    <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(1)"><i
+                                class="fa  fa-plus"></i></button>
+                    <input id="amount" name="amount" value="1" readonly class="form-control"
+                           style="width:60px; text-align: center; display:inline "/>
+                    <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(-1)"><i
+                                class="fa fa-minus"></i></button>
+                </div>
             </div>
 
             <button class="btn btn-primary btn-lg btn-block" type="submit">הוסף</button>

@@ -18,11 +18,11 @@
 
                         {*<fieldset>*}
                         <div class="form-group">
-                            <label>דוא"ל</label>
+                            <label for="email"><span class="fa fa-user"></span> דוא"ל</label>
                             <input type="email" autofocus name="email" id="email" placeholder="example@gmail.com" class="form-control" style="direction: ltr">
                         </div>
                         <div class="form-group">
-                            <label>סיסמה</label>
+                            <label><span class="fa fa-lock"></span> סיסמה</label>
                             <input class="form-control" style="direction: ltr" placeholder="●●●●●●" name="password" id="password" type="password">
                         </div>
 
@@ -51,6 +51,7 @@
 <script>
     $().ready(function () {
         $('#loginForm').validate({
+            onfocusout: false,
             rules: {
                 email: "required",
                 password: {
