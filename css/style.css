@@ -251,3 +251,6 @@ input.error:focus{
     width: 107px;
 }
 
+.cursor-pointer{
+    cursor: pointer;
+}

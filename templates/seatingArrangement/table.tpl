@@ -2,7 +2,7 @@
 <div class="col-lg-4">
 
     <div class="panel panel-green" id="table{$table.oid}" oid="{$table.oid}" max="{$table.capacity}" title="{$table.title}">
-        <div class="panel-heading"><i class="fa fa-group fa-fw"></i> {$table.title} <i onclick="openEditTableModel('{$table.oid}')" class="fa fa-gear fa-fw pull-left"></i></div>
+        <div class="panel-heading"><i class="fa fa-group fa-fw"></i> {$table.title} <i onclick="openEditTableModel('{$table.oid}')" class="fa fa-gear fa-fw pull-left cursor-pointer"></i></div>
         <div class="panel-body" style="height: 240px;padding: 0 7px">
             <ol>
                 {if isset($guestGroupedByTable) and isset($guestGroupedByTable[$table.oid])}
