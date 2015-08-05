@@ -257,9 +257,8 @@ function openEditGuest(guestOid) {
     $("#editGuestModal").modal();
 
     $('#editGuestForm').attr('action', 'javascript:addEditGuest(' + guestOid + ')');
-    $("#deleteGuestBtn").click(function () {
-        deleteGuest(guestOid);
-    });
+    $("#deleteGuestBtn").attr("onclick",'deleteGuest('+guestOid+')');
+
 
 }
 
@@ -749,14 +748,8 @@ function openEditTableModel(tableId) {
     $("#editAmount").val(table.attr("max"));
 
     $('#editTableForm').attr('action', 'javascript:addEditTable(' + tableId + ')');
-    $("#deleteTableBtn").click(function () {
-        deleteTable(tableId);
-    });
-
+    $('#deleteTableBtn').attr('onclick', 'deleteTable(' + tableId + ')');
 
     $("#editTableModal").modal();
-
-    //$('#editGuestForm').attr('action', 'javascript:addEditGuest(' + guestOid + ')');
-
 }
 
