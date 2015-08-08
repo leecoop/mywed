@@ -6,7 +6,7 @@ require_once('../classes/Persist.php');
 $smarty->assign("loc", 'search');
 $smarty->assign("title", 'חיפוש');
 
-$search_value = $requestParams['search_value'];
+$search_value = $requestParams['q'];
 
 $persist = Persist::getInstance();
 

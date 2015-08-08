@@ -77,6 +77,8 @@
             </div>
         </div>
     </div>
+    {include file="edit_guest.tpl"}
+
 </div>
 
 <script>

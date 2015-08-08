@@ -57,5 +57,7 @@
         </div>
         <!-- /.row -->
     </div>
+    {include file="edit_guest.tpl"}
+
     <!-- /#page-wrapper -->
 </div>

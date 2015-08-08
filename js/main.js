@@ -180,7 +180,7 @@ function searchKeyPress(e) {
 
 function search() {
     var searchValue = $('#search_text').val();
-    $(location).prop('href', "search.php?search_value=" + searchValue);
+    $(location).prop('href', "search.php?q=" + searchValue);
 }
 
 

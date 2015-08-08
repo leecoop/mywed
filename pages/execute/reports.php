@@ -30,7 +30,11 @@ $translates = array(
     'phone' => "פלאפון",
     'amount' => "כמות",
     'group_title' => "קבוצה",
-    'side_title' => "צד"
+    'side_title' => "צד",
+    'table_title' => "שולחן",
+    'invitation_sent' => "נשלחה הזמנה",
+    'arrival_approved' => "אישרו הגעה"
+
 );
 //    var_dump($translates);
 

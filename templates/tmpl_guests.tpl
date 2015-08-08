@@ -54,7 +54,7 @@
         <!-- /.row -->
     </div>
     <!-- /#page-wrapper -->
+    {include file="edit_guest.tpl"}
 </div>
-{include file="edit_guest.tpl"}
 
 

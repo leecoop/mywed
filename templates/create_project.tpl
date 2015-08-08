@@ -12,17 +12,18 @@
 
 
                         <div class="form-group">
-                            <label>שם החתן</label>
+                            <label for="maleName"><span class="fa fa-male"></span> שם החתן</label>
+
                             <input class="form-control" placeholder="שם החתן" id="maleName" name="maleName">
                         </div>
 
                         <div class="form-group">
-                            <label>שם הכלה</label>
+                            <label for="femaleName"><span class="fa fa-female"></span> שם הכלה</label>
                             <input class="form-control" placeholder="שם הכלה" id="femaleName" name="femaleName">
                         </div>
 
                         <div class="form-group">
-                            <label>תאריך הארוע</label>
+                            <label for="date"><span class="fa fa-calendar-o"></span> תאריך</label>
                             <input class="form-control" id="date" name="date" placeholder="תאריך">
                         </div>
 

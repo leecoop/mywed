@@ -1,8 +1,14 @@
 <tr id="guest{$guest.oid}" name="{$guest.name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}"
     invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}">
-    {if $loc eq 'guests'}
-    <td><a href="javascript:void(0)" class="fa fa-pencil fa-fw" onclick='openEditGuest("{$guest.oid}")'></a></td>
-    {/if}
+    {*{if $loc eq 'guests'}*}
+    <td>
+
+        <button class="btn btn-default btn-circle" type="button" onclick='openEditGuest("{$guest.oid}")'>
+            <i class="fa fa-pencil"></i>
+        </button>
+        {*<a href="javascript:void(0)" class="fa fa-pencil fa-fw no-text-decoration" onclick='openEditGuest("{$guest.oid}")'></a>*}
+    </td>
+    {*{/if}*}
     <td>{$guest.name}</td>
     <td>{$guest.amount}</td>
     <td>{$guest.phone}</td>

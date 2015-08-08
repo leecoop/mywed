@@ -149,9 +149,9 @@ class Persist
 
     public function search($text, $projectId)
     {
-        $sql = "Select * From guests where project_id=:projectId and deleted=false and name like :text";
+        $sql = "Select * From guests where project_id='$projectId' and deleted=false and name like :text";
         $res = $this->db->prepare($sql);
-        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+//        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
         $res->execute(array(':text' => '%' . $text . '%'));
         $res->setFetchMode(PDO::FETCH_LAZY);
@@ -450,7 +450,7 @@ class Persist
 
     public function getGuestForReport($sidesIds, $groupsIds, $loc, $projectId)
     {
-        $sql = "Select name,phone,amount,g.title as group_title, s.title as side_title From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id where o.project_id=:projectId and deleted=false";
+        $sql = "Select o.name, o.phone, o.amount, g.title as group_title, s.title as side_title, o.invitation_sent as invitation_sent, o.arrival_approved as arrival_approved ,t.title as table_title From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id left join tables t on t.oid=o.table_id where o.project_id=:projectId and o.deleted=false";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql = $this->filterByLocation($sql, $loc);
         $sql .= " ORDER BY o.oid desc";
@@ -563,10 +563,18 @@ class Persist
 
     public function getUser($email, $password)
     {
-        $sql = "Select u.oid as user_id, p.oid as project_id, p.date From users u Left JOIN projects p on p.user_id=u.oid where u.email='$email' and u.password='$password'";
+        $sql = "Select u.oid as user_id From users u where u.email='$email' and u.password='$password'";
         $stmt = $this->db->query($sql);
         $obj = $stmt->fetch(PDO::FETCH_OBJ);
 
+        return $obj;
+    }
+
+    public function getUserProjects($userId)
+    {
+        $sql = "SELECT p.oid as project_id, p.date as date FROM users_projects up inner join projects p on up.project_id = p.oid where up.user_id='$userId'";
+        $stmt = $this->db->query($sql);
+        $obj = $stmt->fetch(PDO::FETCH_OBJ);
         return $obj;
     }
 
@@ -586,12 +594,11 @@ class Persist
         return $this->db->lastInsertId();
     }
 
-    public function createProject($userOid, $maleName, $femaleName, $date)
+    public function createProject($maleName, $femaleName, $date)
     {
 //        try {
-        $sql = "INSERT INTO projects(user_id, male_name, female_name, date) VALUES(:userOid,:maleName,:femaleName,:date)";
+        $sql = "INSERT INTO projects(male_name, female_name, date) VALUES(:maleName,:femaleName,:date)";
         $res = $this->db->prepare($sql);
-        $res->bindParam(':userOid', $userOid, PDO::PARAM_INT);
         $res->bindParam(':maleName', $maleName, PDO::PARAM_STR);
         $res->bindParam(':femaleName', $femaleName, PDO::PARAM_STR);
         $res->bindParam(':date', $date, PDO::PARAM_STR);
@@ -604,5 +611,20 @@ class Persist
         return $this->db->lastInsertId();
     }
 
+
+    public function createUser2ProjectRelation($userId,$projectId)
+    {
+//        try {
+        $sql = "INSERT INTO users_projects(user_id, project_id) VALUES(:userId,:projectId)";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+        $res->execute();
+//        } catch (Exception $e) {
+//            return $e;
+//        }
+
+    }
 
 }

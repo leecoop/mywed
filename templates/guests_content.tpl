@@ -8,7 +8,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu">
-                    <li>
+                    <li class="cursor-pointer">
                         <a onclick="report('{$loc}')">
                             <span class="fa fa-file-excel-o fa-fw">
                             </span>
@@ -38,9 +38,9 @@
                         <thead>
 
                         <tr>
-                            {if $loc eq 'guests'}
+                            {*{if $loc eq 'guests'}*}
                                 <th></th>
-                            {/if}
+                            {*{/if}*}
                             <th>שם</th>
                             <th>מוזמנים</th>
                             <th>טלפון</th>
@@ -78,15 +78,20 @@
                                 "order": [[ 1, "asc" ]],
 
                                 "language": {
-                                    "lengthMenu": "תוצאות בעמוד _MENU_",
-                                    "zeroRecords": "אין תוצאות חיפוש",
-                                    "info": "עמוד _PAGE_ מתוך _PAGES_",
-                                    "infoEmpty": "לא נמצאו תוצאות חיפוש",
-                                    "infoFiltered": "",
-                                    "search": "חיפוש:",
-                                    "paginate": {
-                                        "next": "הבא",
-                                        "previous": "קודם"
+                                    "sProcessing": "מעבד...",
+                                    "sLengthMenu": "הצג _MENU_ פריטים",
+                                    "sZeroRecords": "לא נמצאו רשומות מתאימות",
+                                    "sInfo": "_START_ עד _END_ מתוך _TOTAL_ רשומות",
+                                    "sInfoEmpty": "0 עד 0 מתוך 0 רשומות",
+                                    "sInfoFiltered": "(מסונן מסך _MAX_  רשומות)",
+                                    "sInfoPostFix": "",
+                                    "sSearch": "חפש:",
+                                    "sUrl": "",
+                                    "oPaginate": {
+                                        "sFirst": "ראשון",
+                                        "sPrevious": "קודם",
+                                        "sNext": "הבא",
+                                        "sLast": "אחרון"
                                     }
                                 }
                             });

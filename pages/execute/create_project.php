@@ -15,7 +15,8 @@ $maleName = $requestParams['maleName'];
 $femaleName = $requestParams['femaleName'];
 $date = $requestParams['date'];
 
-$projectId = $persist->createProject($_SESSION['userId'], $maleName, $femaleName, $date);
+$projectId = $persist->createProject($maleName, $femaleName, $date);
+$persist->createUser2ProjectRelation($_SESSION['userId'], $projectId);
 $persist->createGroup("משפחה $maleName",$projectId);
 $persist->createGroup("משפחה $femaleName",$projectId);
 $persist->createGroup("חברים של $maleName",$projectId);
