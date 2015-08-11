@@ -10,8 +10,10 @@
     </td>
     {*{/if}*}
     <td>{$guest.name}</td>
-    <td>{$guest.amount}</td>
-    <td>{$guest.phone}</td>
+    {if $loc neq 'invitations'}
+        <td>{$guest.amount}</td>
+        <td>{$guest.phone}</td>
+    {/if}
     <td>{$sides[$guest.side_id]}</td>
     <td>{$groups[$guest.group_id]}</td>
     {if $loc neq 'guests'}

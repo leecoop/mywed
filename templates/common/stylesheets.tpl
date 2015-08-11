@@ -24,3 +24,4 @@
 <link rel="stylesheet" type="text/css" href="../css/plugins/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="../css/plugins/dataTables.tableTools.css">
 <link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
+{*<link rel="stylesheet" href="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/css/BootSideMenu.css">*}

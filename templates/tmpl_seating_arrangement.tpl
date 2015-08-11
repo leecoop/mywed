@@ -1,20 +1,3 @@
-{*{include file="common/header.tpl"}*}
-
-{*<body dir="rtl" bgcolor="#F8F8F8">*}
-{*<div id="main">*}
-{*{include file="common/head.tpl"}*}
-{*{include file="common/left_panel.tpl"}*}
-
-{*<div id="site_content">*}
-{*{include file="top_panel.tpl"}*}
-{*{include file="seatingArrangement/add_table.tpl"}*}
-{*{include file="seatingArrangement/seating_arrangement_content.tpl"}*}
-{*</div>*}
-{*</div>*}
-{*<div style="text-align: center; font-size: 0.75em;"></div>*}
-
-{*{include file="common/footer.tpl"}*}
-
 {include file="common/head.tpl"}
 <style>
     {*h1 {*}
@@ -39,22 +22,14 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">חלוקת הזמנות</h1>
+                <h1 class="page-header">סידורי ישיבה</h1>
             </div>
         </div>
 
         <div class="row">
-            {*<div class="col-lg-6">*}
-            {*{include file="seatingArrangement/add_table.tpl"}*}
-            {*</div>*}
-            {*{include file="common/statistic_gage.tpl"}*}
-            {*</div>*}
-
-            {*<div class="row">*}
             <div class="col-lg-3">
                 <div class="panel panel-default" id="products">
                     <div class="panel-heading"> מוזמנים</div>
-
                     <div class="panel-body">
                         <div id="catalog" class="panel-group">
                             {include file="seatingArrangement/guest_group.tpl"}
@@ -70,6 +45,11 @@
 
             <div class="col-lg-3">
 
+                <p>
+                <button type="submit" onclick="$('#tables').printArea();return false" class="btn btn-info btn-lg btn-block"><i class="fa fa-print"></i>
+הדפס שולחנות
+                </button>
+                </p>
                 {include file="common/statistic_gage.tpl"}
                 {include file="seatingArrangement/add_table.tpl"}
 
@@ -77,8 +57,36 @@
             </div>
         </div>
     </div>
-    {include file="edit_guest.tpl"}
+    <div id="editTableModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-sm">
 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">ערוך פרטי שולחן</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="editTableForm" role="form" autocomplete="off">
+                        <div class="form-group">
+                            <label for="editTitle">שם שולחן</label>
+                            <input class="form-control" id="editTitle" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editAmount">גודל שולחן</label>
+                            <input class="form-control" id="editAmount">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-default" onclick="$('#editTableForm').submit()" value="עדכן"/>
+                    <button type="button" class="btn btn-default" id="deleteTableBtn">מחק</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
 
 <script>

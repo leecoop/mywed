@@ -570,6 +570,15 @@ class Persist
         return $obj;
     }
 
+    public function getUserByEmail($email)
+    {
+        $sql = "Select u.oid as user_id, u.password as password From users u where u.email='$email'";
+        $stmt = $this->db->query($sql);
+        $obj = $stmt->fetch(PDO::FETCH_OBJ);
+
+        return $obj;
+    }
+
     public function getUserProjects($userId)
     {
         $sql = "SELECT p.oid as project_id, p.date as date FROM users_projects up inner join projects p on up.project_id = p.oid where up.user_id='$userId'";
@@ -625,6 +634,23 @@ class Persist
 //            return $e;
 //        }
 
+    }
+
+
+    public function changePassword($userId, $newPassword)
+    {
+//        try {
+        $sql = "update users set password=:newPassword where oid=:userId";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $res->bindParam(':newPassword', $newPassword, PDO::PARAM_STR);
+
+        $res->execute();
+//        } catch (Exception $e) {
+//            return $e;
+//        }
+
+        return $this->db->lastInsertId();
     }
 
 }

@@ -11,7 +11,8 @@ var URLs = {
     removeGuestFromTable: 'execute/remove_guest_from_table.php?',
     deleteTable: 'execute/delete_table.php?',
     getStatistics: 'execute/get_statistics.php?',
-    createProject: 'execute/create_project.php?'
+    createProject: 'execute/create_project.php?',
+    addPermissions: 'execute/add_permissions.php?'
 };
 
 
@@ -184,23 +185,6 @@ function search() {
 }
 
 
-function openCreateGroupDialog() {
-    createGroupDialog.dialog("open");
-
-}
-
-function closeCreateGroupDialog() {
-    createGroupDialog.dialog("close");
-
-}
-function openEditGuestDialog() {
-    editGuestDialog.dialog("open");
-}
-
-function closeEditGuestDialog() {
-    editGuestDialog.dialog("close");
-}
-
 function createGroup() {
     var groupName = $("#group_name").val();
     Ajax.sendRequest(URLs.createGroup, {
@@ -257,7 +241,7 @@ function openEditGuest(guestOid) {
     $("#editGuestModal").modal();
 
     $('#editGuestForm').attr('action', 'javascript:addEditGuest(' + guestOid + ')');
-    $("#deleteGuestBtn").attr("onclick",'deleteGuest('+guestOid+')');
+    $("#deleteGuestBtn").attr("onclick", 'deleteGuest(' + guestOid + ')');
 
 
 }
@@ -437,8 +421,8 @@ function addEditTable(oid) {
     var title;
     var capacity;
     if (oid == 0) {
-         title = $("#title").val();
-         capacity = $("#amount").val();
+        title = $("#title").val();
+        capacity = $("#amount").val();
     } else {
         title = $("#editTitle").val();
         capacity = $("#editAmount").val();
@@ -651,7 +635,7 @@ function register() {
 
 function registerResponse(response, params) {
     if (response.error == false) {
-        window.location.href = "create_project.php";
+        window.location.href = response.redirectLink;
 
     }
 
@@ -740,7 +724,6 @@ function createProjectResponse(response, params) {
 }
 
 
-
 function openEditTableModel(tableId) {
     var table = $('#table' + tableId);
 
@@ -751,5 +734,30 @@ function openEditTableModel(tableId) {
     $('#deleteTableBtn').attr('onclick', 'deleteTable(' + tableId + ')');
 
     $("#editTableModal").modal();
+}
+
+function addPermissions() {
+    var email = $("#email").val();
+    Ajax.sendRequest(URLs.addPermissions, {
+        data: {email: email},
+        loader: true,
+        callback: 'addPermissionsResponse'
+    });
+
+}
+
+function addPermissionsResponse(response, params) {
+    $("#addPermissionsResponseMsg").html(response.data);
+
+    $('#systemMsg').delay(4000).fadeOut('slow', function () {
+        $(this).remove()
+    });
+
+    if (response.error == false) {
+        clear("email", "");
+    }
+
+
+
 }
 

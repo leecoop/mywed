@@ -13,14 +13,13 @@ $password = $requestParams['password'];
 
 
 $user = $persist->getUser($email, md5($password));
-if ($user) {
-    $project = $persist->getUserProjects($user->user_id);
-}
 
 if ($user) {
     session_start();
     $_SESSION['isLoggedIn'] = true;
     $_SESSION['userId'] = $user->user_id;
+    $project = $persist->getUserProjects($user->user_id);
+
     if ($project) {
         $_SESSION['projectId'] = $project->project_id;
         $_SESSION['date'] = $project->date;

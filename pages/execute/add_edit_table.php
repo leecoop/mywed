@@ -2,6 +2,8 @@
 require_once '../../utils/HttpUtils.php';
 require_once '../../utils/HeaderJson.php';
 require_once('../../classes/Persist.php');
+require_once('smarty.php');
+
 $persist = Persist::getInstance();
 
 
@@ -21,7 +23,6 @@ try {
 
 }
 
-require_once('smarty.php');
 
 $table = new stdClass();
 $table->oid = $tableOid;

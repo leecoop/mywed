@@ -93,7 +93,9 @@
             <div class="col-lg-8">
                 {include file="dashboard/notifications.tpl"}
             </div>
-            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                {include file="dashboard/quick_permissions_add.tpl"}
+            </div>
 
         </div>
 

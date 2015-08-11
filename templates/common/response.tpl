@@ -8,6 +8,9 @@
 {if isset($errorMsg)}
     , "errorMsg": {$errorMsg|json_encode}
 {/if}
+{if isset($redirectLink)}
+    , "redirectLink": {$redirectLink|json_encode}
+{/if}
 {if isset($guest)}
     ,
     "guest":
