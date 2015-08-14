@@ -589,16 +589,13 @@ class Persist
 
     public function registerUser($email, $password)
     {
-//        try {
+
         $sql = "INSERT INTO users(email,password) VALUES(:email,:password)";
         $res = $this->db->prepare($sql);
         $res->bindParam(':email', $email, PDO::PARAM_STR);
         $res->bindParam(':password', $password, PDO::PARAM_STR);
 
         $res->execute();
-//        } catch (Exception $e) {
-//            return $e;
-//        }
 
         return $this->db->lastInsertId();
     }

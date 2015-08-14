@@ -254,3 +254,20 @@ input.error:focus{
 .cursor-pointer{
     cursor: pointer;
 }
+
+/*.icon {*/
+    /*visibility: hidden;*/
+/*}*/
+
+/*.has-error .icon ,*/
+/*.valid .icon {*/
+    /*visibility: visible;*/
+/*}*/
+
+/*.has-error .icon:before {*/
+    /*content: "\f00d";*/
+/*}*/
+
+/*.valid .icon:before {*/
+    /*content: "\f00c";*/
+/*}*/

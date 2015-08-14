@@ -17,13 +17,17 @@
                     <form id="loginForm" role="form" action="javascript:checkLogin()" autocomplete="off">
 
                         {*<fieldset>*}
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label for="email"><span class="fa fa-user"></span> דוא"ל</label>
-                            <input type="email" autofocus name="email" id="email" placeholder="example@gmail.com" class="form-control" style="direction: ltr">
+                                <input  type="email" autofocus name="email" id="email" placeholder="example@gmail.com" class="form-control" style="direction: ltr">
+                                <span style="right: 0" class="fa form-control-feedback"></span>
                         </div>
-                        <div class="form-group">
-                            <label><span class="fa fa-lock"></span> סיסמה</label>
+
+                        <div class="form-group has-feedback">
+                            <label for="password"><span class="fa fa-lock"></span> סיסמה</label>
                             <input class="form-control" style="direction: ltr" placeholder="●●●●●●" name="password" id="password" type="password">
+                            <span style="right: 0" class="fa form-control-feedback"></span>
+
                         </div>
 
 
@@ -51,6 +55,19 @@
 <script>
     $().ready(function () {
         $('#loginForm').validate({
+//            errorElement: "em",
+//            errorClass: "has-error",
+//            validClass: "has-success",
+//            highlight: function(element, errorClass, validClass) {
+//                $(element).parent('div').addClass(errorClass).removeClass(validClass);
+//                $(element).nextAll('.form-control-feedback').addClass('fa-times').removeClass('fa-check');
+//            },
+//            unhighlight: function(element, errorClass, validClass) {
+//                $(element).parent('div').removeClass(errorClass).addClass(validClass);
+//                $(element).nextAll('.form-control-feedback').removeClass('fa-times').addClass('fa-check');
+//            },
+
+
             onfocusout: false,
             rules: {
                 email: "required",

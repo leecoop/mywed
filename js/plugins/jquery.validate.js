@@ -560,6 +560,7 @@ $.extend( $.validator, {
 			.find( "input, select, textarea" )
 			.not( ":submit, :reset, :image, :disabled" )
 			.not( this.settings.ignore )
+			//.not( "[skipValidation='true']" )
 			.filter( function() {
 				if ( !this.name && validator.settings.debug && window.console ) {
 					console.error( "%o has no name assigned", this );
@@ -763,7 +764,7 @@ $.extend( $.validator, {
 		},
 
 		validElements: function() {
-			return this.currentElements.not( this.invalidElements() );
+			return this.currentElements.not( this.invalidElements());//.not( "[skipValidation='true']" );
 		},
 
 		invalidElements: function() {

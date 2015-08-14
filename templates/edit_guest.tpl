@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form id="editGuestForm" role="form" autocomplete="off">
                     <div class="form-group">
-                        <label for="editName">שם פרטי</label>
+                        <label for="editName">שם</label>
                         <input class="form-control" id="editName" required>
                     </div>
 
@@ -76,5 +76,5 @@
     </div>
 </div>
 <script>
-    $('#editGuestForm').validate();
+  var editGuestFormValidator = $('#editGuestForm').validate();
 </script>

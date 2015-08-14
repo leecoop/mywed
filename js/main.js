@@ -111,31 +111,14 @@ function addEditGuestResponse(responseData, params) {
     if (params.edit) {
         table.row("#guest" + params.guestOid).remove();
         $("#editGuestModal").modal("hide");
+        editGuestFormValidator.resetForm();
+
         //closeEditGuestDialog();
     }
-    //$("#guestsTable tr:first").after(responseData.data);
+    else{
+        addGuestFormValidator.resetForm();
 
-    //var guest = responseData.guest;
-    //var rowNode = table.row.add([
-    //    "<a href=\"javascript:void(0)\" class=\"edit\" onclick='openEditGuest(\"" + params.guestOid + "\")'></a>",
-    //    guest.name,
-    //    guest.amount,
-    //    guest.phone,
-    //    guest.side,
-    //    guest.group
-    //])
-    //    .draw()
-    //    .node();
-    //$(rowNode).attr({
-    //    id: "guest" + guest.oid,
-    //    name: guest.name,
-    //    amount: guest.amount,
-    //    phone: guest.phone,
-    //    side: guest.sideId,
-    //    group: guest.groupId,
-    //    arrivalapproved: guest.arrivalApproved,
-    //    invitationsent: guest.invitationSent
-    //});
+    }
     table.row.add($(responseData.data)).draw().show().draw(false);
     //$(rowNode).focus();
     clear("name", "");
@@ -143,6 +126,7 @@ function addEditGuestResponse(responseData, params) {
     //clear("sides", "0");
     //clear("groups", "0");
     clear("amount", "1");
+    //$("#addGuestForm  .form-control-feedback").removeClass("fa-times fa-check");
 
 
 }
@@ -214,6 +198,9 @@ function createGroupResponse(response, params) {
 
     $("#filterGroups").append($div);
 
+    clear("group_name", "");
+    newGroupFormValidator.resetForm();
+
 
     //closeCreateGroupDialog();
 }
@@ -239,6 +226,10 @@ function openEditGuest(guestOid) {
     var arrivalApproved = parseInt(guest.attr("arrivalApproved"), 10);
     toggleArrivalApprovedClass("ediArrivalApproved", arrivalApproved);
     $("#editGuestModal").modal();
+    $('#editGuestModal').on('hide.bs.modal', function() {
+        editGuestFormValidator.resetForm();
+        //$("#editGuestForm  .form-control-feedback").removeClass("fa-times fa-check");
+    });
 
     $('#editGuestForm').attr('action', 'javascript:addEditGuest(' + guestOid + ')');
     $("#deleteGuestBtn").attr("onclick", 'deleteGuest(' + guestOid + ')');
@@ -637,6 +628,8 @@ function registerResponse(response, params) {
     if (response.error == false) {
         window.location.href = response.redirectLink;
 
+    }else{
+        alert('ERROR !');
     }
 
 }
@@ -672,24 +665,24 @@ function checkLoginResponse(response, params) {
     }
 
 }
-$(function () {
-    $(".only-numbers").keypress(function (event) {
-        // Backspace, tab, enter, end, home, left, right
-        // We don't support the del key in Opera because del == . == 46.
-        var controlKeys = [8, 9, 13, 35, 36, 37, 39];
-        // IE doesn't support indexOf
-        var isControlKey = controlKeys.join(",").match(new RegExp(event.which));
-        // Some browsers just don't raise events for control keys. Easy.
-        // e.g. Safari backspace.
-        if (!event.which || // Control keys in most browsers. e.g. Firefox tab is 0
-            (48 <= event.which && event.which <= 57) || // Always 1 through 9
-            isControlKey) { // Opera assigns values for control keys.
-            return;
-        } else {
-            event.preventDefault();
-        }
-    });
-});
+//$(function () {
+//    $(".only-numbers").keypress(function (event) {
+//        // Backspace, tab, enter, end, home, left, right
+//        // We don't support the del key in Opera because del == . == 46.
+//        var controlKeys = [8, 9, 13, 35, 36, 37, 39];
+//        // IE doesn't support indexOf
+//        var isControlKey = controlKeys.join(",").match(new RegExp(event.which));
+//        // Some browsers just don't raise events for control keys. Easy.
+//        // e.g. Safari backspace.
+//        if (!event.which || // Control keys in most browsers. e.g. Firefox tab is 0
+//            (48 <= event.which && event.which <= 57) || // Always 1 through 9
+//            isControlKey) { // Opera assigns values for control keys.
+//            return;
+//        } else {
+//            event.preventDefault();
+//        }
+//    });
+//});
 
 function createProject() {
     var maleName = $("#maleName").val();

@@ -28,7 +28,7 @@
 
         <div class="row">
             <div class="col-lg-3">
-                <div class="panel panel-default" id="products">
+                <div class="panel panel-default" id="products" {*data-spy="affix">*}>
                     <div class="panel-heading"> מוזמנים</div>
                     <div class="panel-body">
                         <div id="catalog" class="panel-group">
