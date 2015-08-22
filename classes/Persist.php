@@ -618,7 +618,7 @@ class Persist
     }
 
 
-    public function createUser2ProjectRelation($userId,$projectId)
+    public function createUser2ProjectRelation($userId, $projectId)
     {
 //        try {
         $sql = "INSERT INTO users_projects(user_id, project_id) VALUES(:userId,:projectId)";
@@ -634,20 +634,15 @@ class Persist
     }
 
 
-    public function changePassword($userId, $newPassword)
+    public function changePassword($userId, $currentPassword, $newPassword)
     {
-//        try {
-        $sql = "update users set password=:newPassword where oid=:userId";
+        $sql = "update users set password=:newPassword where oid=:userId and password=:currentPassword";
         $res = $this->db->prepare($sql);
         $res->bindParam(':userId', $userId, PDO::PARAM_INT);
         $res->bindParam(':newPassword', $newPassword, PDO::PARAM_STR);
+        $res->bindParam(':currentPassword', $currentPassword, PDO::PARAM_STR);
 
         $res->execute();
-//        } catch (Exception $e) {
-//            return $e;
-//        }
-
-        return $this->db->lastInsertId();
     }
 
 }

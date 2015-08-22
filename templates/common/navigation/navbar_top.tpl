@@ -194,12 +194,12 @@
             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-            </li>
-            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+            {*<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>*}
+            {*</li>*}
+            <li><a href="settings"><i class="fa fa-gear fa-fw"></i>הגדרות</a>
             </li>
             <li class="divider"></li>
-            <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> צא</a>
+            <li><a href="logout"><i class="fa fa-sign-out fa-fw"></i> צא</a>
             </li>
         </ul>
         <!-- /.dropdown-user -->

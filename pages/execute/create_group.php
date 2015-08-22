@@ -1,8 +1,10 @@
 <?php
-require_once '../../utils/HttpUtils.php';
-
-require_once('../../classes/Persist.php');
 $name = $requestParams['groupName'];
-$persist = Persist::getInstance();
+try {
+    $persist->createGroup($name, $projectId);
+} catch (Exception $e) {
+    $error = true;
+}
 
-echo $persist->createGroup($name, $projectId);
+$smarty->assign("error", $error);
+$smarty->display('common/response.tpl');

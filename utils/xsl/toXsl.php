@@ -33,7 +33,7 @@ function toXsl($rs = null, $translats = null, $file_name = 'output', $worksheet_
         'alignment' => array(
             'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
         ));
-    $objPHPExcel->getActiveSheet()->getStyle('A1:K1')->applyFromArray($headerStyle);
+    $objPHPExcel->getActiveSheet()->getStyle('A1:H1')->applyFromArray($headerStyle);
 
 
     foreach ($rs as $guest) {

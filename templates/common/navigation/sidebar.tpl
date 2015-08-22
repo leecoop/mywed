@@ -13,19 +13,19 @@
                 <!-- /input-group -->
             </li>
             <li>
-                <a {if $loc eq 'dashboard'} class="active" {/if} href="index.php"><i class="fa fa-dashboard fa-fw"></i> ראשי</a>
+                <a {if $loc eq 'dashboard'} class="active" {/if} href="index"><i class="fa fa-dashboard fa-fw"></i> ראשי</a>
             </li>
             <li>
-                <a {if $loc eq 'guests'}  class="active" {/if} href="guests.php"><i class="fa fa-user fa-fw"></i> מוזמנים</a>
+                <a {if $loc eq 'guests'}  class="active" {/if} href="guests"><i class="fa fa-user fa-fw"></i> מוזמנים</a>
             </li>
             <li>
-                <a {if $loc eq 'invitations'}  class="active" {/if} href="invitations.php"><i class="fa fa-envelope fa-fw"></i> חלוקת הזמנות</a>
+                <a {if $loc eq 'invitations'}  class="active" {/if} href="invitations"><i class="fa fa-envelope fa-fw"></i> חלוקת הזמנות</a>
             </li>
             <li>
-                <a {if $loc eq 'rsvps'}  class="active" {/if} href="rsvps.php"><i class="fa fa-thumbs-o-up fa-fw"></i> אישורי הגעה</a>
+                <a {if $loc eq 'rsvps'}  class="active" {/if} href="rsvps"><i class="fa fa-thumbs-o-up fa-fw"></i> אישורי הגעה</a>
             </li>
             <li>
-                <a {if $loc eq 'seating_arrangement'}  class="active" {/if} href="seating_arrangement.php"><i class="fa fa-group fa-fw"></i> סידור ישיבה</a>
+                <a {if $loc eq 'seating_arrangement'}  class="active" {/if} href="seating-arrangement"><i class="fa fa-group fa-fw"></i> סידור ישיבה</a>
             </li>
             {*<li>*}
             {*<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>*}

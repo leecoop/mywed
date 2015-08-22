@@ -1,9 +1,9 @@
 {include file="common/head.tpl"}
-<div style="display: none" id="loadingTop" dir="ltr">
-    <div id="loadingDiv">Loading.. <span id="loader"></span>
-    </div>
-</div>
 <body>
+{include file="common/general_error_modal.tpl"}
+
+{include file="common/top_loader.tpl"}
+
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -19,8 +19,8 @@
                         {*<fieldset>*}
                         <div class="form-group has-feedback">
                             <label for="email"><span class="fa fa-user"></span> דוא"ל</label>
-                                <input  type="email" autofocus name="email" id="email" placeholder="example@gmail.com" class="form-control" style="direction: ltr">
-                                <span style="right: 0" class="fa form-control-feedback"></span>
+                            <input type="email" autofocus name="email" id="email" placeholder="example@gmail.com" class="form-control" style="direction: ltr">
+                            <span style="right: 0" class="fa form-control-feedback"></span>
                         </div>
 
                         <div class="form-group has-feedback">
@@ -72,8 +72,8 @@
             rules: {
                 email: "required",
                 password: {
-                    required:true,
-                    minlength:6
+                    required: true,
+                    minlength: 6
                 }
             },
             messages: {

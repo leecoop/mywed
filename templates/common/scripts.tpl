@@ -38,7 +38,8 @@
 //        validClass: "has-success",
         highlight: function (element, errorClass, validClass) {
             $(element).parent('div').addClass(errorClass).removeClass(validClass);
-            $(element).nextAll('.form-control-feedback').addClass('fa-times').removeClass('fa-check text-success');
+            $(element).nextAll('.form-control-feedback').addClass('fa-times');
+//            .removeClass('fa-check text-success');
         },
         unhighlight: function (element, errorClass, validClass) {
             $(element).parent('div').removeClass(errorClass).addClass(validClass);
@@ -46,7 +47,8 @@
             if (validClass === "") {
                 $(element).nextAll('.form-control-feedback').removeClass('fa-times fa-check')
             } else {
-                $(element).nextAll('.form-control-feedback').removeClass('fa-times').addClass('fa-check text-success');
+                $(element).nextAll('.form-control-feedback').removeClass('fa-times');
+//                        .addClass('fa-check text-success');
 
             }
         }
@@ -56,6 +58,7 @@
 <script type="text/javascript" language="javascript" src="../js/plugins/localization/messages_he.js"></script>
 <script type="text/javascript" language="javascript" src="../js/translationMap.js"></script>
 <script type="text/javascript" language="javascript" src="../js/plugins/jquery.PrintArea.js"></script>
+{*<script type="text/javascript" language="javascript" src="../js/plugins/bootstrap-notify.min.js"></script>*}
 
 {*<script src="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/js/BootSideMenu.js"></script>*}
 

@@ -1,9 +1,12 @@
 {ldelim}
+{if isset($dbConnectionError)}
+    "dbConnectionError": {$dbConnectionError|json_encode}
+{/if}
 {if isset($data)}
-    "data": {$data|json_encode},
+    ,"data": {$data|json_encode}
 {/if}
 {if isset($error)}
-    "error": {$error|json_encode}
+    ,"error": {$error|json_encode}
 {/if}
 {if isset($errorMsg)}
     , "errorMsg": {$errorMsg|json_encode}

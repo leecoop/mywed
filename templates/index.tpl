@@ -1,5 +1,5 @@
 {include file="common/head.tpl"}
-
+<body>
 <div id="wrapper">
     {include file="common/navigation/navigation.tpl"}
 
@@ -17,7 +17,7 @@
         <!-- /.row -->
         <div class="row">
             <div class="col-lg-3 col-md-6">
-                <a href="guests.php">
+                <a href="guests">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -35,7 +35,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6">
-                <a href="invitations.php">
+                <a href="invitations">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
@@ -53,7 +53,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6">
-                <a href="rsvps.php">
+                <a href="rsvps">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
@@ -71,7 +71,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6">
-                <a href="seating_arrangement.php">
+                <a href="seating-arrangement">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
@@ -131,3 +131,5 @@
         ));
     });
 </script>
+</body>
+</html>

@@ -8,10 +8,10 @@
         <div class="table-responsive">
             <table class="table">
                 <tbody>
-                <tr class="info">
-                    <td>צד</td>
+                <tr >
+                    <td class="cust_active">צד</td>
                 </tr>
-                <tr class="warning">
+                <tr>
                     <td>
                         <div id="filterSides">
                             {foreach $sides as $value}
@@ -22,10 +22,10 @@
                     </td>
                 </tr>
 
-                <tr class="info">
-                    <td>קבוצה</td>
+                <tr>
+                    <td class="cust_active">קבוצה</td>
                 </tr>
-                <tr class="warning">
+                <tr>
                     <td>
 
                         <div style="max-height: 140px; overflow-y: auto;direction: ltr;">

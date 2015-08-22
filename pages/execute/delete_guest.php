@@ -1,7 +1,11 @@
 <?php
-require_once '../../utils/HttpUtils.php';
-require_once('../../classes/Persist.php');
-$guestOid = $requestParams['guestOid'];
-$persist = Persist::getInstance();
 
-echo $persist->deleteGuest($guestOid, $projectId);
+$guestOid = $requestParams['guestOid'];
+
+try {
+    $persist->deleteGuest($guestOid, $projectId);
+} catch (Exception $e) {
+    $error = true;
+}
+$smarty->assign("error", $error);
+$smarty->display('common/response.tpl');

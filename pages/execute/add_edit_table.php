@@ -1,11 +1,4 @@
 <?php
-require_once '../../utils/HttpUtils.php';
-require_once '../../utils/HeaderJson.php';
-require_once('../../classes/Persist.php');
-require_once('smarty.php');
-
-$persist = Persist::getInstance();
-
 
 $title = $requestParams['title'];
 $capacity = $requestParams['capacity'];
@@ -24,15 +17,17 @@ try {
 }
 
 
-$table = new stdClass();
-$table->oid = $tableOid;
-$table->title = $title;
-$table->capacity = $capacity;
+if (!$error) {
+    $table = new stdClass();
+    $table->oid = $tableOid;
+    $table->title = $title;
+    $table->capacity = $capacity;
 
-$smarty->assign("table", (array)$table);
+    $smarty->assign("table", (array)$table);
 
 
-$smarty->assign("data", $smarty->fetch('seatingArrangement/table.tpl'));
+    $smarty->assign("data", $smarty->fetch('seatingArrangement/table.tpl'));
+}
 $smarty->assign("error", "false");
 
 $smarty->display('common/response.tpl');

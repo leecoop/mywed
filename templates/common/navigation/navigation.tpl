@@ -1,8 +1,7 @@
+{include file="common/general_error_modal.tpl"}
 <input type="hidden" id="loc" value="{$loc}">
-<div style="display: none" id="loadingTop" dir="ltr">
-    <div id="loadingDiv">Loading.. <span id="loader"></span>
-    </div>
-</div>
+{include file="common/top_loader.tpl"}
+
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 
     {include file="common/navigation/navbar_header.tpl"}

@@ -1,5 +1,9 @@
 {include file="common/head.tpl"}
 <body>
+{include file="common/general_error_modal.tpl"}
+
+{include file="common/top_loader.tpl"}
+
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">

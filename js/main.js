@@ -1,18 +1,21 @@
 var URLs = {
-    addEditGuest: 'execute/add_edit_guest.php?',
-    deleteGuest: 'execute/delete_guest.php?',
-    registerUser: 'execute/register_user.php?',
-    createGroup: 'execute/create_group.php?',
-    updateInvitationSent: 'execute/update_invitation_sent.php?',
-    updateArrivalApproved: 'execute/update_arrival_approved.php?',
-    filter: 'execute/filter.php?',
-    addEditTable: 'execute/add_edit_table.php?',
-    addGuestToTable: 'execute/add_guest_to_table.php?',
-    removeGuestFromTable: 'execute/remove_guest_from_table.php?',
-    deleteTable: 'execute/delete_table.php?',
-    getStatistics: 'execute/get_statistics.php?',
-    createProject: 'execute/create_project.php?',
-    addPermissions: 'execute/add_permissions.php?'
+    addEditGuest: 'execute/add-edit-guest?',
+    deleteGuest: 'execute/delete-guest?',
+    registerUser: 'execute/register-user?',
+    createGroup: 'execute/create-group?',
+    updateInvitationSent: 'execute/update-invitation-sent?',
+    updateArrivalApproved: 'execute/update-arrival-approved?',
+    filter: 'execute/filter?',
+    addEditTable: 'execute/add-edit-table?',
+    addGuestToTable: 'execute/add-guest-to-table?',
+    removeGuestFromTable: 'execute/remove-guest-from-table?',
+    deleteTable: 'execute/delete-table?',
+    getStatistics: 'execute/get-statistics?',
+    createProject: 'execute/create-project?',
+    addPermissions: 'execute/add-permissions?',
+    check_login: 'execute/check-login?',
+    changePassword: 'execute/change-password?'
+
 };
 
 
@@ -33,10 +36,15 @@ var Ajax = {
             url: url,
             data: options.data,
             success: function (response) {
-                var callback = (options.callback) ? eval(options.callback) : null;
-                if (typeof callback == 'function') callback(response, options.params);
                 if (options.loader) hideLoading();
-                if (options.refreshStats) refreshStats();
+
+                if (isExist(response.dbConnectionError) && response.dbConnectionError === true) {
+                    showErrorMassage();
+                } else {
+                    var callback = (options.callback) ? eval(options.callback) : null;
+                    if (typeof callback == 'function') callback(response, options.params);
+                    if (options.refreshStats) refreshStats();
+                }
 
             },
             error: function () {
@@ -115,7 +123,7 @@ function addEditGuestResponse(responseData, params) {
 
         //closeEditGuestDialog();
     }
-    else{
+    else {
         addGuestFormValidator.resetForm();
 
     }
@@ -134,7 +142,7 @@ function addEditGuestResponse(responseData, params) {
 function deleteGuest(guestOid) {
     Ajax.sendRequest(URLs.deleteGuest, {
         data: {guestOid: guestOid},
-        //contentType: 'application/json;charset=UTF-8',
+        contentType: 'application/json;charset=UTF-8',
         params: {guestOid: guestOid},
         loader: true,
         refreshStats: true,
@@ -143,9 +151,10 @@ function deleteGuest(guestOid) {
 }
 
 function deleteGuestResponse(response, params) {
-    //closeEditGuestDialog();
-    $("#editGuestModal").modal("hide");
-    fadeOutAndRemoveElement("guest" + params.guestOid);
+    if (!response.error) {
+        $("#editGuestModal").modal("hide");
+        fadeOutAndRemoveElement("guest" + params.guestOid);
+    }
 
 }
 
@@ -165,7 +174,7 @@ function searchKeyPress(e) {
 
 function search() {
     var searchValue = $('#search_text').val();
-    $(location).prop('href', "search.php?q=" + searchValue);
+    $(location).prop('href', "search?q=" + searchValue);
 }
 
 
@@ -173,7 +182,7 @@ function createGroup() {
     var groupName = $("#group_name").val();
     Ajax.sendRequest(URLs.createGroup, {
         data: {groupName: groupName},
-        //contentType: 'application/json;charset=UTF-8',
+        contentType: 'application/json;charset=UTF-8',
         params: {groupName: groupName},
         loader: true,
         callback: 'createGroupResponse'
@@ -181,25 +190,27 @@ function createGroup() {
 
 }
 function createGroupResponse(response, params) {
-    var newId = response;
-    var name = params.groupName;
+    if (!response.error) {
+        var newId = response;
+        var name = params.groupName;
 
-    var option = $('<option/>');
-    option.attr({'value': newId}).text(name);
-    $("#groups").append(option);
+        var option = $('<option/>');
+        option.attr({'value': newId}).text(name);
+        $("#groups").append(option);
 
-    var option1 = $('<option/>');
-    option1.attr({'value': newId}).text(name);
-    $("#editGroups").append(option1);
+        var option1 = $('<option/>');
+        option1.attr({'value': newId}).text(name);
+        $("#editGroups").append(option1);
 
-    var $div = $("<div>", {id: "group_" + newId, class: "tagBG", value: newId});
-    $div.attr("onclick", "filter('group_" + newId + "')");
-    $div.text(name);
+        var $div = $("<div>", {id: "group_" + newId, class: "tagBG", value: newId});
+        $div.attr("onclick", "filter('group_" + newId + "')");
+        $div.text(name);
 
-    $("#filterGroups").append($div);
+        $("#filterGroups").append($div);
 
-    clear("group_name", "");
-    newGroupFormValidator.resetForm();
+        clear("group_name", "");
+        newGroupFormValidator.resetForm();
+    }
 
 
     //closeCreateGroupDialog();
@@ -226,7 +237,7 @@ function openEditGuest(guestOid) {
     var arrivalApproved = parseInt(guest.attr("arrivalApproved"), 10);
     toggleArrivalApprovedClass("ediArrivalApproved", arrivalApproved);
     $("#editGuestModal").modal();
-    $('#editGuestModal').on('hide.bs.modal', function() {
+    $('#editGuestModal').on('hide.bs.modal', function () {
         editGuestFormValidator.resetForm();
         //$("#editGuestForm  .form-control-feedback").removeClass("fa-times fa-check");
     });
@@ -375,14 +386,16 @@ function filter(id) {
 }
 
 function filterResponse(response) {
-    $('#guestsArea').html(response);
+    if (!response.error) {
+        $('#guestsArea').html(response.data);
+    }
 }
 
 function report(loc) {
     var sidesIds = selectAllCheckedCheckboxes("filterSides");
     var groupsIds = selectAllCheckedCheckboxes("filterGroups");
 
-    $(location).prop('href', "execute/reports.php?sidesIds=" + sidesIds.join(",") + "&groupsIds=" + groupsIds.join(",") + "&loc=" + loc);
+    $(location).prop('href', "execute/reports?sidesIds=" + sidesIds.join(",") + "&groupsIds=" + groupsIds.join(",") + "&loc=" + loc);
 }
 
 
@@ -628,7 +641,7 @@ function registerResponse(response, params) {
     if (response.error == false) {
         window.location.href = response.redirectLink;
 
-    }else{
+    } else {
         alert('ERROR !');
     }
 
@@ -639,7 +652,7 @@ function checkLogin() {
     var email = $("#email").val();
     var password = $("#password").val();
 
-    Ajax.sendRequest("check_login.php?", {
+    Ajax.sendRequest(URLs.check_login, {
         data: {
             email: email,
             password: password
@@ -657,7 +670,7 @@ function checkLogin() {
 
 function checkLoginResponse(response, params) {
     if (response.error == false) {
-        window.location.href = "index.php";
+        window.location.href = "index";
     }
 
     else {
@@ -710,7 +723,7 @@ function createProject() {
 
 function createProjectResponse(response, params) {
     if (response.error == false) {
-        window.location.href = "index.php";
+        window.location.href = "index";
 
     }
 
@@ -751,6 +764,37 @@ function addPermissionsResponse(response, params) {
     }
 
 
+}
+
+function showErrorMassage() {
+    $("#generalErrorModal").modal("show");
+
+}
+
+function isExist(attr) {
+    return typeof attr != 'undefined'
+}
+
+function changePassword() {
+
+    Ajax.sendRequest(URLs.changePassword, {
+        data: {
+            currentPassword: $("#currentPassword").val(),
+            newPassword: $("#newPassword").val()
+
+        },
+        contentType: 'application/json;charset=UTF-8',
+        loader: true,
+        callback: 'changePasswordResponse'
+    });
+}
+
+function changePasswordResponse(response, params) {
+    if (!response.error) {
+        clear("currentPassword", "");
+        clear("newPassword", "");
+        clear("confirmNewPassword", "");
+    }
 
 }
 

@@ -1,0 +1,33 @@
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+
+<FilesMatch "\.(ico|jpg|jpeg|png|gif)$">
+Header set Cache-Control "max-age=2592000, must-revalidate"
+</FilesMatch>
+
+Header unset ETag
+FileETag None
+
+IndexIgnore *
+Options -Indexes 
+Options +FollowSymlinks
+
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} !^local. [NC]
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Main rewrite
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L]
+
+ErrorDocument 403 /error/403
+ErrorDocument 404 /error/404
+ErrorDocument 500 /error/500
+
+# Set the server timezone
+php_value date.timezone Israel

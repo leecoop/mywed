@@ -1,14 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link href="style/style.css" rel="stylesheet" type="text/css" />
-</head>
-<script type="text/javascript">
-		window.location = "pages/index.php";
-</script>
-<body bgcolor="#F8F8F8">
+<?php
+//error_reporting(0);
+$requestUri = $_SERVER["REQUEST_URI"];
+require_once('utils/CommonMethods.php');
+$CommonMethods = new CommonMethods();
+
+$CommonMethods->clearURI($requestUri);
+if (!isLegalRequest($requestUri)) {
+    handleIllegalRequest();
+} else {
+    include 'utils/CommonIncludes.php';
+    if ($dbConnectionError) {
+        if ($isAjaxRequest) {
+            include 'pages/execute/response.php';
+        } else {
+            handleIllegalRequest();
+        }
+    } else {
+        if ($CommonMethods->needSession($requestUri)) {
+            if (!$CommonMethods->hasSession()) {
+                include 'pages/login.php';
+            } else {
+                if (!isset($_SESSION['projectId']) && $requestUri != "execute/create_project") {
+                    include 'pages/create_project.php';
+                } else {
+                    include 'pages/' . $requestUri . '.php';
+                }
+            }
+        } else {
+            include 'pages/' . $requestUri . '.php';
+        }
+    }
+}
 
 
-</body>
-</html>
+function isLegalRequest($requestUri)
+{
+    return file_exists('pages/' . $requestUri . '.php');
+}
+
+function handleIllegalRequest()
+{
+    //todo: redirect to error 404
+    header('HTTP/1.0 404 Not Found');
+    die;
+}
+
+
+?>

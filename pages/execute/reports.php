@@ -1,10 +1,6 @@
 <?php
-require_once '../../utils/HttpUtils.php';
-require_once('smarty.php');
-require_once('../../classes/Persist.php');
-require_once '../../utils/xsl/toXsl.php';
+require_once 'utils/xsl/toXsl.php';
 
-$persist = Persist::getInstance();
 
 $sidesIds = $requestParams['sidesIds'];
 $groupsIds = $requestParams['groupsIds'];

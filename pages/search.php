@@ -1,14 +1,9 @@
 <?php
-require_once '../utils/HttpUtils.php';
 
-require_once('smarty.php');
-require_once('../classes/Persist.php');
 $smarty->assign("loc", 'search');
 $smarty->assign("title", 'חיפוש');
-
 $search_value = $requestParams['q'];
 
-$persist = Persist::getInstance();
 
 $groups = $persist->getGroups($projectId);
 $sides = $persist->getSides();
