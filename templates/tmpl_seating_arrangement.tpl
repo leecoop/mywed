@@ -1,8 +1,8 @@
 {include file="common/head.tpl"}
 <style>
     {*h1 {*}
-        {*padding: .2em;*}
-        {*margin: 0;*}
+    {*padding: .2em;*}
+    {*margin: 0;*}
     {*}*}
 
     .item-catalog {
@@ -28,7 +28,7 @@
 
         <div class="row">
             <div class="col-lg-3">
-                <div class="panel panel-default" id="products" {*data-spy="affix">*}>
+                <div class="panel panel-default" id="products">
                     <div class="panel-heading"> מוזמנים</div>
                     <div class="panel-body">
                         <div id="catalog" class="panel-group">
@@ -90,5 +90,19 @@
 </div>
 
 <script>
+    $('#products').affix({
+        offset: {
+            top: $('#products').offset().top - 10
+        }
+    }).on('affix.bs.affix', function () {
+        var that = $(this);
+        that.css( { width: that.outerWidth(), top: 10 } );
+    });
+
+    if ( $('#products').hasClass('affix') ) {
+        $('#products').removeClass('affix').trigger('affix.bs.affix').addClass('affix');
+    }
+
+
     initSeatingArrangement();
 </script>
