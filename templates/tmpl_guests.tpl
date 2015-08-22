@@ -27,5 +27,7 @@
     </div>
     {include file="edit_guest.tpl"}
 </div>
+{include file="common/footer.tpl"}
+
 
 

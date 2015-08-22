@@ -106,3 +106,4 @@
 
     initSeatingArrangement();
 </script>
+{include file="common/footer.tpl"}

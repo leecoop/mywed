@@ -1,5 +1,4 @@
 {include file="common/head.tpl"}
-<body>
 <div id="wrapper">
     {include file="common/navigation/navigation.tpl"}
 
@@ -131,5 +130,4 @@
         ));
     });
 </script>
-</body>
-</html>
+{include file="common/footer.tpl"}

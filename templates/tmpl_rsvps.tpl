@@ -1,5 +1,4 @@
 {include file="common/head.tpl"}
-
 <div id="wrapper">
     {include file="common/navigation/navigation.tpl"}
 
@@ -25,4 +24,4 @@
     {include file="edit_guest.tpl"}
 
 </div>
-
+{include file="common/footer.tpl"}
