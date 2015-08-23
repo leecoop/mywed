@@ -301,3 +301,7 @@ footer {
     border-top: 1px solid #e7e7e7;
     min-height: 50px;
 }
+
+.padd0 {
+    padding: 0;
+}

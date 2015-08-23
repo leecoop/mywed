@@ -59,6 +59,7 @@
 <script type="text/javascript" language="javascript" src="../js/plugins/localization/messages_he.js"></script>
 <script type="text/javascript" language="javascript" src="../js/translationMap.js"></script>
 <script type="text/javascript" language="javascript" src="../js/plugins/jquery.PrintArea.js"></script>
+<script type="text/javascript" language="javascript" src="../js/plugins/jquery.bootstrap-growl.js"></script>
 {*<script type="text/javascript" language="javascript" src="../js/plugins/bootstrap-notify.min.js"></script>*}
 
 {*<script src="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/js/BootSideMenu.js"></script>*}

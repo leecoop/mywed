@@ -41,9 +41,13 @@ var Ajax = {
                 if (isExist(response.dbConnectionError) && response.dbConnectionError === true) {
                     showErrorMassage();
                 } else {
-                    var callback = (options.callback) ? eval(options.callback) : null;
-                    if (typeof callback == 'function') callback(response, options.params);
-                    if (options.refreshStats) refreshStats();
+                    if (isExist(response.error) && response.error === true) {
+                        notification(response.errorMsg, response.error)
+                    } else {
+                        var callback = (options.callback) ? eval(options.callback) : null;
+                        if (typeof callback == 'function') callback(response, options.params);
+                        if (options.refreshStats) refreshStats();
+                    }
                 }
 
             },
@@ -53,6 +57,17 @@ var Ajax = {
         });
     }
 };
+
+function notification(message, isError) {
+    $.bootstrapGrowl(message,
+        {
+            type: (isError) ? 'danger' : 'success',
+            offset: {from: 'bottom', amount: 30},
+            align: 'center',
+            delay: 2000,
+            allow_dismiss: false
+        });
+}
 
 function clear(id, val) {
     $("#" + id).val(val);
@@ -190,29 +205,26 @@ function createGroup() {
 
 }
 function createGroupResponse(response, params) {
-    if (!response.error) {
-        var newId = response;
-        var name = params.groupName;
+    var newId = response;
+    var name = params.groupName;
 
-        var option = $('<option/>');
-        option.attr({'value': newId}).text(name);
-        $("#groups").append(option);
+    var option = $('<option/>');
+    option.attr({'value': newId}).text(name);
+    $("#groups").append(option);
 
-        var option1 = $('<option/>');
-        option1.attr({'value': newId}).text(name);
-        $("#editGroups").append(option1);
+    var option1 = $('<option/>');
+    option1.attr({'value': newId}).text(name);
+    $("#editGroups").append(option1);
 
-        var $div = $("<div>", {id: "group_" + newId, class: "tagBG", value: newId});
-        $div.attr("onclick", "filter('group_" + newId + "')");
-        $div.text(name);
+    var $div = $("<div>", {id: "group_" + newId, class: "tagBG", value: newId});
+    $div.attr("onclick", "filter('group_" + newId + "')");
+    $div.text(name);
 
-        $("#filterGroups").append($div);
+    $("#filterGroups").append($div);
 
-        clear("group_name", "");
-        newGroupFormValidator.resetForm();
-    }
-
-
+    clear("group_name", "");
+    newGroupFormValidator.resetForm();
+    //notification("קבוצה נוצרה בהתחלה", false);
     //closeCreateGroupDialog();
 }
 
@@ -433,7 +445,7 @@ function addEditTable(oid) {
     }
     Ajax.sendRequest(URLs.addEditTable, {
         data: {title: title, capacity: capacity, tableOid: oid},
-        params: {newTable: oid == 0, tableId: oid},
+        params: {newTable: oid == 0, tableId: oid, title: title, capacity: capacity},
         contentType: 'application/json;charset=UTF-8',
         loader: true,
         callback: 'addEditTableResponse'
@@ -444,9 +456,16 @@ function addEditTable(oid) {
 function addEditTableResponse(response, params) {
     if (params.newTable) {
         $("#tables").append(response.data);
-        initSeatingArrangement();
         $("#title").val("");
+        initSeatingArrangement();
     } else {
+        var table = $('#table' + params.tableId);
+        table.attr("title", params.title);
+        table.attr("max", params.capacity);
+
+        table.find('.table_title').text(params.title);
+        table.find('.max_amount').text(params.capacity);
+
         $("#editTableModal").modal("hide");
 
     }
