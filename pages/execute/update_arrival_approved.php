@@ -1,9 +1,10 @@
 <?php
-$guestOid = $requestParams['guestOid'];
+$guestId = $requestParams['guestId'];
 $arrivalApproved = $requestParams['arrivalApproved'];
+$amount = $requestParams['amount'];
 
 try {
-    $persist->updateArrivalApproved($guestOid, $arrivalApproved, $projectId);
+    $persist->updateArrivalApproved($guestId, $arrivalApproved, $projectId, $amount);
 } catch (Exception $e) {
     $error = true;
 }

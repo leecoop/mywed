@@ -45,24 +45,24 @@
 
                     <div class="form-group">
                         <label for="editInvitationSent">נשלחה הזמנה</label>
-                        <a id="editInvitationSent" title="Mark this guest as accepted" invitationSent=""
-                           href="javascript:void(0)"></a>
+                        <button id="editInvitationSent" title="Mark this guest as accepted" class="btn btn-circle" style="border-color: #4cae4c" type="button" onclick="toggleInvitationSentClass('editInvitationSent')">
+                            <i class="fa fa-check"></i>
+                        </button>
                     </div>
 
                     <div class="form-group">
                         <label>אישר הגעה</label>
-        <span id="ediArrivalApproved">
-    <a val="1" onClass="checkOn" offClass="checkOff"
-       onclick="toggleArrivalApprovedClass('ediArrivalApproved',1)"
-       title="Mark this guest as accepted" href="javascript:void(0)"></a>
-    <a val="0" onClass="questionOn" offClass="questionOff"
-       onclick="toggleArrivalApprovedClass('ediArrivalApproved',0)"
-       title="Mark this guest as not responded"
-       href="javascript:void(0)"></a>
-    <a val="2" onClass="xOn" offClass="xOff"
-       onclick="toggleArrivalApprovedClass('ediArrivalApproved',2)"
-       title="Mark this guest as declined" href="javascript:void(0)"></a>
-    </span>
+                        <div class="btn-group" id="ediArrivalApproved">
+                            <button val="1" onClass="btn-success" title="Mark this guest as accepted" class="btn  btn-circle" type="button" onclick="toggleArrivalApprovedClass('ediArrivalApproved',1)">
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button val="0" onClass="btn-warning" title="Mark this guest as accepted" class="btn  btn-circle" type="button" onclick="toggleArrivalApprovedClass('ediArrivalApproved',0)">
+                                <i class="fa fa-question"></i>
+                            </button>
+                            <button val="2" onClass="btn-danger" title="Mark this guest as accepted" class="btn  btn-circle" type="button" onclick="toggleArrivalApprovedClass('ediArrivalApproved',2)">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>

@@ -1,11 +1,11 @@
 <?php
 
-$guestOid = $requestParams['guestOid'];
+$guestId = $requestParams['guestId'];
 $newStatus = $requestParams['newStatus'];
 
 
 try {
-    $persist->updateInvitationSent($guestOid, $newStatus, $projectId);
+    $persist->updateInvitationSent($guestId, $newStatus, $projectId);
 } catch (Exception $e) {
     $error = true;
 }

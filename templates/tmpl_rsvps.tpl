@@ -22,6 +22,6 @@
         </div>
     </div>
     {include file="edit_guest.tpl"}
-
+    {include file="rsvps/confirm_amount_modal.tpl"}
 </div>
 {include file="common/footer.tpl"}

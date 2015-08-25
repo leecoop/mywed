@@ -99,9 +99,9 @@ function addEditGuest(guestOid) {
         amount = $("#editAmount");
         group = $("#editGroups");
         side = $("#editSides");
-        invitationSent = ($("#editInvitationSent").hasClass("checkOn")) ? 1 : 0;
-        var ediArrivalApproved = $("#ediArrivalApproved a");
-        arrivalApproved = (ediArrivalApproved.hasClass("checkOn")) ? 1 : (ediArrivalApproved.hasClass("xOn")) ? 2 : 0;
+        invitationSent = ($("#editInvitationSent").hasClass("btn-default")) ? 0 : 1;
+        var ediArrivalApproved = $("#ediArrivalApproved button");
+        arrivalApproved = (ediArrivalApproved.hasClass("btn-success")) ? 1 : (ediArrivalApproved.hasClass("btn-danger")) ? 2 : 0;
 
 
     }
@@ -238,13 +238,11 @@ function openEditGuest(guestOid) {
     $("#editSides").val(guest.attr("side"));
 
     var invitationSent = guest.attr("invitationSent");
-    var invitationSentClass = (invitationSent == 0) ? "checkOff" : "checkOn";
-    var toggleClass = (invitationSent == 0) ? "checkOn" : "checkOff";
 
     var editInvitationSent = $("#editInvitationSent");
-    editInvitationSent.attr("class", invitationSentClass);
-    //editInvitationSent.attr("invitationSent", invitationSent);
-    editInvitationSent.attr("onclick", "toggleInvitationSentClass('editInvitationSent')");
+    //clear btn classes
+    editInvitationSent.removeClass("btn-default btn-success");
+    editInvitationSent.addClass((invitationSent == 0) ? "btn-default" : "btn-success");
 
     var arrivalApproved = parseInt(guest.attr("arrivalApproved"), 10);
     toggleArrivalApprovedClass("ediArrivalApproved", arrivalApproved);
@@ -260,23 +258,23 @@ function openEditGuest(guestOid) {
 
 }
 
-function updateInvitationSent(guestOid) {
-    var element = $("#invitationSent" + guestOid);
+function updateInvitationSent(guestId) {
+    var element = $("#invitationSent" + guestId);
     var currentStatus = element.attr("invitationSent");
     var newStatus;
     if (currentStatus == 0) {
-        element.attr('class', 'checkOn');
+        element.removeClass("btn-default").addClass("btn-success");
         element.attr("invitationSent", 1);
         newStatus = 1;
     } else {
-        element.attr('class', 'checkOff');
+        element.removeClass("btn-success").addClass("btn-default");
         element.attr("invitationSent", 0);
         newStatus = 0;
     }
 
     Ajax.sendRequest(URLs.updateInvitationSent, {
-        data: {guestOid: guestOid, newStatus: newStatus},
-        params: {guestOid: guestOid, counter: "invitationsCount"},
+        data: {guestId: guestId, newStatus: newStatus},
+        params: {guestId: guestId, invitationSent: newStatus, updateUI: $('#loc').val() === 'invitations'},
         loader: true,
         refreshStats: true,
         callback: 'updateGuestStatusResponse'
@@ -286,9 +284,16 @@ function updateInvitationSent(guestOid) {
 }
 
 function updateGuestStatusResponse(response, params) {
-    fadeOutAndRemoveElement("guest" + params.guestOid);
-    updateCounters(params.counter);
+    if (isExist(params.arrivalApproved)) {
+        $("#guest" + params.guestId).attr("arrivalapproved", params.arrivalApproved);
+    }
+    if (isExist(params.invitationSent)) {
+        $("#guest" + params.guestId).attr("invitationsent", params.invitationSent);
+    }
 
+    if (isExist(params.updateUI) && params.updateUI) {
+        fadeOutAndRemoveElement("guest" + params.guestId);
+    }
 }
 
 
@@ -315,31 +320,33 @@ function updateArrivalApproved(guestOid, arrivalApproved) {
 }
 
 function toggleArrivalApprovedClass(id, arrivalApproved) {
-    var element = $("#" + id + " a");
+    var element = $("#" + id + " button");
     element.each(function (index) {
         if ($(this).attr("val") == arrivalApproved) {
-            $(this).attr("class", $(this).attr("onClass"));
+            $(this).removeClass("btn-default").addClass($(this).attr("onClass"));
         } else {
-            $(this).attr("class", $(this).attr("offClass"));
+            $(this).addClass("btn-default").removeClass($(this).attr("onClass"));
         }
     });
 }
 
 function toggleInvitationSentClass(id) {
     var element = $("#" + id);
-    (element.hasClass("checkOff")) ? element.attr("class", "checkOn") : element.attr("class", "checkOff");
+    (element.hasClass("btn-default")) ? element.removeClass("btn-default").addClass("btn-success") : element.removeClass("btn-success").addClass("btn-default");
 }
 
-function updateArrivalApproved(guestOid, arrivalApproved, updateUI) {
-    toggleArrivalApprovedClass("arrivalApproved" + guestOid, arrivalApproved);
-
-    Ajax.sendRequest(URLs.updateArrivalApproved, {
-        data: {guestOid: guestOid, arrivalApproved: arrivalApproved},
-        params: {guestOid: guestOid, updateUI: updateUI, counter: "rsvpsCount"},
-        loader: true,
-        refreshStats: true,
-        callback: 'updateGuestStatusResponse'
-    });
+function updateArrivalApproved(guestId, arrivalApproved, updateUI) {
+    if ($("#guest" + guestId).attr("arrivalapproved") != arrivalApproved) {
+        toggleArrivalApprovedClass("arrivalApproved" + guestId, arrivalApproved);
+        var amount = $('#guest' + guestId).attr('amount');
+        Ajax.sendRequest(URLs.updateArrivalApproved, {
+            data: {guestId: guestId, arrivalApproved: arrivalApproved, amount: amount},
+            params: {guestId: guestId, updateUI: updateUI, arrivalApproved: arrivalApproved},
+            loader: true,
+            refreshStats: true,
+            callback: 'updateGuestStatusResponse'
+        });
+    }
 
 
 }
@@ -815,5 +822,17 @@ function changePasswordResponse(response, params) {
         clear("confirmNewPassword", "");
     }
 
+}
+
+function openVerifyAmountModal(guestId) {
+    $('#amount').val($('#guest' + guestId).attr('amount'));
+    $("#verifyAmountBtn").attr("onclick", 'verifyAmountAndUpdateRsvps(' + guestId + ')');
+    $("#verifyAmountModal").modal({backdrop: false});
+}
+
+function verifyAmountAndUpdateRsvps(guestId) {
+    $("#verifyAmountModal").modal("hide");
+    $('#guest' + guestId).attr('amount', $('#amount').val());
+    updateArrivalApproved(guestId, 1, true);
 }
 

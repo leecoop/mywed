@@ -309,14 +309,15 @@ class Persist
     }
 
 
-    public function updateArrivalApproved($guestOid, $arrivalApproved, $projectId)
+    public function updateArrivalApproved($guestOid, $arrivalApproved, $projectId, $amount)
     {
         try {
-            $sql = "UPDATE guests set arrival_approved=:arrivalApproved where oid=:guestOid and project_id=:projectId";
+            $sql = "UPDATE guests set arrival_approved=:arrivalApproved, amount=:amount where oid=:guestOid and project_id=:projectId";
             $res = $this->db->prepare($sql);
             $res->bindParam(':arrivalApproved', $arrivalApproved, PDO::PARAM_INT);
             $res->bindParam(':guestOid', $guestOid, PDO::PARAM_INT);
             $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+            $res->bindParam(':amount', $amount, PDO::PARAM_INT);
 
             $res->execute();
         } catch (Exception $e) {

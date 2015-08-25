@@ -8,7 +8,7 @@
         <form id="addPermissionsForm" role="form" action="javascript:addPermissions()" autocomplete="off">
             <div class="form-group">
                 <label for="email"><span class="fa fa-user"></span> דוא"ל</label>
-                <input type="email" autofocus name="email" id="email" placeholder="example@gmail.com" class="form-control" required style="direction: ltr">
+                <input type="email"  name="email" id="email" placeholder="example@gmail.com" class="form-control" required style="direction: ltr">
             </div>
 
             <button class="btn btn-primary btn-lg btn-block" type="submit">
