@@ -41,7 +41,7 @@ if (!$error) {
     $smarty->assign("sides", $sides);
 
     $smarty->assign("guest", (array)$guest);
-    $smarty->assign("data", $smarty->fetch('guest_content.tpl'));
+    $smarty->assign("data", $smarty->fetch('guest/guest_content.tpl'));
 }
 $smarty->assign("error", $error);
 

@@ -1,5 +1,5 @@
 {if $loc eq 'invitations' or $loc eq 'rsvps'}
-{include file="add_guest_slick.tpl"}
+{include file="guest/add_guest_slick.tpl"}
 <script>
     $(document).ready(function($){
         $('#addGuestPanel').dcSlick({

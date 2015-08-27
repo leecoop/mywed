@@ -13,7 +13,7 @@
             <div class="col-lg-9">
                 {include file="filtering_box.tpl"}
                 <div id="guestsArea">
-                    {include file="guests_content.tpl"}
+                    {include file="guest/guests_content.tpl"}
                 </div>
             </div>
             <div class="col-lg-3">
@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    {include file="edit_guest.tpl"}
+    {include file="guest/edit_guest.tpl"}
     {include file="rsvps/confirm_amount_modal.tpl"}
 </div>
 {include file="common/footer.tpl"}

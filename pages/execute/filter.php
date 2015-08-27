@@ -29,7 +29,7 @@ if (!$error) {
     $smarty->assign("count", $guests->rowCount());
     $smarty->assign("groups", $groups);
     $smarty->assign("sides", $sides);
-    $smarty->assign("data", $smarty->fetch('guests_content.tpl'));
+    $smarty->assign("data", $smarty->fetch('guest/guests_content.tpl'));
 }
 
 
