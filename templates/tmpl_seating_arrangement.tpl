@@ -94,23 +94,29 @@
 </div>
 
 
-{include file="common/footer.tpl"}
 <script>
-    $('#products').affix({
-        offset: {
-            top: $('#products').offset().top - 10 ,
-            bottom: $('footer').offset().top - $('#tables div').last().offset().top + 15
+    $(document).ready(function($){
+        if (screenWidth > 768) {
+            $('#products').affix({
+                offset: {
+                    top: $('#products').offset().top - 10,
+                    bottom: $('footer').offset().top - $('#tables div').last().offset().top + 15
 
+                }
+            }).on('affix.bs.affix', function () {
+                var that = $(this);
+                that.css({ width: that.outerWidth(), top: 10 });
+            });
+
+            if ($('#products').hasClass('affix')) {
+                $('#products').removeClass('affix').trigger('affix.bs.affix').addClass('affix');
+            }
         }
-    }).on('affix.bs.affix', function () {
-        var that = $(this);
-        that.css({ width: that.outerWidth(), top: 10 });
+
+
+        initSeatingArrangement();
     });
 
-    if ($('#products').hasClass('affix')) {
-        $('#products').removeClass('affix').trigger('affix.bs.affix').addClass('affix');
-    }
 
-
-    initSeatingArrangement();
 </script>
+{include file="common/footer.tpl"}
