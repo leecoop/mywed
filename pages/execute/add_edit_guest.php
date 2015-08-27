@@ -2,6 +2,7 @@
 $name = $requestParams['name'];
 $phone = $requestParams['phone'];
 $amount = $requestParams['amount'];
+$gift = $requestParams['gift'];
 $group = $requestParams['group'];
 $side = $requestParams['side'];
 $guestOid = $requestParams['guestOid'];
@@ -13,9 +14,9 @@ $now_date = date('Y-m-d');
 
 try {
     if ($guestOid == "0") {
-        $guestOid = $persist->addGuest($name, $phone, $amount, $now_date, $group, $side, $invitationSent, $arrivalApproved, $projectId);
+        $guestOid = $persist->addGuest($name, $phone, $amount, $now_date, $group, $side, $invitationSent, $arrivalApproved, $projectId, $gift);
     } else {
-        $persist->editGuest($guestOid, $name, $phone, $amount, $group, $side, $invitationSent, $arrivalApproved, $projectId);
+        $persist->editGuest($guestOid, $name, $phone, $amount, $group, $side, $invitationSent, $arrivalApproved, $projectId, $gift);
     }
 } catch (Exception $e) {
     $error = true;
@@ -31,6 +32,7 @@ if (!$error) {
     $guest->side_id = $side;
     $guest->invitation_sent = $invitationSent;
     $guest->arrival_approved = $arrivalApproved;
+    $guest->gift = $gift;
 
     $groups = $persist->getGroups($projectId);
     $sides = $persist->getSides();

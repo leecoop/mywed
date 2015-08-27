@@ -45,18 +45,22 @@
 
                     <div class="form-group">
                         <label for="editInvitationSent">נשלחה הזמנה</label>
-                        <button id="editInvitationSent" title="Mark this guest as accepted" class="btn btn-circle" style="border-color: #4cae4c" type="button" onclick="toggleInvitationSentClass('editInvitationSent')">
+                        <button id="editInvitationSent" title="Mark this guest as accepted" class="btn btn-circle" style="border-color: #4cae4c" type="button"
+                                onclick="toggleInvitationSentClass('editInvitationSent')">
                             <i class="fa fa-check"></i>
                         </button>
                     </div>
 
                     <div class="form-group">
                         <label>אישר הגעה</label>
+
                         <div class="btn-group" id="ediArrivalApproved">
-                            <button val="1" onClass="btn-success" title="Mark this guest as accepted" class="btn  btn-circle" type="button" onclick="toggleArrivalApprovedClass('ediArrivalApproved',1)">
+                            <button val="1" onClass="btn-success" title="Mark this guest as accepted" class="btn  btn-circle" type="button"
+                                    onclick="toggleArrivalApprovedClass('ediArrivalApproved',1)">
                                 <i class="fa fa-check"></i>
                             </button>
-                            <button val="0" onClass="btn-warning" title="Mark this guest as accepted" class="btn  btn-circle" type="button" onclick="toggleArrivalApprovedClass('ediArrivalApproved',0)">
+                            <button val="0" onClass="btn-warning" title="Mark this guest as accepted" class="btn  btn-circle" type="button"
+                                    onclick="toggleArrivalApprovedClass('ediArrivalApproved',0)">
                                 <i class="fa fa-question"></i>
                             </button>
                             <button val="2" onClass="btn-danger" title="Mark this guest as accepted" class="btn  btn-circle" type="button" onclick="toggleArrivalApprovedClass('ediArrivalApproved',2)">
@@ -64,10 +68,18 @@
                             </button>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>מתנה</label>
+                        <div class="input-group">
+                            <input class="form-control" id="editGift" aria-describedby="giftAddon">
+                            <span class="input-group-addon" id="giftAddon"><i class="fa fa-gift"></i></span>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <input type="submit"  class="btn btn-default" onclick="$('#editGuestForm').submit()" value="עדכן" />
+                <input type="submit" class="btn btn-default" onclick="$('#editGuestForm').submit()" value="עדכן"/>
                 <button type="button" class="btn btn-default" id="deleteGuestBtn">מחק</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
             </div>
@@ -76,5 +88,5 @@
     </div>
 </div>
 <script>
-  var editGuestFormValidator = $('#editGuestForm').validate();
+    var editGuestFormValidator = $('#editGuestForm').validate();
 </script>

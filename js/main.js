@@ -89,6 +89,7 @@ function addEditGuest(guestOid) {
     var side = "";
     var invitationSent = 0;
     var arrivalApproved = 0;
+    var gift = 0;
     var loc = $("#loc").val();
 
     if (add) {
@@ -101,6 +102,7 @@ function addEditGuest(guestOid) {
         name = $("#editName");
         phone = $("#editPhone");
         amount = $("#editAmount");
+        gift = $("#editGift").val();
         group = $("#editGroups");
         side = $("#editSides");
         invitationSent = ($("#editInvitationSent").hasClass("btn-default")) ? 0 : 1;
@@ -115,6 +117,7 @@ function addEditGuest(guestOid) {
             name: name.val(),
             phone: phone.val(),
             amount: amount.val(),
+            gift: gift,
             group: group.val(),
             side: side.val(),
             guestOid: guestOid,
@@ -243,6 +246,7 @@ function openEditGuest(guestOid) {
     $("#editAmount").val(guest.attr("amount"));
     $("#editGroups").val(guest.attr("group"));
     $("#editSides").val(guest.attr("side"));
+    $("#editGift").val(guest.attr("gift"));
 
     var invitationSent = guest.attr("invitationSent");
 

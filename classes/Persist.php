@@ -84,10 +84,10 @@ class Persist
         return $res;
     }
 
-    public function addGuest($name, $phone, $amount, $nowDate, $groupId, $sideId, $invitationSent, $arrivalApproved, $projectId)
+    public function addGuest($name, $phone, $amount, $nowDate, $groupId, $sideId, $invitationSent, $arrivalApproved, $projectId, $gift)
     {
 //        try {
-        $sql = "INSERT INTO guests(name, phone, amount, add_date, group_id, side_id, invitation_sent, arrival_approved, project_id) VALUES(:name, :phone, :amount, :nowDate, :groupId, :sideId, :invitationSent, :arrivalApproved, :projectId)";
+        $sql = "INSERT INTO guests(name, phone, amount, add_date, group_id, side_id, invitation_sent, arrival_approved, project_id, gift) VALUES(:name, :phone, :amount, :nowDate, :groupId, :sideId, :invitationSent, :arrivalApproved, :projectId, :gift)";
         $res = $this->db->prepare($sql);
         $res->bindParam(':name', $name, PDO::PARAM_STR);
         $res->bindParam(':phone', $phone, PDO::PARAM_STR);
@@ -98,6 +98,7 @@ class Persist
         $res->bindParam(':invitationSent', $invitationSent, PDO::PARAM_BOOL);
         $res->bindParam(':arrivalApproved', $arrivalApproved, PDO::PARAM_BOOL);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+        $res->bindParam(':gift', $gift, PDO::PARAM_STR);
 
         $res->execute();
 //        } catch (Exception $e) {
@@ -107,10 +108,10 @@ class Persist
         return $this->db->lastInsertId();
     }
 
-    public function editGuest($guestId, $name, $phone, $amount, $groupId, $sideId, $invitationSent, $arrivalApproved, $projectId)
+    public function editGuest($guestId, $name, $phone, $amount, $groupId, $sideId, $invitationSent, $arrivalApproved, $projectId, $gift)
     {
 //        try {
-        $sql = "UPDATE guests set name=:name ,phone=:phone ,amount=:amount, group_id=:groupId ,side_id=:sideId, invitation_sent=:invitationSent ,arrival_approved=:arrivalApproved where oid=:guestId and project_id=:projectId";
+        $sql = "UPDATE guests set name=:name, phone=:phone, amount=:amount, group_id=:groupId, side_id=:sideId, invitation_sent=:invitationSent, arrival_approved=:arrivalApproved, gift=:gift where oid=:guestId and project_id=:projectId";
         $res = $this->db->prepare($sql);
 
         $res->bindParam(':guestId', $guestId, PDO::PARAM_INT);
@@ -122,6 +123,7 @@ class Persist
         $res->bindParam(':invitationSent', $invitationSent, PDO::PARAM_BOOL);
         $res->bindParam(':arrivalApproved', $arrivalApproved, PDO::PARAM_BOOL);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+        $res->bindParam(':gift', $gift, PDO::PARAM_STR);
 
         $res->execute();
 //        } catch (Exception $e) {
@@ -451,7 +453,7 @@ class Persist
 
     public function getGuestForReport($sidesIds, $groupsIds, $loc, $projectId)
     {
-        $sql = "Select o.name, o.phone, o.amount, g.title as group_title, s.title as side_title, o.invitation_sent as invitation_sent, o.arrival_approved as arrival_approved ,t.title as table_title From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id left join tables t on t.oid=o.table_id where o.project_id=:projectId and o.deleted=false";
+        $sql = "Select o.name, o.phone, o.amount, g.title as group_title, s.title as side_title, o.invitation_sent as invitation_sent, o.arrival_approved as arrival_approved ,t.title as table_title, o.gift From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id left join tables t on t.oid=o.table_id where o.project_id=:projectId and o.deleted=false";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql = $this->filterByLocation($sql, $loc);
         $sql .= " ORDER BY o.oid desc";

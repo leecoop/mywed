@@ -50,6 +50,9 @@
                                     <th>אישור הגעה</th>
                                 {/if}
                             {/if}
+                            {if $loc eq 'guests' or  $loc eq 'search'}
+                                <th>מתנה</th>
+                            {/if}
                         </tr>
                         </thead>
                         {$total = 0}

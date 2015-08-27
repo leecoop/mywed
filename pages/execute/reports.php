@@ -29,7 +29,8 @@ $translates = array(
     'side_title' => "צד",
     'table_title' => "שולחן",
     'invitation_sent' => "נשלחה הזמנה",
-    'arrival_approved' => "אישרו הגעה"
+    'arrival_approved' => "אישרו הגעה",
+    'gift' => "מתנה"
 
 );
 //    var_dump($translates);

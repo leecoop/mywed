@@ -1,5 +1,5 @@
 <tr id="guest{$guest.oid}" name="{$guest.name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}"
-    invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}">
+    invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}" gift="{$guest.gift}">
     {*{if $loc eq 'guests'}*}
     <td>
 
@@ -43,5 +43,8 @@
                     </div>
             </td>
         {/if}
+    {/if}
+    {if $loc eq 'guests' or  $loc eq 'search'}
+        <td>{$guest.gift}</td>
     {/if}
 </tr>
