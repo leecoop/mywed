@@ -1,15 +1,19 @@
 <?php
 $email = $requestParams['email'];
 
-try {
-    $user = $persist->getUserByEmail($email);
-    if ($user) {
-        $userId = $user->user_id;
-    } else {
-        $userId = $persist->registerUser($email, '12345');
+if ($sessionParams['isProjectMaster']) {
+    try {
+        $user = $persist->getUserByEmail($email);
+        if ($user) {
+            $userId = $user->user_id;
+        } else {
+            $userId = $persist->registerUser($email, '12345');
+        }
+        $persist->createUser2ProjectRelation($userId, $projectId, false);
+    } catch (Exception $e) {
+        $error = true;
     }
-    $persist->createUser2ProjectRelation($userId, $projectId);
-} catch (Exception $e) {
+} else {
     $error = true;
 }
 

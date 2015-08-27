@@ -21,6 +21,7 @@ $redirectLink = 'create-project';
 
 if ($project) {
     $_SESSION['projectId'] = $project->project_id;
+    $_SESSION['isProjectMaster'] = $project->is_master;
     $_SESSION['date'] = $project->date;
     $redirectLink = 'index.php';
 

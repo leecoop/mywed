@@ -99,8 +99,9 @@
         if (screenWidth > 768) {
             $('#products').affix({
                 offset: {
-                    top: $('#products').offset().top - 10,
-                    bottom: $('footer').offset().top - $('#tables div').last().offset().top + 15
+                    top: $('#products').offset().top - 10
+//                    ,
+//                    bottom: $('footer').offset().top - $('#tables div').last().offset().top + 15
 
                 }
             }).on('affix.bs.affix', function () {

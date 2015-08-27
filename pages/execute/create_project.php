@@ -5,7 +5,7 @@ $date = $requestParams['date'];
 
 try {
     $projectId = $persist->createProject($maleName, $femaleName, $date);
-    $persist->createUser2ProjectRelation($_SESSION['userId'], $projectId);
+    $persist->createUser2ProjectRelation($_SESSION['userId'], $projectId, true);
     $persist->createGroup("משפחה $maleName", $projectId);
     $persist->createGroup("משפחה $femaleName", $projectId);
     $persist->createGroup("חברים של $maleName", $projectId);
@@ -18,6 +18,7 @@ try {
 
 
     $_SESSION['projectId'] = $projectId;
+    $_SESSION['isProjectMaster'] = true;
     $_SESSION['date'] = $date;
 } catch (Exception $e) {
     $error = true;

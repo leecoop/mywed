@@ -584,7 +584,7 @@ class Persist
 
     public function getUserProjects($userId)
     {
-        $sql = "SELECT p.oid as project_id, p.date as date FROM users_projects up inner join projects p on up.project_id = p.oid where up.user_id='$userId'";
+        $sql = "SELECT p.oid as project_id, p.date as date, up.is_master as is_master FROM users_projects up inner join projects p on up.project_id = p.oid where up.user_id='$userId'";
         $stmt = $this->db->query($sql);
         $obj = $stmt->fetch(PDO::FETCH_OBJ);
         return $obj;
@@ -621,13 +621,14 @@ class Persist
     }
 
 
-    public function createUser2ProjectRelation($userId, $projectId)
+    public function createUser2ProjectRelation($userId, $projectId, $isMaster)
     {
 //        try {
-        $sql = "INSERT INTO users_projects(user_id, project_id) VALUES(:userId,:projectId)";
+        $sql = "INSERT INTO users_projects(user_id, project_id, is_master) VALUES(:userId,:projectId,:isMaster)";
         $res = $this->db->prepare($sql);
         $res->bindParam(':userId', $userId, PDO::PARAM_INT);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+        $res->bindParam(':isMaster', $isMaster, PDO::PARAM_BOOL);
 
         $res->execute();
 //        } catch (Exception $e) {
