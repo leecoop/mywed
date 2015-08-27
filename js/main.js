@@ -1,3 +1,5 @@
+jQuery.fn.exists = function(){return this.length>0;};
+
 var URLs = {
     addEditGuest: 'execute/add-edit-guest?',
     deleteGuest: 'execute/delete-guest?',
@@ -87,6 +89,8 @@ function addEditGuest(guestOid) {
     var side = "";
     var invitationSent = 0;
     var arrivalApproved = 0;
+    var loc = $("#loc").val();
+
     if (add) {
         name = $("#name");
         phone = $("#phone");
@@ -106,7 +110,6 @@ function addEditGuest(guestOid) {
 
     }
 
-
     Ajax.sendRequest(URLs.addEditGuest, {
         data: {
             name: name.val(),
@@ -117,10 +120,10 @@ function addEditGuest(guestOid) {
             guestOid: guestOid,
             invitationSent: invitationSent,
             arrivalApproved: arrivalApproved,
-            loc: $("#loc").val()
+            loc: loc
         },
         contentType: 'application/json;charset=UTF-8',
-        params: {edit: !add, guestOid: guestOid},
+        params: {edit: !add, guestOid: guestOid, loc:loc},
         loader: true,
         refreshStats: true,
         callback: 'addEditGuestResponse'
@@ -140,6 +143,10 @@ function addEditGuestResponse(responseData, params) {
     }
     else {
         addGuestFormValidator.resetForm();
+        var addGuestPanelSlick = $('#addGuestPanelSlick');
+        if(addGuestPanelSlick.exists()) {
+            addGuestPanelSlick.find('.tab').click();
+        }
 
     }
     table.row.add($(responseData.data)).draw().show().draw(false);
@@ -422,8 +429,8 @@ function updateStatisticPanel(data) {
     $('#totalAmount').html(data);
 }
 
-function updateAmount(val) {
-    var amount = $("#amount");
+function updateAmount(val, elm) {
+    var amount = $(elm).siblings("input[name='amount']");
     var newAmount = parseInt(amount.val()) + val;
     if (newAmount > 0) {
         amount.val(newAmount);
@@ -825,14 +832,14 @@ function changePasswordResponse(response, params) {
 }
 
 function openVerifyAmountModal(guestId) {
-    $('#amount').val($('#guest' + guestId).attr('amount'));
+    $('#verifyAmount').val($('#guest' + guestId).attr('amount'));
     $("#verifyAmountBtn").attr("onclick", 'verifyAmountAndUpdateRsvps(' + guestId + ')');
     $("#verifyAmountModal").modal({backdrop: false});
 }
 
 function verifyAmountAndUpdateRsvps(guestId) {
     $("#verifyAmountModal").modal("hide");
-    $('#guest' + guestId).attr('amount', $('#amount').val());
+    $('#guest' + guestId).attr('amount', $('#verifyAmount').val());
     updateArrivalApproved(guestId, 1, true);
 }
 

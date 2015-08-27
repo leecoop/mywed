@@ -6,10 +6,11 @@
 
     {include file="common/navigation/navbar_header.tpl"}
     <!-- /.navbar-header -->
-
+    {if $isLoggedIn}
     {include file="common/navigation/navbar_top.tpl"}
     <!-- /.navbar-top-links -->
 
     {include file="common/navigation/sidebar.tpl"}
+    {/if}
     <!-- /.navbar-static-side -->
 </nav>

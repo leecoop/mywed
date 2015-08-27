@@ -26,4 +26,5 @@ try {
     $dbConnectionError = true;
 
 }
+$smarty->assign("isLoggedIn", isset($_SESSION['isLoggedIn']));
 $smarty->assign("dbConnectionError", $dbConnectionError);

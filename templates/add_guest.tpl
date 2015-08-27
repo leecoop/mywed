@@ -40,11 +40,11 @@
 
                 <div class="form-group">
 
-                    <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(1)"><i
+                    <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(1, this)"><i
                                 class="fa  fa-plus"></i></button>
                     <input id="amount" name="amount" value="1" readonly class="form-control"
                            style="width:60px; text-align: center; display:inline;cursor:default;background-color: #fff"/>
-                    <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(-1)"><i
+                    <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(-1, this)"><i
                                 class="fa fa-minus"></i></button>
                 </div>
             </div>

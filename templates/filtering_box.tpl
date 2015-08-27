@@ -6,7 +6,7 @@
     <!-- /.panel-heading -->
     <div class="panel-body">
         <div class="table-responsive">
-            <table class="table">
+            <table class="table" style="margin-bottom:0">
                 <tbody>
                 <tr >
                     <td class="cust_active">צד</td>
