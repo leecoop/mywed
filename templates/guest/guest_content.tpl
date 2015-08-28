@@ -6,7 +6,6 @@
         <button class="btn btn-default btn-circle" type="button" onclick='openEditGuest("{$guest.oid}")'>
             <i class="fa fa-pencil"></i>
         </button>
-        {*<a href="javascript:void(0)" class="fa fa-pencil fa-fw no-text-decoration" onclick='openEditGuest("{$guest.oid}")'></a>*}
     </td>
     {*{/if}*}
     <td>{$guest.name}</td>

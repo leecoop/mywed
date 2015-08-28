@@ -57,7 +57,6 @@
                         </thead>
                         {$total = 0}
                         <tbody>
-
                         {foreach $guests as $guest}
                             {$total = $total + $guest.amount}
                             {include file="guest/guest_content.tpl"}
