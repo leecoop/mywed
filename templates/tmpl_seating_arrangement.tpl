@@ -39,7 +39,10 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-sm-8 col-lg-8 padd0">
+                <div id="seatingArrangementTables" class="col-xs-6 col-sm-8 col-lg-8 padd0" style="overflow-y: visible">
+                    <script>
+                        $('#seatingArrangementTables').css({ height: $(window).height()});
+                    </script>
                     {include file="seatingArrangement/tables.tpl"}
                 </div>
             </div>
@@ -91,28 +94,37 @@
 
     </div>
 </div>
-</div>
-
+{*</div>*}
 
 <script>
-    $(document).ready(function($){
-        if (screenWidth > 768) {
-            $('#products').affix({
-                offset: {
-                    top: $('#products').offset().top - 10
-//                    ,
-//                    bottom: $('footer').offset().top - $('#tables div').last().offset().top + 15
-
-                }
-            }).on('affix.bs.affix', function () {
-                var that = $(this);
-                that.css({ width: that.outerWidth(), top: 10 });
-            });
-
-            if ($('#products').hasClass('affix')) {
-                $('#products').removeClass('affix').trigger('affix.bs.affix').addClass('affix');
-            }
-        }
+    $(document).ready(function ($) {
+        $("#seatingArrangementTables").mCustomScrollbar({
+//            autoHideScrollbar:true,
+            theme:"inset-2-dark",
+            scrollButtons:{ enable: true }
+//            scrollbarPosition:"outside"
+        });
+        $("#catalog .panel-body").mCustomScrollbar({
+            setHeight:240,
+            theme:"dark-3"
+        });
+//        if (screenWidth > 768) {
+//            $('#products').affix({
+//                offset: {
+//                    top: $('#products').offset().top - 10
+////                    ,
+////                    bottom: $('footer').offset().top - $('#tables div').last().offset().top + 15
+//
+//                }
+//            }).on('affix.bs.affix', function () {
+//                var that = $(this);
+//                that.css({ width: that.outerWidth(), top: 10 });
+//            });
+//
+//            if ($('#products').hasClass('affix')) {
+//                $('#products').removeClass('affix').trigger('affix.bs.affix').addClass('affix');
+//            }
+//        }
 
 
         initSeatingArrangement();

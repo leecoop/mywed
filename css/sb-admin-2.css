@@ -22,7 +22,7 @@ body {
     #page-wrapper {
         position: inherit;
         margin: 0 250px 0 0;
-        padding: 0 30px;
+        padding: 0 30px 10px;
         border-right: 1px solid #e7e7e7;
     }
 }
@@ -453,4 +453,8 @@ body {
 
 .bs-callout-primary h4 {
     color: #428bca;
+}
+
+.badge {
+    float: left;
 }

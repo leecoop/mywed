@@ -1,4 +1,10 @@
-jQuery.fn.exists = function(){return this.length>0;};
+$(document).click(function (event) {
+    window.lastElementClicked = event.target;
+});
+
+jQuery.fn.exists = function () {
+    return this.length > 0;
+};
 
 var URLs = {
     addEditGuest: 'execute/add-edit-guest?',
@@ -12,7 +18,7 @@ var URLs = {
     addGuestToTable: 'execute/add-guest-to-table?',
     removeGuestFromTable: 'execute/remove-guest-from-table?',
     deleteTable: 'execute/delete-table?',
-    getStatistics: 'execute/get-statistics?',
+    //getStatistics: 'execute/get-statistics?',
     createProject: 'execute/create-project?',
     addPermissions: 'execute/add-permissions?',
     check_login: 'execute/check-login?',
@@ -28,8 +34,10 @@ var Ajax = {
         if (!options.method) options.method = 'post';
         if (!options.contentType) options.contentType = 'text/xml';
         if (!options.returnJson) options.returnJson = false;
+        if (!options.refreshStats) options.refreshStats = false;
 
         url += ['&rand=', Math.random()].join('');
+        options.data['refreshStats'] = options.refreshStats;
 
 
         if (options.loader) showLoading();
@@ -43,12 +51,17 @@ var Ajax = {
                 if (isExist(response.dbConnectionError) && response.dbConnectionError === true) {
                     showErrorMassage();
                 } else {
+                    var showNotificationOnBtn = $(lastElementClicked).parents('form').exists();
                     if (isExist(response.error) && response.error === true) {
-                        notification(response.errorMsg, response.error)
+                        notification(response.errorMsg, response.error, showNotificationOnBtn)
                     } else {
                         var callback = (options.callback) ? eval(options.callback) : null;
                         if (typeof callback == 'function') callback(response, options.params);
-                        if (options.refreshStats) refreshStats();
+                        if (options.refreshStats) refreshStats(response.stat);
+                        if (showNotificationOnBtn) {
+                            notification(response.message, response.error, true);
+                        }
+
                     }
                 }
 
@@ -60,15 +73,21 @@ var Ajax = {
     }
 };
 
-function notification(message, isError) {
-    $.bootstrapGrowl(message,
-        {
-            type: (isError) ? 'danger' : 'success',
-            offset: {from: 'bottom', amount: 30},
-            align: 'center',
-            delay: 2000,
-            allow_dismiss: false
+function notification(message, isError, onElement) {
+    message = isExist(message) ? message : (isError) ? jsTranslation.defaultError : jsTranslation.defaultSuccess;
+    if (onElement) {
+        $(lastElementClicked).notify(message, {
+            className: (isError) ? 'error' : 'success',
+            autoHideDelay: 3000,
+            elementPosition: 'top center'
         });
+    } else {
+        $.notify(message, {
+            className: (isError) ? 'error' : 'success',
+            autoHideDelay: 3000,
+            elementPosition: 'top right'
+        });
+    }
 }
 
 function clear(id, val) {
@@ -91,6 +110,7 @@ function addEditGuest(guestOid) {
     var arrivalApproved = 0;
     var gift = 0;
     var loc = $("#loc").val();
+    var hideElement = false;
 
     if (add) {
         name = $("#name");
@@ -107,9 +127,8 @@ function addEditGuest(guestOid) {
         side = $("#editSides");
         invitationSent = ($("#editInvitationSent").hasClass("btn-default")) ? 0 : 1;
         var ediArrivalApproved = $("#ediArrivalApproved button");
-        arrivalApproved = (ediArrivalApproved.hasClass("btn-success")) ? 1 : (ediArrivalApproved.hasClass("btn-danger")) ? 2 : 0;
-
-
+        arrivalApproved = (ediArrivalApproved.hasClass("btn-success")) ? 1 : (ediArrivalApproved.hasClass("btn-warning")) ? 2 : (ediArrivalApproved.hasClass("btn-danger")) ? 3 : 0;
+        hideElement = ((loc == "invitations" && invitationSent === 1) || (loc == "rsvps" && arrivalApproved !== 0));
     }
 
     Ajax.sendRequest(URLs.addEditGuest, {
@@ -126,7 +145,7 @@ function addEditGuest(guestOid) {
             loc: loc
         },
         contentType: 'application/json;charset=UTF-8',
-        params: {edit: !add, guestOid: guestOid, loc:loc},
+        params: {edit: !add, guestOid: guestOid, loc: loc, hideElement: hideElement},
         loader: true,
         refreshStats: true,
         callback: 'addEditGuestResponse'
@@ -147,12 +166,16 @@ function addEditGuestResponse(responseData, params) {
     else {
         addGuestFormValidator.resetForm();
         var addGuestPanelSlick = $('#addGuestPanelSlick');
-        if(addGuestPanelSlick.exists()) {
+        if (addGuestPanelSlick.exists()) {
             addGuestPanelSlick.find('.tab').click();
         }
 
     }
     table.row.add($(responseData.data)).draw().show().draw(false);
+
+    if (params.hideElement) {
+        fadeOutAndRemoveElement("guest" + params.guestOid)
+    }
     //$(rowNode).focus();
     clear("name", "");
     clear("phone", "");
@@ -247,7 +270,8 @@ function openEditGuest(guestOid) {
     $("#editGroups").val(guest.attr("group"));
     $("#editSides").val(guest.attr("side"));
     $("#editGift").val(guest.attr("gift"));
-
+    //reset ArrivalApprovedClass
+    toggleArrivalApprovedClass("ediArrivalApproved", 0);
     var invitationSent = guest.attr("invitationSent");
 
     var editInvitationSent = $("#editInvitationSent");
@@ -326,6 +350,7 @@ function updateHasTable(guestOid) {
     }
 
 }
+
 function updateArrivalApproved(guestOid, arrivalApproved) {
     updateArrivalApproved(guestOid, arrivalApproved, false);
 }
@@ -333,10 +358,11 @@ function updateArrivalApproved(guestOid, arrivalApproved) {
 function toggleArrivalApprovedClass(id, arrivalApproved) {
     var element = $("#" + id + " button");
     element.each(function (index) {
-        if ($(this).attr("val") == arrivalApproved) {
-            $(this).removeClass("btn-default").addClass($(this).attr("onClass"));
+        var that = $(this);
+        if (that.attr("val") == arrivalApproved && !that.hasClass(that.attr("onClass"))) {
+            $(this).removeClass("btn-default").addClass(that.attr("onClass"));
         } else {
-            $(this).addClass("btn-default").removeClass($(this).attr("onClass"));
+            $(this).addClass("btn-default").removeClass(that.attr("onClass"));
         }
     });
 }
@@ -347,19 +373,18 @@ function toggleInvitationSentClass(id) {
 }
 
 function updateArrivalApproved(guestId, arrivalApproved, updateUI) {
-    if ($("#guest" + guestId).attr("arrivalapproved") != arrivalApproved) {
-        toggleArrivalApprovedClass("arrivalApproved" + guestId, arrivalApproved);
-        var amount = $('#guest' + guestId).attr('amount');
-        Ajax.sendRequest(URLs.updateArrivalApproved, {
-            data: {guestId: guestId, arrivalApproved: arrivalApproved, amount: amount},
-            params: {guestId: guestId, updateUI: updateUI, arrivalApproved: arrivalApproved},
-            loader: true,
-            refreshStats: true,
-            callback: 'updateGuestStatusResponse'
-        });
+    if ($("#guest" + guestId).attr("arrivalapproved") == arrivalApproved) {
+        arrivalApproved = 0;
     }
-
-
+    toggleArrivalApprovedClass("arrivalApproved" + guestId, arrivalApproved);
+    var amount = $('#guest' + guestId).attr('amount');
+    Ajax.sendRequest(URLs.updateArrivalApproved, {
+        data: {guestId: guestId, arrivalApproved: arrivalApproved, amount: amount},
+        params: {guestId: guestId, updateUI: updateUI, arrivalApproved: arrivalApproved},
+        loader: true,
+        refreshStats: true,
+        callback: 'updateGuestStatusResponse'
+    });
 }
 
 
@@ -418,6 +443,16 @@ function filter(id) {
 function filterResponse(response) {
     if (!response.error) {
         $('#guestsArea').html(response.data);
+        $('#filterGroups').children().each(function (i, element) {
+            var that = $(element);
+            if (jQuery.inArray(that.attr('value'), response.groupSet) !== -1) {
+                that.show();
+            } else {
+                that.hide();
+                that.attr('class', "tagBG")
+                ;
+            }
+        });
     }
 }
 
@@ -428,10 +463,6 @@ function report(loc) {
     $(location).prop('href', "execute/reports?sidesIds=" + sidesIds.join(",") + "&groupsIds=" + groupsIds.join(",") + "&loc=" + loc);
 }
 
-
-function updateStatisticPanel(data) {
-    $('#totalAmount').html(data);
-}
 
 function updateAmount(val, elm) {
     var amount = $(elm).siblings("input[name='amount']");
@@ -519,15 +550,31 @@ function initSeatingArrangement() {
             }
 
         }
-    }).sortable({
-        items: "div:not(.placeholder)",
-        sort: function () {
-            // gets added unintentionally by droppable interacting with sortable
-            // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
-            $(this).removeClass("ui-state-default");
-        }
     });
-    //$(".seating_table").draggable();
+    //    .sortable({
+    //    items: "div:not(.placeholder)",
+    //    sort: function () {
+    //        // gets added unintentionally by droppable interacting with sortable
+    //        // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
+    //        $(this).removeClass("ui-state-default");
+    //    }
+    //});
+
+
+    /////   SORTABLE
+    //$( "#tables" ).sortable({
+    //    containment: "parent",
+    //    cursor: "move",
+    //    opacity: 0.8,
+    //    revert: true,
+    //    update: function( event, ui ) {alert('update ' + ui.position.top + ' ' + ui.position.left )}
+    //
+    //    //placeholder: "portlet-placeholder"
+    //    //placeholder: "ui-state-highlight"
+    //});
+    //$( "#tables" ).disableSelection();
+    ////$( "#tables" ).disableSelection();
+    ////$(".seating_table").draggable();
 
 }
 
@@ -551,17 +598,38 @@ function tableDrop(guest, table, tableId) {
 
 
 function tableDropResponse(response, params) {
-    params.guest.hide();
+    var guest = params.guest;
+    var guestAmount = parseInt(guest.attr("amount"), 10);
+    var group = guest.parent().data().group;
+    updateSeatingArrangementGroupBadge(group, guestAmount);
+
+    guest.hide();
     var li = $(response.data);
     li.appendTo(params.table);
 
     var tableCurrentAmountSpan = $("#" + params.tableId + " .current_amount");
     var currentAmount = parseInt(tableCurrentAmountSpan.html(), 10);
-    var guestAmount = parseInt(params.guest.attr("amount"), 10);
     var newAmount = currentAmount + guestAmount;
 
 
     tableCurrentAmountSpan.html(newAmount);
+
+}
+
+function updateSeatingArrangementGroupBadge(group, guestAmount) {
+    var badge = $('#group_' + group).children('span[data-amount]');
+    var newBadgeAmount = badge.data().amount - guestAmount;
+    badge.data("amount", newBadgeAmount);
+    badge.text(newBadgeAmount);
+
+    var parent = badge.parents('[data-parent-group]');
+    if (newBadgeAmount == 0 && parent.is(":visible")) {
+        parent.hide();
+    }
+    if (newBadgeAmount > 0 && !parent.is(":visible")) {
+        parent.show();
+    }
+
 
 }
 
@@ -585,8 +653,10 @@ function removeGuestFromTableResponse(response, params) {
     var newAmount = currentAmount - guestAmount;
     tableCurrentAmountSpan.html(newAmount);
     guest.remove();
-    $("#guest" + params.guestOid).show();
 
+    guest = $("#guest" + params.guestOid);
+    guest.show();
+    updateSeatingArrangementGroupBadge(guest.parent().data().group, guestAmount * (-1));
 
 }
 
@@ -602,12 +672,29 @@ function deleteTable(tableOid) {
 }
 
 function deleteTableResponse(response, params) {
+    var map = {}; // or var map = {};
     $("#table" + params.tableOid).fadeOut("slow", function () {
         $("#table" + params.tableOid + " li").each(function (i, element) {
-            $("#guest" + $(this).attr("oid")).show();
-        });
+                var guest = $("#guest" + $(this).attr("oid"));
+                var group = guest.parent().data().group;
+                if (!isExist(map[group])) {
+                    map[group] = 0;
+                }
+                map[group] = map[group] + parseInt(guest.attr("amount"), 10);
+                guest.show();
+
+            }
+        );
         $(this).parent().remove();
+        $.each(map, function (key, value) {
+            updateSeatingArrangementGroupBadge(key, (value * (-1)));
+        });
+
+
     });
+    $("#editTableModal").modal("hide");
+
+
 }
 
 function toggleFilterItemClass(item) {
@@ -619,28 +706,50 @@ function toggleFilterItemClass(item) {
 
 }
 
-function refreshStats() {
-    Ajax.sendRequest(URLs.getStatistics, {
-        callback: 'refreshStatsResponse'
-    });
-}
+//function refreshStats() {
+//    Ajax.sendRequest(URLs.getStatistics, {
+//        callback: 'refreshStatsResponse'
+//    });
+//}
+//
+//function refreshStatsResponse(responseData, params) {
+//
+//    try {
+//        g1.refresh(responseData.totalGuests);
+//    } catch (e) {
+//    }
+//    try {
+//        g2.refresh(responseData.invitationSent);
+//    } catch (e) {
+//    }
+//    try {
+//        g3.refresh(responseData.arrivalApproved);
+//    } catch (e) {
+//    }
+//    try {
+//        g4.refresh(responseData.hasTable);
+//    } catch (e) {
+//    }
+//
+//
+//}
 
-function refreshStatsResponse(responseData, params) {
+function refreshStats(data) {
 
     try {
-        g1.refresh(responseData.totalGuests);
+        g1.refresh(data.totalGuests);
     } catch (e) {
     }
     try {
-        g2.refresh(responseData.invitationSent);
+        g2.refresh(data.invitationSent);
     } catch (e) {
     }
     try {
-        g3.refresh(responseData.arrivalApproved);
+        g3.refresh(data.arrivalApproved);
     } catch (e) {
     }
     try {
-        g4.refresh(responseData.hasTable);
+        g4.refresh(data.hasTable);
     } catch (e) {
     }
 

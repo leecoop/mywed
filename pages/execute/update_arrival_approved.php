@@ -9,5 +9,4 @@ try {
     $error = true;
 }
 
-$smarty->assign("error", $error);
-$smarty->display('common/response.tpl');
+include 'utils/SendResponse.php';

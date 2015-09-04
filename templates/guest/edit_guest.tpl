@@ -59,11 +59,11 @@
                                     onclick="toggleArrivalApprovedClass('ediArrivalApproved',1)">
                                 <i class="fa fa-check"></i>
                             </button>
-                            <button val="0" onClass="btn-warning" title="Mark this guest as accepted" class="btn  btn-circle" type="button"
-                                    onclick="toggleArrivalApprovedClass('ediArrivalApproved',0)">
+                            <button val="2" onClass="btn-warning" title="Mark this guest as accepted" class="btn  btn-circle" type="button"
+                                    onclick="toggleArrivalApprovedClass('ediArrivalApproved',2)">
                                 <i class="fa fa-question"></i>
                             </button>
-                            <button val="2" onClass="btn-danger" title="Mark this guest as accepted" class="btn  btn-circle" type="button" onclick="toggleArrivalApprovedClass('ediArrivalApproved',2)">
+                            <button val="3" onClass="btn-danger" title="Mark this guest as accepted" class="btn  btn-circle" type="button" onclick="toggleArrivalApprovedClass('ediArrivalApproved',3)">
                                 <i class="fa fa-times"></i>
                             </button>
                         </div>

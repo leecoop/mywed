@@ -28,7 +28,6 @@ if (!$error) {
 
     $smarty->assign("data", $smarty->fetch('seatingArrangement/table.tpl'));
 }
-$smarty->assign("error", "false");
+include 'utils/SendResponse.php';
 
-$smarty->display('common/response.tpl');
 ?>

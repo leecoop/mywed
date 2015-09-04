@@ -27,8 +27,8 @@ try {
     $smarty->assign("errorMsg", "שגיאה כללית, אנא נסה מאוחר יותר");
 }
 
-$smarty->assign("error", $error);
-$smarty->display('common/response.tpl');
+
+include 'utils/SendResponse.php';
 
 
 

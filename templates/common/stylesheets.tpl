@@ -29,3 +29,4 @@
 {*<link rel="stylesheet" href="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/css/BootSideMenu.css">*}
 
 <link rel="stylesheet" type="text/css" href="../css/plugins/dcslick.css">
+<link rel="stylesheet" type="text/css" href="../css/plugins/jquery.mCustomScrollbar.min.css">

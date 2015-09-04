@@ -23,13 +23,13 @@ class Persist
 //        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
 
 
-//        $dsn = 'mysql:host=localhost;dbname=plusonec_plusone';
-//        $login = 'plusonec_db';
-//        $passwd = 'kVwWQE84';
+        $dsn = 'mysql:host=localhost;dbname=plusonec_plusone';
+        $login = 'plusonec_db';
+        $passwd = 'kVwWQE84';
 
-        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
-        $login = 'b3_15690100';
-        $passwd = 'q1w2e3';
+//        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
+//        $login = 'b3_15690100';
+//        $passwd = 'q1w2e3';
 
         $this->db = new PDO($dsn, $login, $passwd, array(
             PDO::ATTR_PERSISTENT => true));
@@ -49,7 +49,7 @@ class Persist
 
     public function hasText($element)
     {
-        return isset($element) && !empty($element);
+        return isset($element) && count($element)>0 && $element != "";
     }
 
     public function getGuests($projectId)
@@ -160,20 +160,14 @@ class Persist
         return $res;
     }
 
-    public function createGroup($name, $projectId)
+    public function createGroup($title, $projectId)
     {
-        try {
-            $sql = "INSERT INTO groups(title,project_id) VALUES(:name,:projectId)";
-            $res = $this->db->prepare($sql);
-            $res->bindParam(':name', $name, PDO::PARAM_STR);
-            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
-            $res->execute();
-        } catch (Exception $e) {
-            echo $e;
-            return $e;
-        }
-
+        $sql = "INSERT INTO groups(title,project_id) VALUES(:title,:projectId)";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':title', $title, PDO::PARAM_STR);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+        $res->execute();
         return $this->db->lastInsertId();
     }
 
@@ -232,10 +226,10 @@ class Persist
     }
 
 
-    public function getGuestGroupedByGroup($projectId)
+    public function getGuestGroupedByGroup($projectId, &$groupToAmount)
     {
 
-        $sql = "Select * From guests where project_id=:projectId and deleted=false";
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and arrival_approved=1";
 
         $sql .= " ORDER BY oid desc";
 
@@ -247,15 +241,20 @@ class Persist
         //
 
         $guestsByGroupMap = array();
+        $groupToAmount = array();
         foreach ($guests as $key => $value) {
             if (!isset($guestsByGroupMap[$value->group_id])) {
                 $guestsArray = array();
+                $groupToAmount[$value->group_id] = 0;
             } else {
 
                 $guestsArray = $guestsByGroupMap[$value->group_id];
             }
             array_push($guestsArray, $value);
             $guestsByGroupMap[$value->group_id] = $guestsArray;
+            if ($value->table_id == 0) {
+                $groupToAmount[$value->group_id] = $groupToAmount[$value->group_id] + $value->amount;
+            }
 
         }
         return $guestsByGroupMap;
@@ -647,6 +646,41 @@ class Persist
         $res->bindParam(':currentPassword', $currentPassword, PDO::PARAM_STR);
 
         $res->execute();
+    }
+
+
+    public function getProjectShearedPermissions($userId,$projectId)
+    {
+        $sql = "SELECT up.oid as permissionOid, up.active as active, up.is_master as isMater, u.email as userEmail FROM users_projects up inner join users u on u.oid=up.user_id where user_id!=:userId and up.project_id=:projectId ";
+
+        $sql .= " ORDER BY up.oid desc";
+
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+        $res->execute();
+        $res->setFetchMode(PDO::FETCH_LAZY);
+
+        return $res;
+    }
+
+    public function getGroupsBySides($sidesIds, $projectId, $loc)
+    {
+        $sql = "Select DISTINCT o.group_id from guests o where o.project_id=:projectId and o.deleted=false";
+        $sql = $this->appendFilter($sql, $sidesIds, null);
+        $sql = $this->filterByLocation($sql, $loc);
+
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+        $res->execute();
+        $res->setFetchMode(PDO::FETCH_LAZY);
+        $result = array();
+        foreach ($res as $key => $value) {
+            array_push($result, $value->group_id);
+        }
+        return $result;
+
     }
 
 }

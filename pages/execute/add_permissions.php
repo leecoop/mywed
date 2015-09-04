@@ -18,17 +18,4 @@ if ($sessionParams['isProjectMaster']) {
 }
 
 
-if (!$error) {
-    $smarty->assign("message", "הפעולה בוצעה בהצלחה");
-    $smarty->assign("data", $smarty->fetch('common/alerts/success.tpl'));
-
-} else {
-    $smarty->assign("message", "הפעולה נכשלה");
-    $smarty->assign("data", $smarty->fetch('common/alerts/error.tpl'));
-
-}
-
-$smarty->clearassign('message');
-
-$smarty->assign("error", $error);
-$smarty->display('common/response.tpl');
+include 'utils/SendResponse.php';

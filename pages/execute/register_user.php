@@ -27,8 +27,7 @@ if ($project) {
 
 }
 
-$smarty->assign("error", false);
 $smarty->assign("redirectLink", $redirectLink);
-$smarty->display('common/response.tpl');
+include 'utils/SendResponse.php';
 
 

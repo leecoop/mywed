@@ -33,5 +33,10 @@ class CommonMethods
 
     }
 
+    function toBoolean($str)
+    {
+        return filter_var($str, FILTER_VALIDATE_BOOLEAN);
+
+    }
 
 }

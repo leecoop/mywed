@@ -6260,3 +6260,7 @@ button.close {
 em.has-error{
     color: #a94442;
 }
+
+.soft-hide {
+    display: none
+}

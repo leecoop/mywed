@@ -12,8 +12,14 @@
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#changePassword">התחברות</a></li>
-                    {*<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>*}
+                    <li class="active"><a data-toggle="tab" href="#changePassword">
+                            <span class="fa fa-lock"></span>
+                            התחברות
+                        </a></li>
+                    <li><a data-toggle="tab" href="#permissions">
+                            <span class="fa fa-key"></span>
+                            הרשאות
+                        </a></li>
                     {*<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>*}
                     {*<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>*}
                 </ul>
@@ -21,12 +27,11 @@
                 <div class="tab-content">
                     <div id="changePassword" class="tab-pane fade in active">
                         {include file="settings/change_password.tpl"}
-
                     </div>
-                    {*<div id="menu1" class="tab-pane fade">*}
-                        {*<h3>Menu 1</h3>*}
-                        {*<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>*}
-                    {*</div>*}
+
+                    <div id="permissions" class="tab-pane fade">
+                        {include file="settings/manage_permmisions.tpl"}
+                    </div>
                     {*<div id="menu2" class="tab-pane fade">*}
                         {*<h3>Menu 2</h3>*}
                         {*<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>*}

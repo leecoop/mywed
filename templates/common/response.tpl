@@ -14,6 +14,9 @@
 {if isset($redirectLink)}
     , "redirectLink": {$redirectLink|json_encode}
 {/if}
+{if isset($groupSet)}
+    , "groupSet": {$groupSet|json_encode}
+{/if}
 {if isset($guest)}
     ,
     "guest":
@@ -29,5 +32,15 @@
     "invitationSent":{$guest.invitation_sent|json_encode},
     "arrivalApproved":{$guest.arrival_approved|json_encode}
 {rdelim}
+{/if}
+{if isset($statMap)}
+    ,
+    "stat":
+    {ldelim}
+    "totalGuests":{$statMap["totalGuests"]|json_encode},
+    "invitationSent":{$statMap["invitationSent"]|json_encode},
+    "arrivalApproved":{$statMap["arrivalApproved"]|json_encode},
+    "hasTable":{$statMap["hasTable"]|json_encode}
+    {rdelim}
 {/if}
 {rdelim}

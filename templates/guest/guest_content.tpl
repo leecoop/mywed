@@ -31,12 +31,12 @@
                                 onclick="{if $loc eq 'rsvps'}openVerifyAmountModal({$guest.oid}){else}updateArrivalApproved({$guest.oid},1){/if}">
                             <i class="fa fa-check"></i>
                         </button>
-                        <button val="0" onClass="btn-warning" title="Mark this guest as accepted" class=" btn btn-{if $guest.arrival_approved == 0}warning{else}default{/if}  btn-circle" type="button"
-                                onclick="updateArrivalApproved({$guest.oid},0)">
+                        <button val="2" onClass="btn-warning" title="Mark this guest as accepted" class=" btn btn-{if $guest.arrival_approved == 2}warning{else}default{/if}  btn-circle" type="button"
+                                onclick="updateArrivalApproved({$guest.oid},2{if $loc eq 'rsvps'},true{/if})">
                             <i class="fa fa-question"></i>
                         </button>
-                        <button val="2" onClass="btn-danger" title="Mark this guest as accepted"  class=" btn btn-{if $guest.arrival_approved == 2}danger{else}default{/if}  btn-circle" type="button"
-                                onclick="updateArrivalApproved({$guest.oid},2{if $loc eq 'rsvps'},true{/if})">
+                        <button val="3" onClass="btn-danger" title="Mark this guest as accepted"  class=" btn btn-{if $guest.arrival_approved == 3}danger{else}default{/if}  btn-circle" type="button"
+                                onclick="updateArrivalApproved({$guest.oid},3{if $loc eq 'rsvps'},true{/if})">
                             <i class="fa fa-times"></i>
                         </button>
                     </div>

@@ -45,9 +45,7 @@ if (!$error) {
     $smarty->assign("guest", (array)$guest);
     $smarty->assign("data", $smarty->fetch('guest/guest_content.tpl'));
 }
-$smarty->assign("error", $error);
-
-$smarty->display('common/response.tpl');
+include 'utils/SendResponse.php';
 
 
 

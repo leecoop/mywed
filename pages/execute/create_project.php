@@ -11,8 +11,8 @@ try {
     $persist->createGroup("חברים של $maleName", $projectId);
     $persist->createGroup("חברים של $femaleName", $projectId);
     $persist->createGroup("חברים משותפים", $projectId);
-    $persist->createGroup("חברים לעבוד של $maleName", $projectId);
-    $persist->createGroup("חברים לעבוד של $femaleName", $projectId);
+    $persist->createGroup("חברים לעבודה של $maleName", $projectId);
+    $persist->createGroup("חברים לעבודה של $femaleName", $projectId);
     $persist->createGroup("חברים של משפחת החתן ", $projectId);
     $persist->createGroup("חברים של משפחת הכלה ", $projectId);
 
@@ -24,8 +24,6 @@ try {
     $error = true;
 }
 
-
-$smarty->assign("error", $error);
-$smarty->display('common/response.tpl');
+include 'utils/SendResponse.php';
 
 
