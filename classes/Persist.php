@@ -23,13 +23,13 @@ class Persist
 //        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
 
 
-        $dsn = 'mysql:host=localhost;dbname=plusonec_plusone';
-        $login = 'plusonec_db';
-        $passwd = 'kVwWQE84';
+//        $dsn = 'mysql:host=localhost;dbname=plusonec_plusone';
+//        $login = 'plusonec_db';
+//        $passwd = 'kVwWQE84';
 
-//        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
-//        $login = 'b3_15690100';
-//        $passwd = 'q1w2e3';
+        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
+        $login = 'b3_15690100';
+        $passwd = 'q1w2e3';
 
         $this->db = new PDO($dsn, $login, $passwd, array(
             PDO::ATTR_PERSISTENT => true));
@@ -334,6 +334,7 @@ class Persist
         $totalGuests = 0;
         $invitationSent = 0;
         $arrivalApproved = 0;
+        $arrivalApprovedChecked = 0;
         $hasTable = 0;
 
         $map = array();
@@ -347,6 +348,9 @@ class Persist
             if ($guest->arrival_approved == 1) {
                 $arrivalApproved += $guestsAmount;
             }
+            if ($guest->arrival_approved > 0) {
+                $arrivalApprovedChecked += $guestsAmount;
+            }
             if ($guest->table_id > 0) {
                 $hasTable += $guestsAmount;
             }
@@ -358,7 +362,8 @@ class Persist
         $map["invitationSent"] = $invitationSent;
         $map["invitationSentInPercent"] = $this->calcPercent($invitationSent, $totalGuests);
         $map["arrivalApproved"] = $arrivalApproved;
-        $map["arrivalApprovedInPercent"] = $this->calcPercent($arrivalApproved, $totalGuests);
+        $map["arrivalApprovedChecked"] = $arrivalApprovedChecked;
+        $map["arrivalApprovedInPercent"] = $this->calcPercent($arrivalApprovedChecked, $totalGuests);
         $map["hasTable"] = $hasTable;
         $map["hasTableInPercent"] = $this->calcPercent($hasTable, $totalGuests);
 

@@ -19,7 +19,7 @@
             {if $statisticsMap["totalGuests"] - $statisticsMap["arrivalApproved"] > 0}
                 <div class="well">
                     <i class="fa fa-star fa-fw"></i>
-                    {$statisticsMap["totalGuests"] - $statisticsMap["arrivalApproved"]}  אורחים עדיין לא אישרו הגעה
+                    {$statisticsMap["totalGuests"] - $statisticsMap["arrivalApprovedChecked"]}  אורחים עדיין לא אישרו הגעה
 
                 </div>
             {/if}
