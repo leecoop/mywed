@@ -27,15 +27,15 @@
         {if $loc eq 'rsvps' or $loc eq 'search' }
             <td style="min-width: 90px">
                     <div class="btn-group " id="arrivalApproved{$guest.oid}">
-                        <button val="1" onClass="btn-success" title="Mark this guest as accepted" class=" btn btn-{if $guest.arrival_approved == 1}success{else}default{/if}  btn-circle" type="button"
+                        <button val="1" onClass="btn-success" title="מגיעים" class=" btn btn-{if $guest.arrival_approved == 1}success{else}default{/if}  btn-circle" type="button"
                                 onclick="{if $loc eq 'rsvps'}openVerifyAmountModal({$guest.oid}){else}updateArrivalApproved({$guest.oid},1){/if}">
                             <i class="fa fa-check"></i>
                         </button>
-                        <button val="2" onClass="btn-warning" title="Mark this guest as accepted" class=" btn btn-{if $guest.arrival_approved == 2}warning{else}default{/if}  btn-circle" type="button"
+                        <button val="2" onClass="btn-warning" title="לא יודע" class=" btn btn-{if $guest.arrival_approved == 2}warning{else}default{/if}  btn-circle" type="button"
                                 onclick="updateArrivalApproved({$guest.oid},2{if $loc eq 'rsvps'},true{/if})">
                             <i class="fa fa-question"></i>
                         </button>
-                        <button val="3" onClass="btn-danger" title="Mark this guest as accepted"  class=" btn btn-{if $guest.arrival_approved == 3}danger{else}default{/if}  btn-circle" type="button"
+                        <button val="3" onClass="btn-danger" title="לא מגיעים"  class=" btn btn-{if $guest.arrival_approved == 3}danger{else}default{/if}  btn-circle" type="button"
                                 onclick="updateArrivalApproved({$guest.oid},3{if $loc eq 'rsvps'},true{/if})">
                             <i class="fa fa-times"></i>
                         </button>
