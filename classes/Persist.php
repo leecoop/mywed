@@ -365,7 +365,7 @@ class Persist
         $map["arrivalApprovedChecked"] = $arrivalApprovedChecked;
         $map["arrivalApprovedInPercent"] = $this->calcPercent($arrivalApprovedChecked, $totalGuests);
         $map["hasTable"] = $hasTable;
-        $map["hasTableInPercent"] = $this->calcPercent($hasTable, $totalGuests);
+        $map["hasTableInPercent"] = $this->calcPercent($hasTable, $arrivalApproved);
 
         return $map;
 

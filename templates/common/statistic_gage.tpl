@@ -61,7 +61,7 @@
         id: "g3",
         value: {$statisticsMap["arrivalApproved"]},
         min: 0,
-        max: {$statisticsMap["totalGuests"]},
+        max: {$statisticsMap["invitationSent"]},
         title: "אישרו הגעה",
         label: "מוזמנים",
         levelColors: colors
@@ -73,7 +73,7 @@
         id: "g4",
         value: {$statisticsMap["hasTable"]},
         min: 0,
-        max: {$statisticsMap["totalGuests"]},
+        max: {$statisticsMap["arrivalApproved"]},
         title: "קיבלו שולחן",
         label: "מוזמנים",
         levelColors: colors
