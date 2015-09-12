@@ -1,6 +1,6 @@
 <form id="addGuestForm" role="form" action="javascript:addEditGuest(0)" autocomplete="off">
     <div class="form-group has-feedback">
-        <input class="form-control" placeholder="שם" id="name" name="name" required>
+        <input class="form-control" placeholder="שם משפחה + פרטי" id="name" name="name" required>
         <span style="top: 0" class="fa form-control-feedback"></span>
 
     </div>

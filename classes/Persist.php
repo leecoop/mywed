@@ -108,10 +108,10 @@ class Persist
         return $this->db->lastInsertId();
     }
 
-    public function editGuest($guestId, $name, $phone, $amount, $groupId, $sideId, $invitationSent, $arrivalApproved, $projectId, $gift)
+    public function editGuest($guestId, $name, $phone, $amount, $groupId, $sideId, $invitationSent, $arrivalApproved, $projectId, $gift, $tableId)
     {
 //        try {
-        $sql = "UPDATE guests set name=:name, phone=:phone, amount=:amount, group_id=:groupId, side_id=:sideId, invitation_sent=:invitationSent, arrival_approved=:arrivalApproved, gift=:gift where oid=:guestId and project_id=:projectId";
+        $sql = "UPDATE guests set name=:name, phone=:phone, amount=:amount, group_id=:groupId, side_id=:sideId, invitation_sent=:invitationSent, arrival_approved=:arrivalApproved, gift=:gift, table_id=:tableId where oid=:guestId and project_id=:projectId";
         $res = $this->db->prepare($sql);
 
         $res->bindParam(':guestId', $guestId, PDO::PARAM_INT);
@@ -124,6 +124,7 @@ class Persist
         $res->bindParam(':arrivalApproved', $arrivalApproved, PDO::PARAM_BOOL);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
         $res->bindParam(':gift', $gift, PDO::PARAM_STR);
+        $res->bindParam(':tableId', $tableId, PDO::PARAM_INT);
 
         $res->execute();
 //        } catch (Exception $e) {

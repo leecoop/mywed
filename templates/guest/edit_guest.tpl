@@ -7,7 +7,7 @@
                 <h4 class="modal-title">עריכת מוזמן</h4>
 
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding-bottom: 0">
                 <form id="editGuestForm" role="form" autocomplete="off">
                     <div class="form-group">
                         <label for="editName">שם</label>
@@ -21,21 +21,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="editSides">צד</label>
-                        <select id="editSides" class="form-control">
-                            {foreach $sides as $value}
-                                <option value="{$value@key}">{$value}</option>
-                            {/foreach}
-                        </select>
-                    </div>
+                        <div class="col-xs-5 form-group" style="padding-right: 0;padding-left: 7px">
+                            <label for="editSides">צד</label>
+                            <select id="editSides" class="form-control">
+                                {foreach $sides as $value}
+                                    <option value="{$value@key}">{$value}</option>
+                                {/foreach}
+                            </select>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="editGroups">קבוצה</label>
-                        <select id="editGroups" class="form-control">
-                            {foreach $groups as $value}
-                                <option value="{$value@key}">{$value}</option>
-                            {/foreach}
-                        </select>
+                        <div class="col-xs-7 form-group" style="padding-left: 0;padding-right: 5px">
+                            <label for="editGroups">קבוצה</label>
+                            <select id="editGroups" class="form-control">
+                                {foreach $groups as $value}
+                                    <option value="{$value@key}">{$value}</option>
+                                {/foreach}
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -67,6 +69,15 @@
                                 <i class="fa fa-times"></i>
                             </button>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editTables">שולחן</label>
+                        <select id="editTables" class="form-control">
+                            {foreach $tables as $table}
+                                <option value="{$table.oid}">{$table.title}</option>
+                            {/foreach}
+                        </select>
                     </div>
 
                     <div class="form-group">

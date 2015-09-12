@@ -6,6 +6,7 @@ $smarty->assign("title",'חלוקת הזמנות');
 $guests = $persist->getInvitationNotSentGuests($projectId);
 
 $groups = $persist->getGroups($projectId);
+$tables = $persist->getTables($projectId);
 
 $statisticsMap = $persist->getStatisticsMap($projectId);
 
@@ -13,5 +14,6 @@ $sides = $persist->getSides();
 $smarty->assign("guests",$guests);
 $smarty->assign("groups",$groups);
 $smarty->assign("sides",$sides);
+$smarty->assign("tables", $tables);
 $smarty->assign("statisticsMap",$statisticsMap);
 $smarty->display('tmpl_invitations.tpl');

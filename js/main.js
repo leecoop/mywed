@@ -109,6 +109,7 @@ function addEditGuest(guestOid) {
     var invitationSent = 0;
     var arrivalApproved = 0;
     var gift = 0;
+    var table = 0;
     var loc = $("#loc").val();
     var hideElement = false;
 
@@ -125,6 +126,7 @@ function addEditGuest(guestOid) {
         gift = $("#editGift").val();
         group = $("#editGroups");
         side = $("#editSides");
+        table = $("#editTables").val();
         invitationSent = ($("#editInvitationSent").hasClass("btn-default")) ? 0 : 1;
         var ediArrivalApproved = $("#ediArrivalApproved button");
         arrivalApproved = (ediArrivalApproved.hasClass("btn-success")) ? 1 : (ediArrivalApproved.hasClass("btn-warning")) ? 2 : (ediArrivalApproved.hasClass("btn-danger")) ? 3 : 0;
@@ -142,6 +144,7 @@ function addEditGuest(guestOid) {
             guestOid: guestOid,
             invitationSent: invitationSent,
             arrivalApproved: arrivalApproved,
+            table: table,
             loc: loc
         },
         contentType: 'application/json;charset=UTF-8',
@@ -270,6 +273,7 @@ function openEditGuest(guestOid) {
     $("#editGroups").val(guest.attr("group"));
     $("#editSides").val(guest.attr("side"));
     $("#editGift").val(guest.attr("gift"));
+    $("#editTables").val(guest.attr("table"));
     //reset ArrivalApprovedClass
     toggleArrivalApprovedClass("ediArrivalApproved", 0);
     var invitationSent = guest.attr("invitationSent");
