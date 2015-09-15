@@ -41,7 +41,7 @@
                             </form>
                         </div>
                         <div class="panel-footer">
-                            <a href="login.php">התחבר</a>
+                            <a href="login">התחבר</a>
                         </div>
                     </div>
                 </div>

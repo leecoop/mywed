@@ -35,6 +35,7 @@ var Ajax = {
         if (!options.contentType) options.contentType = 'text/xml';
         if (!options.returnJson) options.returnJson = false;
         if (!options.refreshStats) options.refreshStats = false;
+        if (!options.showNotification) options.showNotification = false;
 
         url += ['&rand=', Math.random()].join('');
         options.data['refreshStats'] = options.refreshStats;
@@ -58,8 +59,8 @@ var Ajax = {
                         var callback = (options.callback) ? eval(options.callback) : null;
                         if (typeof callback == 'function') callback(response, options.params);
                         if (options.refreshStats) refreshStats(response.stat);
-                        if (showNotificationOnBtn) {
-                            notification(response.message, response.error, true);
+                        if (options.showNotification) {
+                            notification(response.message, response.error, showNotificationOnBtn);
                         }
 
                     }
@@ -151,6 +152,7 @@ function addEditGuest(guestOid) {
         params: {edit: !add, guestOid: guestOid, loc: loc, hideElement: hideElement},
         loader: true,
         refreshStats: true,
+        showNotification: ($('#addGuestPanelSlick').exists()) ? false : true,
         callback: 'addEditGuestResponse'
     });
 
@@ -236,6 +238,7 @@ function createGroup() {
         contentType: 'application/json;charset=UTF-8',
         params: {groupName: groupName},
         loader: true,
+        showNotification: true,
         callback: 'createGroupResponse'
     });
 

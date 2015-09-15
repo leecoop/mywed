@@ -41,7 +41,7 @@
                             </form>
                         </div>
                         <div class="panel-footer">
-                            <a href="register.php">הרשמה</a>
+                            <a href="register">הרשמה</a>
                             {*<a href="register.php" class="pull-left">שחכתי סיסמא</a>*}
                         </div>
                     </div>
