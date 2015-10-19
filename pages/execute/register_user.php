@@ -13,7 +13,6 @@ if ($user && $user->password == '12345') {
     $userId = $persist->registerUser($email, md5($password));
 }
 
-
 $_SESSION['isLoggedIn'] = true;
 $_SESSION['userId'] = $userId;
 $_SESSION['userName'] = explode('@', $email)[0];
