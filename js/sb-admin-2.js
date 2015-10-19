@@ -19,12 +19,16 @@ $(function() {
         //var tableSize = (container/10);
         ////$('.table_small').css("width", tableSize + "px");
         //console.log(width + " -> " + width/tableSize + "%");
-        if (width < 768) {
-            $('div.navbar-collapse').addClass('collapse');
-            topOffset = 100; // 2-row-menu
-        } else {
-            $('div.navbar-collapse').removeClass('collapse');
-        }
+
+        //todo: check if needed
+
+
+        //if (width < 768) {
+        //    $('div.navbar-collapse').addClass('collapse');
+        //    topOffset = 100; // 2-row-menu
+        //} else {
+        //    $('div.navbar-collapse').removeClass('collapse');
+        //}
 
         height = (this.window.innerHeight > 0) ? this.window.innerHeight : this.screen.height;
         height = height - topOffset;

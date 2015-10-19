@@ -16,6 +16,7 @@ if ($user && $user->password == '12345') {
 
 $_SESSION['isLoggedIn'] = true;
 $_SESSION['userId'] = $userId;
+$_SESSION['email'] = $email;
 
 $redirectLink = 'create-project';
 

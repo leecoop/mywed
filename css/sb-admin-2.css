@@ -1131,7 +1131,7 @@ div#groups .tab-content{
 
 .navbar span[data-rel="user"] {
     display: inline-block;
-    height: 14px;
+    height: 16px;
     line-height: 11px;
     max-width: 300px;
     overflow: hidden;

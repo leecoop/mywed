@@ -9,6 +9,7 @@ try {
     if ($user) {
         $_SESSION['isLoggedIn'] = true;
         $_SESSION['userId'] = $user->user_id;
+        $_SESSION['email'] = $email;
         $project = $persist->getUserProjects($user->user_id);
 
         if ($project) {

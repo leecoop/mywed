@@ -19,4 +19,6 @@ $smarty->assign("statisticsMap",$statisticsMap);
 $smarty->assign("guestGroupedByGroup",$guestGroupedByGroup);
 $smarty->assign("guestGroupedByTable",$guestGroupedByTable);
 $smarty->assign("groupToAmount",$groupToAmount);
+$smarty->assign("userEmail", $sessionParams['email']);
+
 $smarty->display('tmpl_seating_arrangement.tpl');

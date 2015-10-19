@@ -14,5 +14,6 @@ $smarty->assign("guests", $guests);
 $smarty->assign("groups", $groups);
 $smarty->assign("sides", $sides);
 $smarty->assign("tables", $tables);
+$smarty->assign("userEmail", $sessionParams['email']);
 
 $smarty->display('tmpl_search.tpl');

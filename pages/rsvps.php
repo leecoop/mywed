@@ -17,5 +17,6 @@ $smarty->assign("sides",$sides);
 $smarty->assign("tables", $tables);
 $smarty->assign("statisticsMap",$statisticsMap);
 $smarty->assign("groupsWithGuests", $groupsWithGuests);
+$smarty->assign("userEmail", $sessionParams['email']);
 
 $smarty->display('tmpl_rsvps.tpl');
