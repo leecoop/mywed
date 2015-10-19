@@ -16,7 +16,7 @@ $smarty->assign("groups", $groups);
 $smarty->assign("sides", $sides);
 $smarty->assign("tables", $tables);
 $smarty->assign("groupsWithGuests", $groupsWithGuests);
-$smarty->assign("userEmail", $sessionParams['email']);
+$smarty->assign("userName", $sessionParams['userName']);
 
 $smarty->assign("statisticsMap", $statisticsMap);
 $smarty->display('tmpl_guests.tpl');

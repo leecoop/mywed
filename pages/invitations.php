@@ -18,6 +18,6 @@ $smarty->assign("sides",$sides);
 $smarty->assign("tables", $tables);
 $smarty->assign("statisticsMap",$statisticsMap);
 $smarty->assign("groupsWithGuests", $groupsWithGuests);
-$smarty->assign("userEmail", $sessionParams['email']);
+$smarty->assign("userName", $sessionParams['userName']);
 
 $smarty->display('tmpl_invitations.tpl');

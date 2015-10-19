@@ -6,6 +6,6 @@ if ($sessionParams['isProjectMaster']) {
     $shearedPermissions = $persist->getProjectShearedPermissions($sessionParams['userId'], $projectId);
     $smarty->assign("shearedPermissions", $shearedPermissions);
 }
-$smarty->assign("userEmail", $sessionParams['email']);
+$smarty->assign("userName", $sessionParams['userName']);
 
 $smarty->display('tmpl_settings.tpl');

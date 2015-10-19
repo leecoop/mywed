@@ -9,7 +9,7 @@ try {
     if ($user) {
         $_SESSION['isLoggedIn'] = true;
         $_SESSION['userId'] = $user->user_id;
-        $_SESSION['email'] = $email;
+        $_SESSION['userName'] = explode('@', $email)[0];
         $project = $persist->getUserProjects($user->user_id);
 
         if ($project) {

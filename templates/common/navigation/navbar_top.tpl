@@ -4,7 +4,7 @@
         <li class="dropdown hidden-xs">
             <a class="navbar-link dropdown-toggle  navbar-link" data-toggle="dropdown" href="#">
                 <b class="caret"></b>
-                <span data-rel="user">{$userEmail}</span>
+                <span data-rel="user">{$userName}</span>
                 <i class="fa fa-user fa-lg"></i>
             </a>
             <ul class="dropdown-menu dropdown-user text-right">
