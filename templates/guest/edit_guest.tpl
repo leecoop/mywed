@@ -1,4 +1,4 @@
-<div class="modal fade" id="editGuestModal" role="dialog">
+<div class="modal fade" id="editGuestModal" role="dialog" xmlns="http://www.w3.org/1999/html">
     <div class="modal-dialog modal-sm">
 
         <div class="modal-content modal-primary">
@@ -7,17 +7,32 @@
                 <h4 class="modal-title">עריכת מוזמן</h4>
 
             </div>
-            <div class="modal-body" style="padding-bottom: 0">
+            <div class="modal-body" style="padding: 20px 15px 0">
                 <form id="editGuestForm" role="form" autocomplete="off">
                     <div class="form-group">
                         <label for="editName">שם</label>
                         <input class="form-control" id="editName" required>
                     </div>
 
-
                     <div class="form-group">
-                        <label>טלפון</label>
-                        <input class="form-control" id="editPhone">
+                        <div class="form-group col-xs-6" style="padding-right: 0;padding-left: 7px">
+                            <label>טלפון</label>
+                            <input class="form-control" id="editPhone">
+                        </div>
+
+                        <div class="form-group col-xs-6" style="padding-left: 0;padding-right: 5px">
+                            <label for="editAmount">מספר מוזמנים</label>
+                            <div class="form-group text-center">
+
+                                <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(1, this)"><i
+                                            class="fa  fa-plus"></i></button>
+                                <input id="editAmount" value="1" readonly class="form-control" data-type="amount"
+                                       style="width:60px; text-align: center; display:inline;cursor:default;background-color: #fff"/>
+                                <button class="btn btn-default btn-circle" type="button" onclick="updateAmount(-1, this)"><i
+                                            class="fa fa-minus"></i></button>
+                            </div>
+
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -32,7 +47,7 @@
 
                         <div class="col-xs-7 form-group" style="padding-left: 0;padding-right: 5px">
                             <label for="editGroups">קבוצה</label>
-                            <select id="editGroups" class="form-control">
+                            <select id="editGroups" class="form-control" data-type="groups">
                                 {foreach $groups as $value}
                                     <option value="{$value@key}">{$value}</option>
                                 {/foreach}
@@ -40,10 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="editAmount">מספר מוזמנים</label>
-                        <input class="form-control" id="editAmount" value="1">
-                    </div>
+
 
                     <div class="form-group">
                         <label for="editInvitationSent">נשלחה הזמנה</label>
@@ -73,7 +85,7 @@
 
                     <div class="form-group">
                         <label for="editTables">שולחן</label>
-                        <select id="editTables" class="form-control">
+                        <select id="editTables" class="form-control" data-placeholder="בחר שולחן">
                             {foreach $tables as $table}
                                 <option value="{$table.oid}">{$table.title}</option>
                             {/foreach}
@@ -90,8 +102,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <input type="submit" class="btn btn-default" onclick="$('#editGuestForm').submit()" value="עדכן"/>
-                <button type="button" class="btn btn-default" id="deleteGuestBtn">מחק</button>
+                <button type="submit" class="btn btn-success" onclick="$('#editGuestForm').submit()"><i class="fa fa-floppy-o"></i> עדכן</button>
+                <button type="button" class="btn btn-danger" id="deleteGuestBtn">מחק</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
             </div>
         </div>

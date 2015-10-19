@@ -18,6 +18,9 @@
 
 
 <script src="../js/main.js"></script>
+{if $loc eq 'seating_arrangement'}
+    <script src="../js/seatingArrangement.js"></script>
+{/if}
 
 <!-- DataTables JavaScript -->
 <script type="text/javascript" language="javascript" src="../js/plugins/jquery.dataTables.js"></script>
@@ -86,9 +89,9 @@
 <script type="text/javascript" language="javascript" src="../js/plugins/localization/messages_he.js"></script>
 <script type="text/javascript" language="javascript" src="../js/translationMap.js"></script>
 <script type="text/javascript" language="javascript" src="../js/plugins/jquery.PrintArea.js"></script>
-<script type="text/javascript" language="javascript" src="../js/plugins/jquery.slick.2.1.js"></script>
 <script type="text/javascript" language="javascript" src="../js/plugins/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" language="javascript" src="../js/plugins/notify.min.js"></script>
+<script type="text/javascript" language="javascript" src="../js/plugins/chosen.jquery.js"></script>
 
 {*<script src="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/js/BootSideMenu.js"></script>*}
 

@@ -69,9 +69,12 @@ class Persist
         }
     }
 
-    public function getGuestsWithFilter($sidesIds, $groupsIds, $projectId)
+    public function getGuestsWithFilter($sidesIds, $groupsIds, $projectId, $showDeleted)
     {
-        $sql = "Select * From guests where project_id=:projectId and deleted=false";
+        $sql = "Select * From guests where project_id=:projectId";
+        if ($showDeleted == "false") {
+            $sql .= " and deleted=false";
+        }
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql .= " ORDER BY oid desc";
 
@@ -134,12 +137,13 @@ class Persist
         //return true;
     }
 
-    public function deleteGuest($guestId, $projectId)
+    public function deleteGuest($guestId, $delete, $projectId)
     {
         try {
-            $sql = "UPDATE guests set deleted=true where oid=:guestId and project_id=:projectId";
+            $sql = "UPDATE guests set deleted=:toDelete where oid=:guestId and project_id=:projectId";
             $res = $this->db->prepare($sql);
             $res->bindParam(':guestId', $guestId, PDO::PARAM_INT);
+            $res->bindParam(':toDelete', $delete, PDO::PARAM_BOOL);
             $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
             $res->execute();
@@ -230,9 +234,10 @@ class Persist
     public function getGuestGroupedByGroup($projectId, &$groupToAmount)
     {
 
-        $sql = "Select * From guests where project_id=:projectId and deleted=false and arrival_approved=1";
+        $sql = "Select * From guests where project_id=:projectId and deleted=false";
+// and arrival_approved=1";
 
-        $sql .= " ORDER BY oid desc";
+        $sql .= " ORDER BY name";
 
         $res = $this->db->prepare($sql);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
@@ -314,7 +319,11 @@ class Persist
     public function updateArrivalApproved($guestOid, $arrivalApproved, $projectId, $amount)
     {
         try {
-            $sql = "UPDATE guests set arrival_approved=:arrivalApproved, amount=:amount where oid=:guestOid and project_id=:projectId";
+            $sql = "UPDATE guests set arrival_approved=:arrivalApproved, amount=:amount";
+            if ($arrivalApproved == '1') {
+                $sql .= ", invitation_sent=1";
+            }
+            $sql .= " where oid=:guestOid and project_id=:projectId";
             $res = $this->db->prepare($sql);
             $res->bindParam(':arrivalApproved', $arrivalApproved, PDO::PARAM_INT);
             $res->bindParam(':guestOid', $guestOid, PDO::PARAM_INT);
@@ -392,9 +401,12 @@ class Persist
     }
 
 
-    public function getInvitationNotSentGuestsWithFilter($sidesIds, $groupsIds, $projectId)
+    public function getInvitationNotSentGuestsWithFilter($sidesIds, $groupsIds, $projectId, $showDeleted)
     {
-        $sql = "Select * From guests where project_id=:projectId and deleted=false and invitation_sent=0";
+        $sql = "Select * From guests where project_id=:projectId and invitation_sent=0";
+        if ($showDeleted == "false") {
+            $sql .= " and deleted=false";
+        }
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql .= " ORDER BY oid desc";
 
@@ -419,9 +431,12 @@ class Persist
         return $res;
     }
 
-    public function getArrivalNotApprovedGuestsWithFilter($sidesIds, $groupsIds, $projectId)
+    public function getArrivalNotApprovedGuestsWithFilter($sidesIds, $groupsIds, $projectId, $showDeleted)
     {
-        $sql = "Select * From guests where project_id=:projectId and deleted=false and invitation_sent=1 and arrival_approved=0";
+        $sql = "Select * From guests where project_id=:projectId and invitation_sent=1 and arrival_approved=0";
+        if ($showDeleted == "false") {
+            $sql .= " and deleted=false";
+        }
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql .= " ORDER BY oid desc";
         $res = $this->db->prepare($sql);
@@ -473,13 +488,17 @@ class Persist
     }
 
 
-    public function addTable($title, $capacity, $projectId)
+    public function addTable($title, $capacity, $projectId, $topPosition, $leftPosition)
     {
-        $sql = "INSERT INTO tables(title,capacity,project_id) VALUES(:title,:capacity,:projectId)";
+        $sql = "INSERT INTO tables(title,capacity,project_id,top_position,left_position) VALUES(:title,:capacity,:projectId,:topPosition,:leftPosition)";
         $res = $this->db->prepare($sql);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
         $res->bindParam(':title', $title, PDO::PARAM_STR);
         $res->bindParam(':capacity', $capacity, PDO::PARAM_INT);
+        $res->bindParam(':topPosition', $topPosition, PDO::PARAM_STR);
+        $res->bindParam(':leftPosition', $leftPosition, PDO::PARAM_STR);
+
+
 
         $res->execute();
         return $this->db->lastInsertId();
@@ -521,7 +540,8 @@ class Persist
     public function getGuestGroupedByTable($projectId)
     {
 
-        $sql = "Select * From guests where project_id=:projectId and deleted=false and table_id>0";
+//        $sql = "Select * From guests where project_id=:projectId and deleted=false and arrival_approved=1 and table_id>0 order by name";
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and table_id>0 order by name";
         $res = $this->db->prepare($sql);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
@@ -671,9 +691,12 @@ class Persist
         return $res;
     }
 
-    public function getGroupsBySides($sidesIds, $projectId, $loc)
+    public function getGroupsBySides($sidesIds, $projectId, $loc, $showDeleted)
     {
-        $sql = "Select DISTINCT o.group_id from guests o where o.project_id=:projectId and o.deleted=false";
+        $sql = "Select DISTINCT o.group_id from guests o where o.project_id=:projectId";
+        if ($showDeleted == "false") {
+            $sql .= " and deleted=false";
+        }
         $sql = $this->appendFilter($sql, $sidesIds, null);
         $sql = $this->filterByLocation($sql, $loc);
 
@@ -687,6 +710,17 @@ class Persist
         }
         return $result;
 
+    }
+
+    public function updateTablePosition($tableId, $topPosition, $leftPosition, $projectId){
+        $sql = "update tables set top_position=:topPosition, left_position=:leftPosition where oid=:tableId and project_id=:projectId";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':topPosition', $topPosition, PDO::PARAM_STR);
+        $res->bindParam(':leftPosition', $leftPosition, PDO::PARAM_STR);
+        $res->bindParam(':tableId', $tableId, PDO::PARAM_INT);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+        $res->execute();
     }
 
 }

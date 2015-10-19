@@ -27,12 +27,11 @@
                 </tr>
                 <tr>
                     <td>
-
                         <div style="max-height: 140px; overflow-y: auto;direction: ltr;">
                             <div style="direction: rtl">
                                 <div id="filterGroups">
                                     {foreach $groups as $value}
-                                        <div class="tagBG" onclick="filter('group_{$value@key}')" id="group_{$value@key}" value="{$value@key}">{$value}</div>
+                                        <div {if !in_array($value@key, $groupsWithGuests)} style="display: none" {/if} class="tagBG" onclick="filter('group_{$value@key}')" id="group_{$value@key}" value="{$value@key}">{$value}</div>
                                     {/foreach}
                                 </div>
                             </div>
@@ -42,5 +41,14 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="panel-footer">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="showDeleted" onchange="filter()">
+                הצג מחוקים
+            </label>
+        </div>
+
     </div>
 </div>

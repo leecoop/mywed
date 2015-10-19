@@ -9,6 +9,7 @@ $table = $requestParams['table'];
 $guestOid = $requestParams['guestOid'];
 $invitationSent = $requestParams['invitationSent'];
 $arrivalApproved = $requestParams['arrivalApproved'];
+$deleted = $requestParams['deleted'];
 $loc = $requestParams['loc'];
 $now_date = date('Y-m-d');
 
@@ -35,6 +36,7 @@ if (!$error) {
     $guest->arrival_approved = $arrivalApproved;
     $guest->gift = $gift;
     $guest->table_id = $table;
+    $guest->deleted = $deleted;
 
     $groups = $persist->getGroups($projectId);
     $sides = $persist->getSides();

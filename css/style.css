@@ -194,15 +194,21 @@
 /*height: 270px*/
 /*}*/
 
-#tables ol {
+#seatingArrangementTables {
+    border: 1px solid #ddd;
+    border-radius: 90px;
+    background-color: #f8f8f8;
+}
+
+#seatingArrangementTables ol {
     width: 100%;
     height: 100%;
-    padding-right: 0px;
+    padding-right: 0;
 
 }
 
 /* style the list to maximize the droppable hitarea */
-#tables ol li {
+#seatingArrangementTables ol li {
     margin: 0;
     padding: 2px;
     display: block;
@@ -310,11 +316,269 @@ footer {
     padding: 0;
 }
 
-.opacity70{
+.opacity70 {
     opacity: 0.7;
     filter: alpha(opacity=70); /* For IE8 and earlier */
 }
 
-button:focus{
-    outline-style:none !important;
+button:focus {
+    outline-style: none !important;
 }
+
+.ui-sortable-placeholder {
+    border: 1px dotted black;
+    visibility: visible !important;
+}
+
+.ui-sortable-placeholder * {
+    visibility: hidden;
+}
+
+.table_normal .panel-footer {
+    font-size: 14px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+    text-align: center;
+    font-family: cursive;
+}
+
+.panel-heading .zoom-icon {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+.table_small .panel-heading .zoom-icon:before {
+    content: "\e015";
+}
+
+.table_normal .panel-heading .zoom-icon:before {
+    content: "\e016";
+}
+
+#groups.panel-group, #groups.panel-group .badge {
+    font-size: xx-small;
+
+}
+
+.table_small .panel {
+    margin-bottom: 0;
+
+}
+
+.table_small {
+    width: 10.0% !important;
+    font-size: xx-small;
+}
+
+.table_small .panel-heading {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 2px;
+}
+
+.table_small .panel-body {
+    height: 50px;
+    overflow: hidden;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.table_small .panel-footer {
+    /*font-size: 6px;*/
+    /*padding-bottom: 5px;*/
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+    text-align: center;
+    font-family: cursive;
+    padding: 5px 0 0;
+    font-size: 7px;
+
+}
+
+@media (min-width: 520px) {
+    .table_small {
+        font-size: smaller;
+    }
+
+    .table_small .panel-footer {
+        font-size: smaller;
+    }
+
+    .table_small .panel-body {
+        font-size: x-small;
+    }
+
+    #groups.panel-group, #groups.panel-group .badge {
+        font-size: smaller;
+
+    }
+
+}
+
+@media (min-width: 992px) {
+    .table_small .panel-body {
+        height: 100px;
+    }
+
+    .table_small .panel-heading {
+        font-size: small;
+    }
+
+    .table_small .panel-footer {
+        font-size: small;
+    }
+
+    #groups.panel-group, #groups.panel-group .badge {
+        font-size: small;
+
+    }
+
+}
+
+@media (min-width: 1200px) {
+
+    .panel-heading .zoom-icon {
+        font-size: large;
+    }
+
+    #groups.panel-group {
+        font-size: 14px;
+
+    }
+
+    #groups.panel-group .badge {
+        font-size: 12px;
+    }
+
+}
+
+.table_normal {
+    position: absolute !important;
+    z-index: 1 !important;
+}
+
+.table_normal .panel {
+    box-shadow: 5px 6px 7px currentcolor;
+}
+
+.zIndex1 {
+    z-index: 1;
+}
+
+.label {
+    margin: 1px;
+}
+
+.ui-state-highlight {
+    height: 2.2em;
+    line-height: 1.2em;
+    border-style: dashed !important;
+    min-width: 90%;
+}
+
+#groups .ui-state-highlight {
+    min-width: 7%;
+
+}
+
+ul.guestsArea {
+    list-style-type: none;
+    padding: 0;
+    /*min-height: 2.2em;*/
+    height: 100%;
+}
+
+.guestsArea li {
+    margin: 0 3px 3px 3px;
+    padding: 0.4em;
+    /*padding-left: 1.5em;*/
+    border: 1px solid #ccc;
+    border-radius: 13px;
+    text-align: center;
+    cursor: pointer;
+    height: 2.2em;
+    line-height: 1.2em;
+    overflow: hidden;
+    position: relative;
+}
+
+.guestsArea li:hover {
+    border-style: dotted !important;
+}
+
+.horizontal-list li {
+    /*display: inline-block;*/
+    display: inline-flex;
+}
+
+.floatL {
+    float: left;
+}
+
+.delete-guest-from-table {
+    float: left;
+    cursor: pointer;
+    visibility: hidden;
+    padding-left: 2px;
+    left: 5px;
+    top: 25%;
+    background-color: #ffffff;
+    position: absolute;
+
+}
+
+.delete-guest-from-table::before {
+    content: "\f014";
+}
+
+ul[data-type="table"] li:hover .delete-guest-from-table {
+    visibility: visible;
+}
+
+.state-default {
+    border: 1px dashed #ddd;
+}
+
+.x-ui-state-hover {
+    background-color: #ddd;
+}
+
+.table_small .table_title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80%;
+}
+
+.floatingBtn {
+    position: fixed;
+    bottom: 5%;
+    left: 1%;
+    opacity:0.6 ;
+}
+
+.floatingBtn:hover{
+    opacity: 1;
+}
+
+
+.floatingPanel
+{
+    display: none;
+    position: fixed;
+    bottom: 5%;
+    left: calc(1% + 50px)
+}
+
+.table > tbody > tr.danger > td{
+    background-color: #f2dede !important;
+}
+
+
+

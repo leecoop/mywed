@@ -14,11 +14,16 @@ $(function() {
         topOffset = 50;
         footerOffset = 70;
         width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
+        //$('#display').html(width);
+        //var container = $("#seatingArrangementTables").width() ;
+        //var tableSize = (container/10);
+        ////$('.table_small').css("width", tableSize + "px");
+        //console.log(width + " -> " + width/tableSize + "%");
         if (width < 768) {
             $('div.navbar-collapse').addClass('collapse');
             topOffset = 100; // 2-row-menu
         } else {
-            $('div.navbar-collapse').removeClass('collapse')
+            $('div.navbar-collapse').removeClass('collapse');
         }
 
         height = (this.window.innerHeight > 0) ? this.window.innerHeight : this.screen.height;

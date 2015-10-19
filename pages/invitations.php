@@ -7,6 +7,7 @@ $guests = $persist->getInvitationNotSentGuests($projectId);
 
 $groups = $persist->getGroups($projectId);
 $tables = $persist->getTables($projectId);
+$groupsWithGuests = $persist->getGroupsBySides(null, $projectId, 'invitations', "false");
 
 $statisticsMap = $persist->getStatisticsMap($projectId);
 
@@ -16,4 +17,6 @@ $smarty->assign("groups",$groups);
 $smarty->assign("sides",$sides);
 $smarty->assign("tables", $tables);
 $smarty->assign("statisticsMap",$statisticsMap);
+$smarty->assign("groupsWithGuests", $groupsWithGuests);
+
 $smarty->display('tmpl_invitations.tpl');

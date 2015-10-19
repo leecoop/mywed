@@ -3,11 +3,14 @@
 $title = $requestParams['title'];
 $capacity = $requestParams['capacity'];
 $tableOid = $requestParams['tableOid'];
+$isNew = $tableOid == "0";
 
+$newTopPosition = $requestParams['newTopPosition'];
+$newLeftPosition = $requestParams['newLeftPosition'];
 
 try {
-    if ($tableOid == "0") {
-        $tableOid = $persist->addTable($title, $capacity, $projectId);
+    if ($isNew) {
+        $tableOid = $persist->addTable($title, $capacity, $projectId, $newTopPosition, $newLeftPosition);
     } else {
         $persist->editTable($tableOid, $title, $capacity, $projectId);
     }
@@ -17,11 +20,13 @@ try {
 }
 
 
-if (!$error) {
+if (!$error && $isNew) {
     $table = new stdClass();
     $table->oid = $tableOid;
     $table->title = $title;
     $table->capacity = $capacity;
+    $table->top_position = $newTopPosition;
+    $table->left_position = $newLeftPosition;
 
     $smarty->assign("table", (array)$table);
 

@@ -2,20 +2,21 @@
 $sidesIds = $requestParams['sidesIds'];
 $groupsIds = $requestParams['groupsIds'];
 $loc = $requestParams['loc'];
+$showDeleted = $requestParams['showDeleted'];
 
 try {
     if ($loc == "guests") {
-        $guests = $persist->getGuestsWithFilter($sidesIds, $groupsIds, $projectId);
+        $guests = $persist->getGuestsWithFilter($sidesIds, $groupsIds, $projectId, $showDeleted);
     }
     if ($loc == "invitations") {
-        $guests = $persist->getInvitationNotSentGuestsWithFilter($sidesIds, $groupsIds, $projectId);
+        $guests = $persist->getInvitationNotSentGuestsWithFilter($sidesIds, $groupsIds, $projectId, $showDeleted);
     }
     if ($loc == "rsvps") {
-        $guests = $persist->getArrivalNotApprovedGuestsWithFilter($sidesIds, $groupsIds, $projectId);
+        $guests = $persist->getArrivalNotApprovedGuestsWithFilter($sidesIds, $groupsIds, $projectId, $showDeleted);
     }
 //    if($loc == "seating_arrangement")
 //        $guests = $persist->getGuestGroupedByGroupWithFilter($sidesIds, $groupsIds);
-    $groupsBySides = $persist->getGroupsBySides($sidesIds, $projectId,$loc);
+    $groupsBySides = $persist->getGroupsBySides($sidesIds, $projectId, $loc, $showDeleted);
 
     $groups = $persist->getGroups($projectId);
     $sides = $persist->getSides();

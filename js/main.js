@@ -1,3 +1,14 @@
+$(document).ready(function ($) {
+    $("select").addClass("chosen-rtl");
+    $("select").chosen({
+        disable_search_threshold: 10,
+        no_results_text: "אין תוצאות חיפוש",
+        width: "100%"
+    });
+});
+
+
+var lastElementClicked;
 $(document).click(function (event) {
     window.lastElementClicked = event.target;
 });
@@ -22,7 +33,8 @@ var URLs = {
     createProject: 'execute/create-project?',
     addPermissions: 'execute/add-permissions?',
     check_login: 'execute/check-login?',
-    changePassword: 'execute/change-password?'
+    changePassword: 'execute/change-password?',
+    updateTablePosition: 'execute/update-table-position?'
 
 };
 
@@ -52,7 +64,10 @@ var Ajax = {
                 if (isExist(response.dbConnectionError) && response.dbConnectionError === true) {
                     showErrorMassage();
                 } else {
-                    var showNotificationOnBtn = $(lastElementClicked).parents('form').exists();
+                    var showNotificationOnBtn = false;
+                    if (isExist(lastElementClicked)) {
+                        showNotificationOnBtn = $(lastElementClicked).parents('form').exists();
+                    }
                     if (isExist(response.error) && response.error === true) {
                         notification(response.errorMsg, response.error, showNotificationOnBtn)
                     } else {
@@ -113,6 +128,7 @@ function addEditGuest(guestOid) {
     var table = 0;
     var loc = $("#loc").val();
     var hideElement = false;
+    var deleted = "0";
 
     if (add) {
         name = $("#name");
@@ -128,6 +144,7 @@ function addEditGuest(guestOid) {
         group = $("#editGroups");
         side = $("#editSides");
         table = $("#editTables").val();
+        deleted = $("#guest"+guestOid).data().deleted;
         invitationSent = ($("#editInvitationSent").hasClass("btn-default")) ? 0 : 1;
         var ediArrivalApproved = $("#ediArrivalApproved button");
         arrivalApproved = (ediArrivalApproved.hasClass("btn-success")) ? 1 : (ediArrivalApproved.hasClass("btn-warning")) ? 2 : (ediArrivalApproved.hasClass("btn-danger")) ? 3 : 0;
@@ -145,14 +162,15 @@ function addEditGuest(guestOid) {
             guestOid: guestOid,
             invitationSent: invitationSent,
             arrivalApproved: arrivalApproved,
+            deleted: deleted,
             table: table,
             loc: loc
         },
         contentType: 'application/json;charset=UTF-8',
-        params: {edit: !add, guestOid: guestOid, loc: loc, hideElement: hideElement},
+        params: {edit: !add, guestOid: guestOid, loc: loc, hideElement: hideElement,group: group.val()},
         loader: true,
         refreshStats: true,
-        showNotification: ($('#addGuestPanelSlick').exists()) ? false : true,
+        showNotification: true,
         callback: 'addEditGuestResponse'
     });
 
@@ -161,6 +179,8 @@ function addEditGuest(guestOid) {
 
 
 function addEditGuestResponse(responseData, params) {
+    $('#group_'+params.group).show();
+
     if (params.edit) {
         table.row("#guest" + params.guestOid).remove();
         $("#editGuestModal").modal("hide");
@@ -170,11 +190,6 @@ function addEditGuestResponse(responseData, params) {
     }
     else {
         addGuestFormValidator.resetForm();
-        var addGuestPanelSlick = $('#addGuestPanelSlick');
-        if (addGuestPanelSlick.exists()) {
-            addGuestPanelSlick.find('.tab').click();
-        }
-
     }
     table.row.add($(responseData.data)).draw().show().draw(false);
 
@@ -192,11 +207,11 @@ function addEditGuestResponse(responseData, params) {
 
 }
 
-function deleteGuest(guestOid) {
+function deleteGuest(guestOid, toDelete) {
     Ajax.sendRequest(URLs.deleteGuest, {
-        data: {guestOid: guestOid},
+        data: {guestOid: guestOid, delete:toDelete},
         contentType: 'application/json;charset=UTF-8',
-        params: {guestOid: guestOid},
+        params: {guestOid: guestOid, delete:toDelete},
         loader: true,
         refreshStats: true,
         callback: 'deleteGuestResponse'
@@ -206,9 +221,19 @@ function deleteGuest(guestOid) {
 function deleteGuestResponse(response, params) {
     if (!response.error) {
         $("#editGuestModal").modal("hide");
-        fadeOutAndRemoveElement("guest" + params.guestOid);
+        var guest = $("#guest" + params.guestOid);
+        var showDeleted = $('#showDeleted').is(':checked');
+        if (params.delete == "true") {
+            if (showDeleted) {
+                guest.addClass("danger");
+            } else {
+                fadeOutAndRemoveElement("guest" + params.guestOid);
+            }
+        } else {
+            guest.removeClass("danger");
+        }
+        guest.data('deleted',(params.delete == "true") ? "1" : "0");
     }
-
 }
 
 function searchKeyPress(e) {
@@ -244,7 +269,7 @@ function createGroup() {
 
 }
 function createGroupResponse(response, params) {
-    var newId = response;
+    var newId = response.data;
     var name = params.groupName;
 
     var option = $('<option/>');
@@ -257,12 +282,15 @@ function createGroupResponse(response, params) {
 
     var $div = $("<div>", {id: "group_" + newId, class: "tagBG", value: newId});
     $div.attr("onclick", "filter('group_" + newId + "')");
+    $div.css("display","none");
     $div.text(name);
 
     $("#filterGroups").append($div);
 
     clear("group_name", "");
     newGroupFormValidator.resetForm();
+    $('select[data-type="groups"]').trigger('chosen:updated');
+
     //notification("קבוצה נוצרה בהתחלה", false);
     //closeCreateGroupDialog();
 }
@@ -277,6 +305,7 @@ function openEditGuest(guestOid) {
     $("#editSides").val(guest.attr("side"));
     $("#editGift").val(guest.attr("gift"));
     $("#editTables").val(guest.attr("table"));
+    $('select').trigger('chosen:updated');
     //reset ArrivalApprovedClass
     toggleArrivalApprovedClass("ediArrivalApproved", 0);
     var invitationSent = guest.attr("invitationSent");
@@ -295,7 +324,20 @@ function openEditGuest(guestOid) {
     });
 
     $('#editGuestForm').attr('action', 'javascript:addEditGuest(' + guestOid + ')');
-    $("#deleteGuestBtn").attr("onclick", 'deleteGuest(' + guestOid + ')');
+
+    var deleteGuestBtn =  $("#deleteGuestBtn");
+
+
+    if(guest.data().deleted == "1"){
+        deleteGuestBtn.text(" שחזר");
+        deleteGuestBtn.prepend('<i class="fa fa-recycle"></i>');
+        deleteGuestBtn.attr("onclick", 'deleteGuest(' + guestOid + ', "false")');
+    }else{
+        deleteGuestBtn.text(" מחק");
+        deleteGuestBtn.prepend('<i class="fa fa-trash-o"></i>');
+        deleteGuestBtn.attr("onclick", 'deleteGuest(' + guestOid + ', "true")');
+
+    }
 
 
 }
@@ -326,11 +368,19 @@ function updateInvitationSent(guestId) {
 }
 
 function updateGuestStatusResponse(response, params) {
+   var guest = $("#guest" + params.guestId);
     if (isExist(params.arrivalApproved)) {
-        $("#guest" + params.guestId).attr("arrivalapproved", params.arrivalApproved);
+        guest.attr("arrivalapproved", params.arrivalApproved);
+        if(params.arrivalApproved == "1" &&  guest.attr("invitationsent")!="1"){
+            guest.attr("invitationsent","1");
+            var element = guest.find("button[id^='invitationSent']");
+            element.attr("invitationSent", 1);
+            element.removeClass("btn-default").addClass("btn-success");
+
+        }
     }
     if (isExist(params.invitationSent)) {
-        $("#guest" + params.guestId).attr("invitationsent", params.invitationSent);
+        guest.attr("invitationsent", params.invitationSent);
     }
 
     if (isExist(params.updateUI) && params.updateUI) {
@@ -395,18 +445,6 @@ function updateArrivalApproved(guestId, arrivalApproved, updateUI) {
 }
 
 
-function updateCounters(menuElementId) {
-    var menuCount = $("#" + menuElementId);
-    var currentValue = menuCount.attr("value");
-    menuCount.text(currentValue - 1);
-    menuCount.attr("value", currentValue - 1);
-
-    var totalCount = $("#totalCount");
-    currentValue = totalCount.attr("value");
-    totalCount.text(currentValue - 1);
-    totalCount.attr("value", currentValue - 1);
-}
-
 function toggleCheckboxes(caller, id) {
     var newStatus = selectAllCheckedCheckboxes(id).length == 0;
     var title;
@@ -440,8 +478,15 @@ function filter(id) {
     //
     var groupsIds = selectAllCheckedCheckboxes("filterGroups");
 
+    var showDeleted = $('#showDeleted').is(':checked');
+
     Ajax.sendRequest(URLs.filter, {
-        data: {sidesIds: sidesIds.join(","), groupsIds: groupsIds.join(","), loc: $("#loc").val()},
+        data: {
+            sidesIds: sidesIds.join(","),
+            groupsIds: groupsIds.join(","),
+            loc: $("#loc").val(),
+            showDeleted: showDeleted
+        },
         loader: true,
         callback: 'filterResponse'
     });
@@ -472,7 +517,7 @@ function report(loc) {
 
 
 function updateAmount(val, elm) {
-    var amount = $(elm).siblings("input[name='amount']");
+    var amount = $(elm).siblings("input[data-type='amount']");
     var newAmount = parseInt(amount.val()) + val;
     if (newAmount > 0) {
         amount.val(newAmount);
@@ -488,221 +533,12 @@ function showLoading() {
 
 }
 
-
-function addEditTable(oid) {
-    var title;
-    var capacity;
-    if (oid == 0) {
-        title = $("#title").val();
-        capacity = $("#amount").val();
-    } else {
-        title = $("#editTitle").val();
-        capacity = $("#editAmount").val();
-    }
-    Ajax.sendRequest(URLs.addEditTable, {
-        data: {title: title, capacity: capacity, tableOid: oid},
-        params: {newTable: oid == 0, tableId: oid, title: title, capacity: capacity},
-        contentType: 'application/json;charset=UTF-8',
-        loader: true,
-        callback: 'addEditTableResponse'
-    });
-
-}
-
-function addEditTableResponse(response, params) {
-    if (params.newTable) {
-        $("#tables").append(response.data);
-        $("#title").val("");
-        initSeatingArrangement();
-    } else {
-        var table = $('#table' + params.tableId);
-        table.attr("title", params.title);
-        table.attr("max", params.capacity);
-
-        table.find('.table_title').text(params.title);
-        table.find('.max_amount').text(params.capacity);
-
-        $("#editTableModal").modal("hide");
-
-    }
-    //if(params.newTable){
-    //    var title = $('#title');
-    //    var currentTableCount= parseInt(title.attr('count'),10);
-    //    var newTableCount = currentTableCount+1;
-    //    title.attr('count',newTableCount);
-    //    title.val("שולחן " + newTableCount);
-    //
-    //}
-
-}
-
-function initSeatingArrangement() {
-    //$("#catalog").accordion();
-    $("#catalog li").draggable({
-        appendTo: "body",
-        helper: "clone",
-        cursor: "move",
-        revert: "invalid",
-        cursorAt: {left: 90}
-
-    });
-    $("#tables ol").droppable({
-        //activeClass: "ui-state-default",
-        //hoverClass: "ui-state-hover",
-        accept: ":not(.ui-sortable-helper)",
-        drop: function (event, ui) {
-            if (parseInt(this.parentNode.parentNode.getAttribute("max"), 10) >= parseInt(ui.draggable.attr("amount"), 10) + parseInt($("#" + this.parentNode.parentNode.id + " .current_amount").html(), 10)) {
-                $(this).find(".placeholder").remove();
-                tableDrop(ui.draggable, this, this.parentNode.parentNode.id);
-            }
-
-        }
-    });
-    //    .sortable({
-    //    items: "div:not(.placeholder)",
-    //    sort: function () {
-    //        // gets added unintentionally by droppable interacting with sortable
-    //        // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
-    //        $(this).removeClass("ui-state-default");
-    //    }
-    //});
-
-
-    /////   SORTABLE
-    //$( "#tables" ).sortable({
-    //    containment: "parent",
-    //    cursor: "move",
-    //    opacity: 0.8,
-    //    revert: true,
-    //    update: function( event, ui ) {alert('update ' + ui.position.top + ' ' + ui.position.left )}
-    //
-    //    //placeholder: "portlet-placeholder"
-    //    //placeholder: "ui-state-highlight"
-    //});
-    //$( "#tables" ).disableSelection();
-    ////$( "#tables" ).disableSelection();
-    ////$(".seating_table").draggable();
-
+function calcPercent(x, y, round) {
+    return (round)? Math.round(x * 100 / y) : x * 100 / y;
 }
 
 
-function tableDrop(guest, table, tableId) {
-    Ajax.sendRequest(URLs.addGuestToTable, {
-        data: {
-            guestOid: guest.attr("oid"),
-            name: guest.attr("firstName"),
-            amount: guest.attr("amount"),
-            tableOid: $("#" + tableId).attr("oid")
-        },
-        params: {guest: guest, table: table, tableId: tableId},
-        loader: true,
-        refreshStats: true,
-        callback: 'tableDropResponse'
-    });
 
-
-}
-
-
-function tableDropResponse(response, params) {
-    var guest = params.guest;
-    var guestAmount = parseInt(guest.attr("amount"), 10);
-    var group = guest.parent().data().group;
-    updateSeatingArrangementGroupBadge(group, guestAmount);
-
-    guest.hide();
-    var li = $(response.data);
-    li.appendTo(params.table);
-
-    var tableCurrentAmountSpan = $("#" + params.tableId + " .current_amount");
-    var currentAmount = parseInt(tableCurrentAmountSpan.html(), 10);
-    var newAmount = currentAmount + guestAmount;
-
-
-    tableCurrentAmountSpan.html(newAmount);
-
-}
-
-function updateSeatingArrangementGroupBadge(group, guestAmount) {
-    var badge = $('#group_' + group).children('span[data-amount]');
-    var newBadgeAmount = badge.data().amount - guestAmount;
-    badge.data("amount", newBadgeAmount);
-    badge.text(newBadgeAmount);
-
-    var parent = badge.parents('[data-parent-group]');
-    if (newBadgeAmount == 0 && parent.is(":visible")) {
-        parent.hide();
-    }
-    if (newBadgeAmount > 0 && !parent.is(":visible")) {
-        parent.show();
-    }
-
-
-}
-
-function removeGuestFromTable(guestOid, tableId) {
-    Ajax.sendRequest(URLs.removeGuestFromTable, {
-        data: {guestOid: guestOid},
-        params: {guestOid: guestOid, tableId: tableId},
-        loader: true,
-        refreshStats: true,
-        callback: 'removeGuestFromTableResponse'
-    });
-}
-
-function removeGuestFromTableResponse(response, params) {
-
-    var guest = $("#table" + params.tableId + " li[oid='" + params.guestOid + "']");
-
-    var tableCurrentAmountSpan = $("#table" + params.tableId + " .current_amount");
-    var currentAmount = parseInt(tableCurrentAmountSpan.html(), 10);
-    var guestAmount = parseInt(guest.attr("amount"), 10);
-    var newAmount = currentAmount - guestAmount;
-    tableCurrentAmountSpan.html(newAmount);
-    guest.remove();
-
-    guest = $("#guest" + params.guestOid);
-    guest.show();
-    updateSeatingArrangementGroupBadge(guest.parent().data().group, guestAmount * (-1));
-
-}
-
-
-function deleteTable(tableOid) {
-    Ajax.sendRequest(URLs.deleteTable, {
-        data: {tableOid: tableOid},
-        params: {tableOid: tableOid},
-        loader: true,
-        refreshStats: true,
-        callback: 'deleteTableResponse'
-    });
-}
-
-function deleteTableResponse(response, params) {
-    var map = {}; // or var map = {};
-    $("#table" + params.tableOid).fadeOut("slow", function () {
-        $("#table" + params.tableOid + " li").each(function (i, element) {
-                var guest = $("#guest" + $(this).attr("oid"));
-                var group = guest.parent().data().group;
-                if (!isExist(map[group])) {
-                    map[group] = 0;
-                }
-                map[group] = map[group] + parseInt(guest.attr("amount"), 10);
-                guest.show();
-
-            }
-        );
-        $(this).parent().remove();
-        $.each(map, function (key, value) {
-            updateSeatingArrangementGroupBadge(key, (value * (-1)));
-        });
-
-
-    });
-    $("#editTableModal").modal("hide");
-
-
-}
 
 function toggleFilterItemClass(item) {
     if (item.attr('class') == "tagBG") {
@@ -764,18 +600,12 @@ function refreshStats(data) {
 }
 
 function register() {
-    //var groomName = $("#groom_name").val();
-    //var brideName = $("#bride_name").val();
-    //var date = $("#date").val();
     var email = $("#email").val();
     var password = $("#password").val();
 
 
     Ajax.sendRequest(URLs.registerUser, {
         data: {
-            //groomName: groomName,
-            //brideName: brideName,
-            //date: date,
             email: email,
             password: password
 
@@ -882,24 +712,12 @@ function createProjectResponse(response, params) {
 
 }
 
-
-function openEditTableModel(tableId) {
-    var table = $('#table' + tableId);
-
-    $("#editTitle").val(table.attr("title"));
-    $("#editAmount").val(table.attr("max"));
-
-    $('#editTableForm').attr('action', 'javascript:addEditTable(' + tableId + ')');
-    $('#deleteTableBtn').attr('onclick', 'deleteTable(' + tableId + ')');
-
-    $("#editTableModal").modal();
-}
-
 function addPermissions() {
     var email = $("#email").val();
     Ajax.sendRequest(URLs.addPermissions, {
         data: {email: email},
         loader: true,
+        showNotification: true,
         callback: 'addPermissionsResponse'
     });
 
@@ -963,3 +781,10 @@ function verifyAmountAndUpdateRsvps(guestId) {
     updateArrivalApproved(guestId, 1, true);
 }
 
+function toggleFloatingAddGuest(){
+    $( "#floatingAddGuestPanel" ).toggle( 'drop', {}, 500 );
+}
+
+function toggleFloatingAddTable(){
+    $( "#floatingAddTablePanel" ).toggle( 'drop', {}, 500 );
+}

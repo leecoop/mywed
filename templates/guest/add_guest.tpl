@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <i class="fa fa-user fa-fw"></i> הוספת מוזמנים
+        <i class="fa fa-user-plus fa-fw"></i> הוספת מוזמנים
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">

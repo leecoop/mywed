@@ -1,5 +1,5 @@
-<tr id="guest{$guest.oid}" name="{$guest.name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}"
-    invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}" gift="{$guest.gift}" table="{$guest.table_id}">
+<tr {if $guest.deleted == '1' }class="danger"{/if} id="guest{$guest.oid}" name="{$guest.name}" amount="{$guest.amount}" phone="{$guest.phone}" side="{$guest.side_id}" group="{$guest.group_id}"
+    invitationSent="{$guest.invitation_sent}" arrivalApproved="{$guest.arrival_approved}" gift="{$guest.gift}" table="{$guest.table_id}" data-deleted="{$guest.deleted}">
     {*{if $loc eq 'guests'}*}
     <td>
 

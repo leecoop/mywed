@@ -1,7 +1,9 @@
 <?php
 $name = $requestParams['groupName'];
 try {
-    $persist->createGroup($name, $projectId);
+   $newOid = $persist->createGroup($name, $projectId);
+   $smarty->assign("data",$newOid);
+
 } catch (Exception $e) {
     $error = true;
 }

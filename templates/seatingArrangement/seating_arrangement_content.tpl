@@ -16,7 +16,7 @@
     }
 </style>
 
-    <div class="panel panel-default" id="products" style="margin-top: 5px">
+    <div class="panel panel-default" id="groupsContainer" style="margin-top: 5px">
         <div class="panel-heading"> מוזמנים</div>
 
         <div class="panel-body">

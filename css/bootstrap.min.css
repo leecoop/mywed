@@ -3752,10 +3752,10 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
     background-color: transparent
 }
 
-.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-    background-color: #eee;
-    border-color: #428bca
-}
+/*.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {*/
+    /*background-color: #eee;*/
+    /*border-color: #428bca*/
+/*}*/
 
 .nav .nav-divider {
     height: 1px;
@@ -3954,7 +3954,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 
 @media (min-width: 768px) {
     .navbar-header {
-        float: right
+        float: left
     }
 }
 
@@ -4044,10 +4044,10 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 }
 
 .navbar-brand {
-    float: right;
+    float: left;
     height: 50px;
     padding: 15px 15px;
-    font-size: 18px;
+    font-size: 35px;
     line-height: 20px
 }
 

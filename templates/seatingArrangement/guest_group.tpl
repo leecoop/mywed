@@ -1,23 +1,23 @@
-{foreach $guestGroupedByGroup as $group}
-    <div class="panel panel-default {if $groupToAmount[$group@key]== 0}soft-hide{/if}" data-parent-group={$group@key}>
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a id="group_{$group@key}" data-toggle="collapse" data-parent="#catalog" href="#collapse{$group@key}">{$groups[$group@key]}
-                    <span data-amount={$groupToAmount[$group@key]} class="badge">{$groupToAmount[$group@key]}</span>
-                </a>
-            </h4>
+<ul class="nav nav-pills">
+    {foreach $guestGroupedByGroup as $group}
+        <li class="{if $groupToAmount[$group@key]== 0}hide{/if}" data-parent-group={$group@key}><a id="group_{$group@key}" data-toggle="tab" href="#{$group@key}">{$groups[$group@key]}
+                <span data-amount={$groupToAmount[$group@key]} class="badge">{$groupToAmount[$group@key]}</span>
+            </a></li>
+    {/foreach}
+</ul>
+<div class="tab-content">
+    {foreach $guestGroupedByGroup as $group}
+        <div id="{$group@key}" class="tab-pane fade in" data-parent-group={$group@key}>
+            <br/>
+            <ul class="guestsArea horizontal-list" data-type="group">
+                {foreach $group as $guest}
+                    <li id="guest{$guest->oid}" {if $guest->table_id > 0 }style="display: none" {/if} class="seatingTableGuest" data-oid="{$guest->oid}"  data-amount="{$guest->amount}" data-group={$guest->group_id}>
+                        {$guest->name} ({$guest->amount})
+                        <i class="delete-guest-from-table fa" onclick="deleteGuestFromTable($(this).parent())"></i>
+
+                    </li>
+                {/foreach}
+            </ul>
         </div>
-        <div id="collapse{$group@key}" class="panel-collapse collapse">
-            <div class="panel-body" style="direction: rtl">
-                <ul class="list-unstyled" data-group={$group@key}>
-                    {foreach $group as $guest}
-                        <li class="item-catalog" {if $guest->table_id > 0 }style="display: none" {/if}
-                            oid="{$guest->oid}" id="guest{$guest->oid}" firstName="{$guest->name}"
-                            amount="{$guest->amount}"><span class="fa fa-arrows "></span> {$guest->name}
-                            <b>({$guest->amount})</b></li>
-                    {/foreach}
-                </ul>
-            </div>
-        </div>
-    </div>
-{/foreach}
+    {/foreach}
+</div>
