@@ -28,7 +28,7 @@
             <td style="min-width: 90px">
                     <div class="btn-group " id="arrivalApproved{$guest.oid}">
                         <button val="1" onClass="btn-success" title="מגיעים" class=" btn btn-{if $guest.arrival_approved == 1}success{else}default{/if}  btn-circle" type="button"
-                                onclick="{if $loc eq 'rsvps'}openVerifyAmountModal({$guest.oid}){else}updateArrivalApproved({$guest.oid},1){/if}">
+                                onclick="{if $loc eq 'rsvps'}openConfirmAmountModal({$guest.oid},'updateArrivalApproved({$guest.oid},1,true)'){else}updateArrivalApproved({$guest.oid},1){/if}">
                             <i class="fa fa-check"></i>
                         </button>
                         <button val="2" onClass="btn-warning" title="לא יודע" class=" btn btn-{if $guest.arrival_approved == 2}warning{else}default{/if}  btn-circle" type="button"

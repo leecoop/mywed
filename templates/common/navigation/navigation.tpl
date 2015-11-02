@@ -17,5 +17,5 @@
     </div>
 </nav>
 {if $isLoggedIn}
-{include file="common/navigation/sidebar.tpl"}
+    {include file="common/navigation/sidebar.tpl"}
 {/if}

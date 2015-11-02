@@ -15,14 +15,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {foreach $shearedPermissions as $permission}
-                        <tr>
-                            <td>{$permission.userEmail}</td>
-                            <td>{$permission.active}</td>
-                            <td>{$permission.isMater}</td>
-                            <td></td>
-                        </tr>
-                    {/foreach}
+                    {if isset($shearedPermissions)}
+                        {foreach $shearedPermissions as $permission}
+                            <tr>
+                                <td>{$permission.userEmail}</td>
+                                <td>{$permission.active}</td>
+                                <td>{$permission.isMater}</td>
+                                <td></td>
+                            </tr>
+                        {/foreach}
+                    {/if}
                     </tbody>
                     <script>
                         var table = $('#permissionsTable').DataTable({

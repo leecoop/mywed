@@ -1,5 +1,5 @@
 <div class="sidebar" role="navigation">
-    <div class="sidebar-nav navbar-collapse">
+    <div class="sidebar-nav navbar-collapse collapse">
         <ul class="nav nav-side" id="side-menu">
             <li class="sidebar-search">
                 <div class="input-group custom-search-form">
@@ -25,7 +25,14 @@
                 <a  href="rsvps"><i class="fa fa-thumbs-o-up fa-fw"></i> אישורי הגעה</a>
             </li>
             <li {if $loc eq 'seating_arrangement'}  class="active" {/if}>
-                <a  href="seating-arrangement"><i class="fa fa-group fa-fw"></i> סידור ישיבה</a>
+                <a  href="seating-arrangement"><i class="fa fa-street-view fa-fw"></i> סידור ישיבה</a>
+            </li>
+            <li {if $loc eq 'seating'}  class="active" {/if}>
+                <a  href="seating">
+                    <i class="fa fa fa-ticket fa-fw"></i>
+                    הושבה
+                <span class="badge badge-new"></span>
+                </a>
             </li>
 
         </ul>

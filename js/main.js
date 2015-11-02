@@ -1,7 +1,7 @@
 $(document).ready(function ($) {
     $("select").addClass("chosen-rtl");
     $("select").chosen({
-        disable_search_threshold: 10,
+        disable_search_threshold: 9,
         no_results_text: "אין תוצאות חיפוש",
         width: "100%"
     });
@@ -16,6 +16,14 @@ $(document).click(function (event) {
 jQuery.fn.exists = function () {
     return this.length > 0;
 };
+
+function isEmpty(val){
+    return trim(val).length === 0
+}
+
+function toInt(string){
+    return parseInt(string, 10);
+}
 
 var URLs = {
     addEditGuest: 'execute/add-edit-guest?',
@@ -34,7 +42,9 @@ var URLs = {
     addPermissions: 'execute/add-permissions?',
     check_login: 'execute/check-login?',
     changePassword: 'execute/change-password?',
-    updateTablePosition: 'execute/update-table-position?'
+    updateTablePosition: 'execute/update-table-position?',
+    updateArrivedStatus: 'execute/update-arrived-status?',
+    search: 'execute/search?'
 
 };
 
@@ -144,7 +154,7 @@ function addEditGuest(guestOid) {
         group = $("#editGroups");
         side = $("#editSides");
         table = $("#editTables").val();
-        deleted = $("#guest"+guestOid).data().deleted;
+        deleted = $("#guest" + guestOid).data().deleted;
         invitationSent = ($("#editInvitationSent").hasClass("btn-default")) ? 0 : 1;
         var ediArrivalApproved = $("#ediArrivalApproved button");
         arrivalApproved = (ediArrivalApproved.hasClass("btn-success")) ? 1 : (ediArrivalApproved.hasClass("btn-warning")) ? 2 : (ediArrivalApproved.hasClass("btn-danger")) ? 3 : 0;
@@ -167,7 +177,7 @@ function addEditGuest(guestOid) {
             loc: loc
         },
         contentType: 'application/json;charset=UTF-8',
-        params: {edit: !add, guestOid: guestOid, loc: loc, hideElement: hideElement,group: group.val()},
+        params: {edit: !add, guestOid: guestOid, loc: loc, hideElement: hideElement, group: group.val()},
         loader: true,
         refreshStats: true,
         showNotification: true,
@@ -179,7 +189,7 @@ function addEditGuest(guestOid) {
 
 
 function addEditGuestResponse(responseData, params) {
-    $('#group_'+params.group).show();
+    $('#group_' + params.group).show();
 
     if (params.edit) {
         table.row("#guest" + params.guestOid).remove();
@@ -209,9 +219,9 @@ function addEditGuestResponse(responseData, params) {
 
 function deleteGuest(guestOid, toDelete) {
     Ajax.sendRequest(URLs.deleteGuest, {
-        data: {guestOid: guestOid, delete:toDelete},
+        data: {guestOid: guestOid, delete: toDelete},
         contentType: 'application/json;charset=UTF-8',
-        params: {guestOid: guestOid, delete:toDelete},
+        params: {guestOid: guestOid, delete: toDelete},
         loader: true,
         refreshStats: true,
         callback: 'deleteGuestResponse'
@@ -232,7 +242,7 @@ function deleteGuestResponse(response, params) {
         } else {
             guest.removeClass("danger");
         }
-        guest.data('deleted',(params.delete == "true") ? "1" : "0");
+        guest.data('deleted', (params.delete == "true") ? "1" : "0");
     }
 }
 
@@ -250,9 +260,43 @@ function searchKeyPress(e) {
         return true;
 }
 
+function searchGuestsKeyPress(e) {
+    var keycode;
+    if (window.event) keycode = window.event.keyCode;
+    else if (e) keycode = e.which;
+    else return true;
+
+    if (keycode == 13) {
+        searchGuests();
+        return false;
+    }
+    else
+        return true;
+}
+
+
 function search() {
     var searchValue = $('#search_text').val();
-    $(location).prop('href', "search?q=" + searchValue);
+    if (!isEmpty(searchValue)) {
+        $(location).prop('href', "search?q=" + searchValue);
+    }
+}
+
+function searchGuests(){
+    var searchValue = $("#search-input").val();
+    if (!isEmpty(searchValue)) {
+        Ajax.sendRequest(URLs.search, {
+            data: {
+                searchValue: searchValue
+            },
+            loader: true,
+            callback: 'searchGuestsResponse'
+        });
+    }
+}
+
+function searchGuestsResponse(response, params){
+    $('#guestsArea').html(response.data);
 }
 
 
@@ -282,7 +326,7 @@ function createGroupResponse(response, params) {
 
     var $div = $("<div>", {id: "group_" + newId, class: "tagBG", value: newId});
     $div.attr("onclick", "filter('group_" + newId + "')");
-    $div.css("display","none");
+    $div.css("display", "none");
     $div.text(name);
 
     $("#filterGroups").append($div);
@@ -315,7 +359,7 @@ function openEditGuest(guestOid) {
     editInvitationSent.removeClass("btn-default btn-success");
     editInvitationSent.addClass((invitationSent == 0) ? "btn-default" : "btn-success");
 
-    var arrivalApproved = parseInt(guest.attr("arrivalApproved"), 10);
+    var arrivalApproved = toInt(guest.attr("arrivalApproved"));
     toggleArrivalApprovedClass("ediArrivalApproved", arrivalApproved);
     $("#editGuestModal").modal();
     $('#editGuestModal').on('hide.bs.modal', function () {
@@ -325,14 +369,14 @@ function openEditGuest(guestOid) {
 
     $('#editGuestForm').attr('action', 'javascript:addEditGuest(' + guestOid + ')');
 
-    var deleteGuestBtn =  $("#deleteGuestBtn");
+    var deleteGuestBtn = $("#deleteGuestBtn");
 
 
-    if(guest.data().deleted == "1"){
+    if (guest.data().deleted == "1") {
         deleteGuestBtn.text(" שחזר");
         deleteGuestBtn.prepend('<i class="fa fa-recycle"></i>');
         deleteGuestBtn.attr("onclick", 'deleteGuest(' + guestOid + ', "false")');
-    }else{
+    } else {
         deleteGuestBtn.text(" מחק");
         deleteGuestBtn.prepend('<i class="fa fa-trash-o"></i>');
         deleteGuestBtn.attr("onclick", 'deleteGuest(' + guestOid + ', "true")');
@@ -368,11 +412,11 @@ function updateInvitationSent(guestId) {
 }
 
 function updateGuestStatusResponse(response, params) {
-   var guest = $("#guest" + params.guestId);
+    var guest = $("#guest" + params.guestId);
     if (isExist(params.arrivalApproved)) {
         guest.attr("arrivalapproved", params.arrivalApproved);
-        if(params.arrivalApproved == "1" &&  guest.attr("invitationsent")!="1"){
-            guest.attr("invitationsent","1");
+        if (params.arrivalApproved == "1" && guest.attr("invitationsent") != "1") {
+            guest.attr("invitationsent", "1");
             var element = guest.find("button[id^='invitationSent']");
             element.attr("invitationSent", 1);
             element.removeClass("btn-default").addClass("btn-success");
@@ -534,10 +578,8 @@ function showLoading() {
 }
 
 function calcPercent(x, y, round) {
-    return (round)? Math.round(x * 100 / y) : x * 100 / y;
+    return (round) ? Math.round(x * 100 / y) : x * 100 / y;
 }
-
-
 
 
 function toggleFilterItemClass(item) {
@@ -634,11 +676,13 @@ function checkLogin() {
     $('#errorMsg').addClass("hidden");
     var email = $("#email").val();
     var password = $("#password").val();
+    var remember = $("#remember").is(":checked");
 
     Ajax.sendRequest(URLs.check_login, {
         data: {
             email: email,
-            password: password
+            password: password,
+            remember: remember
 
 
         },
@@ -756,6 +800,7 @@ function changePassword() {
         },
         contentType: 'application/json;charset=UTF-8',
         loader: true,
+        showNotification : true,
         callback: 'changePasswordResponse'
     });
 }
@@ -769,22 +814,22 @@ function changePasswordResponse(response, params) {
 
 }
 
-function openVerifyAmountModal(guestId) {
-    $('#verifyAmount').val($('#guest' + guestId).attr('amount'));
-    $("#verifyAmountBtn").attr("onclick", 'verifyAmountAndUpdateRsvps(' + guestId + ')');
-    $("#verifyAmountModal").modal({backdrop: false});
+function openConfirmAmountModal(guestId, callback) {
+    $('#confirmAmount').val($('#guest' + guestId).attr('amount'));
+    $("#confirmAmountBtn").attr("onclick", 'closeAndUpdateConfirmAmountModal(' + guestId + ');' + callback);
+    $("#confirmAmountModal").modal({backdrop: false});
 }
 
-function verifyAmountAndUpdateRsvps(guestId) {
-    $("#verifyAmountModal").modal("hide");
-    $('#guest' + guestId).attr('amount', $('#verifyAmount').val());
-    updateArrivalApproved(guestId, 1, true);
+function closeAndUpdateConfirmAmountModal(guestId) {
+    $("#confirmAmountModal").modal("hide");
+    $('#guest' + guestId).attr('amount', $('#confirmAmount').val());
 }
 
-function toggleFloatingAddGuest(){
-    $( "#floatingAddGuestPanel" ).toggle( 'drop', {}, 500 );
+
+function toggleFloatingAddGuest() {
+    $("#floatingAddGuestPanel").toggle('drop', {}, 500);
 }
 
-function toggleFloatingAddTable(){
-    $( "#floatingAddTablePanel" ).toggle( 'drop', {}, 500 );
+function toggleFloatingAddTable() {
+    $("#floatingAddTablePanel").toggle('drop', {}, 500);
 }

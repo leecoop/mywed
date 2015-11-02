@@ -5,11 +5,10 @@ if ($sessionParams['isProjectMaster']) {
     try {
         $user = $persist->getUserByEmail($email);
         if ($user) {
-            $userId = $user->user_id;
+            $persist->createUser2ProjectRelation($user->oid, $projectId, false);
         } else {
-            $userId = $persist->registerUser($email, '12345');
+             $persist->addPendingProjectRelation($email, $projectId, false);
         }
-        $persist->createUser2ProjectRelation($userId, $projectId, false);
     } catch (Exception $e) {
         $error = true;
     }

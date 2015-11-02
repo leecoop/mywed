@@ -1,7 +1,7 @@
 <?php
 
 $smarty->assign("loc",'rsvps');
-$smarty->assign("title",'חלוקת הזמנות');
+$smarty->assign("title",'אישורי הגעה');
 
 $guests = $persist->getArrivalNotApprovedGuests($projectId);
 $groups = $persist->getGroups($projectId);

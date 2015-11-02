@@ -3,6 +3,8 @@
     {include file="common/navigation/navigation.tpl"}
 
     <div id="page-wrapper">
+        {include file="common/navigation/breadcrumbs.tpl"}
+
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">ראשי</h1>
@@ -75,7 +77,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-group fa-5x"></i>
+                                    <i class="fa fa-street-view fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-center">
                                     <div class="huge">{$statisticsMap["hasTable"]}</div>
@@ -97,7 +99,6 @@
             </div>
 
         </div>
-
 
 
     </div>

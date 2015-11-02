@@ -23,11 +23,15 @@ $(document).ready(function ($) {
     $(window).scroll(function () {
         if ($(window).scrollTop() > groupsContainerTop) {
             $('#groupsContainer').css({position: 'fixed', top: '0px', width: initWidth});
-            $('#groupsContainerAlias').css('display', 'block');
+            if (width < 1200) {
+                $('#groupsContainerAlias').css('display', 'block');
+            }
 
         } else {
             $('#groupsContainer').css({position: 'static', top: '0px'});
-            $('#groupsContainerAlias').css('display', 'none');
+            if (width < 1200) {
+                $('#groupsContainerAlias').css('display', 'none');
+            }
         }
     });
     container = $('#seatingArrangementTables');
@@ -259,6 +263,10 @@ function deleteTableResponse(response, params) {
     });
     $("#editTableModal").modal("hide");
 
+    var tablesCount = $("#tablesCount");
+    var currentTablesCount = toInt(tablesCount.html());
+    tablesCount.html(currentTablesCount-1);
+
 
 }
 function updateTablePosition(tableId, top, left) {
@@ -321,6 +329,9 @@ function addEditTableResponse(response, params) {
     if (params.newTable) {
         $("#seatingArrangementTables").append(response.data);
         $("#title").val("");
+        var tablesCount = $("#tablesCount");
+        var currentTablesCount = toInt(tablesCount.html());
+        tablesCount.html(currentTablesCount+1);
         initSeatingArrangement();
     } else {
         var table = $('#table' + params.tableId);
@@ -461,8 +472,13 @@ function findFirstEmptyPlaceHolder() {
 
 
 function handleGroupsContainerMinimize(elem) {
-    var panelBody = $('#groupsContainer').find('.panel-body');
+    var panel = $('#groupsContainer');
+    var panelFooter = panel.find('.panel-footer');
+    panelFooter.toggle("blind", {}, 100);
+
+    var panelBody = panel.find('.panel-body');
     panelBody.toggle("blind", {}, 500);
+
 
     var icon = $(elem);
     if (icon.hasClass("fa-plus-square")) {
@@ -481,4 +497,9 @@ function getTablePositionInPercent(position, type) {
     if (type == POSITION_TYPE.LEFT) {
         return calcPercent(position.left, containerWidth, true)
     }
+}
+
+function handleSeatingArrangementShowAll(elem){
+    $(location).prop('href', "seating-arrangement?showAll=" + $(elem).is(':checked'));
+
 }

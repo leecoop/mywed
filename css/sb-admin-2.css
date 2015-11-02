@@ -1144,3 +1144,43 @@ div#groups .tab-content{
 .sidebar-nav.navbar-collapse.collapse.in{
     padding-bottom: 10px;
 }
+
+.has-feedback .form-control {
+    padding-left: 6px;
+}
+
+.limit-text{
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5
+}
+
+.badge-new {
+    background-color: #69bc35;
+    color: #fff;
+    display: inline !important;
+    float: unset;
+    font-size: 11px;
+    padding: 1px 9px;
+    margin-right: 2px;
+}
+
+.badge-new:before{
+    content: "חדש";
+}
+
+.breadcrumb {
+    background-color: unset;
+    margin-bottom: 0;
+}
+.page-header{
+    margin-top: 20px;
+}

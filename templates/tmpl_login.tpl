@@ -24,18 +24,18 @@
 
                                 <div class="form-group has-feedback">
                                     <label for="password"><span class="fa fa-lock"></span> סיסמה</label>
-                                    <input class="form-control" style="direction: ltr" placeholder="●●●●●●" name="password" id="password" type="password">
+                                    <input class="form-control" style="direction: ltr" placeholder="password" name="password" id="password" type="password">
                                     <span style="right: 0" class="fa form-control-feedback"></span>
 
                                 </div>
 
 
-                                {*<div class="checkbox">*}
-                                {*<label>*}
-                                {*<input name="remember" type="checkbox" value="Remember Me">השאר אותי מחובר*}
-                                {*</label>*}
-                                {*</div>*}
-                                {*<br/>*}
+                                <div class="checkbox">
+                                <label>
+                                <input id="remember" type="checkbox" value="Remember Me">השאר אותי מחובר
+                                </label>
+                                </div>
+                                <br/>
                                 <button class="btn btn-lg btn-success btn-block" type="submit">כניסה</button>
                                 {*</fieldset>*}
                             </form>

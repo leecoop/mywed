@@ -23,13 +23,13 @@ class Persist
 //        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
 
 
-//        $dsn = 'mysql:host=localhost;dbname=plusonec_plusone';
-//        $login = 'plusonec_db';
-//        $passwd = 'kVwWQE84';
+        $dsn = 'mysql:host=localhost;dbname=plusonec_plusone';
+        $login = 'plusonec_db';
+        $passwd = 'kVwWQE84';
 
-        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
-        $login = 'b3_15690100';
-        $passwd = 'q1w2e3';
+//        $dsn = 'mysql:host=localhost;dbname=b3_15690100_wedding';
+//        $login = 'b3_15690100';
+//        $passwd = 'q1w2e3';
 
         $this->db = new PDO($dsn, $login, $passwd, array(
             PDO::ATTR_PERSISTENT => true));
@@ -49,7 +49,7 @@ class Persist
 
     public function hasText($element)
     {
-        return isset($element) && count($element)>0 && $element != "";
+        return isset($element) && count($element) > 0 && $element != "";
     }
 
     public function getGuests($projectId)
@@ -140,7 +140,12 @@ class Persist
     public function deleteGuest($guestId, $delete, $projectId)
     {
         try {
-            $sql = "UPDATE guests set deleted=:toDelete where oid=:guestId and project_id=:projectId";
+            $sql = "UPDATE guests set deleted=:toDelete";
+            if ($delete) {
+                $sql .= ",table_id=0";
+            }
+
+            $sql .= " where oid=:guestId and project_id=:projectId";
             $res = $this->db->prepare($sql);
             $res->bindParam(':guestId', $guestId, PDO::PARAM_INT);
             $res->bindParam(':toDelete', $delete, PDO::PARAM_BOOL);
@@ -204,6 +209,19 @@ class Persist
         return $res;
     }
 
+    public function getTablesMap($projectId)
+    {
+        $sql = "Select * From tables where project_id=:projectId and deleted=false";
+
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+        $res->execute();
+
+        $arr = $res->fetchAll(PDO::FETCH_CLASS);
+        return $this->toMap($arr);
+    }
+
 
     public function getSides()
     {
@@ -231,12 +249,15 @@ class Persist
     }
 
 
-    public function getGuestGroupedByGroup($projectId, &$groupToAmount)
+    public function getGuestGroupedByGroup($projectId, &$groupToAmount, $showAll = false)
     {
 
         $sql = "Select * From guests where project_id=:projectId and deleted=false";
-// and arrival_approved=1";
-
+        if (!$showAll) {
+            $sql .= " and arrival_approved=1";
+        } else {
+            $sql .= " and arrival_approved!=3";
+        }
         $sql .= " ORDER BY name";
 
         $res = $this->db->prepare($sql);
@@ -386,7 +407,8 @@ class Persist
         if ($total == 0) {
             return 0;
         }
-        return number_format(($val / $total) * 100);
+        $result = number_format(($val / $total) * 100);
+        return ($result > 100) ? 100 : $result;
     }
 
     public function getInvitationNotSentGuests($projectId)
@@ -499,7 +521,6 @@ class Persist
         $res->bindParam(':leftPosition', $leftPosition, PDO::PARAM_STR);
 
 
-
         $res->execute();
         return $this->db->lastInsertId();
     }
@@ -537,11 +558,17 @@ class Persist
 
     }
 
-    public function getGuestGroupedByTable($projectId)
+    public function getGuestGroupedByTable($projectId, $showAll = false)
     {
 
 //        $sql = "Select * From guests where project_id=:projectId and deleted=false and arrival_approved=1 and table_id>0 order by name";
-        $sql = "Select * From guests where project_id=:projectId and deleted=false and table_id>0 order by name";
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and table_id>0";
+        if (!$showAll) {
+            $sql .= " and arrival_approved=1";
+        } else {
+            $sql .= " and arrival_approved!=3";
+        }
+        $sql .= " order by name";
         $res = $this->db->prepare($sql);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
 
@@ -591,7 +618,7 @@ class Persist
 
     public function getUser($email, $password)
     {
-        $sql = "Select u.oid as user_id From users u where u.email='$email' and u.password='$password'";
+        $sql = "Select u.oid as user_id  From users u where u.email='$email' and u.password='$password'";
         $stmt = $this->db->query($sql);
         $obj = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -600,7 +627,16 @@ class Persist
 
     public function getUserByEmail($email)
     {
-        $sql = "Select u.oid as user_id, u.password as password From users u where u.email='$email'";
+        $sql = "Select u.oid, u.password, email From users u where u.email='$email'";
+        $stmt = $this->db->query($sql);
+        $obj = $stmt->fetch(PDO::FETCH_OBJ);
+
+        return $obj;
+    }
+
+    public function getUserByOid($oid)
+    {
+        $sql = "Select * From users u where u.oid='$oid'";
         $stmt = $this->db->query($sql);
         $obj = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -648,7 +684,6 @@ class Persist
 
     public function createUser2ProjectRelation($userId, $projectId, $isMaster)
     {
-//        try {
         $sql = "INSERT INTO users_projects(user_id, project_id, is_master) VALUES(:userId,:projectId,:isMaster)";
         $res = $this->db->prepare($sql);
         $res->bindParam(':userId', $userId, PDO::PARAM_INT);
@@ -663,19 +698,18 @@ class Persist
     }
 
 
-    public function changePassword($userId, $currentPassword, $newPassword)
+    public function changePassword($userId, $newPassword)
     {
-        $sql = "update users set password=:newPassword where oid=:userId and password=:currentPassword";
+        $sql = "update users set password=:newPassword where oid=:userId";
         $res = $this->db->prepare($sql);
         $res->bindParam(':userId', $userId, PDO::PARAM_INT);
         $res->bindParam(':newPassword', $newPassword, PDO::PARAM_STR);
-        $res->bindParam(':currentPassword', $currentPassword, PDO::PARAM_STR);
 
         $res->execute();
     }
 
 
-    public function getProjectShearedPermissions($userId,$projectId)
+    public function getProjectShearedPermissions($userId, $projectId)
     {
         $sql = "SELECT up.oid as permissionOid, up.active as active, up.is_master as isMater, u.email as userEmail FROM users_projects up inner join users u on u.oid=up.user_id where user_id!=:userId and up.project_id=:projectId ";
 
@@ -712,7 +746,8 @@ class Persist
 
     }
 
-    public function updateTablePosition($tableId, $topPosition, $leftPosition, $projectId){
+    public function updateTablePosition($tableId, $topPosition, $leftPosition, $projectId)
+    {
         $sql = "update tables set top_position=:topPosition, left_position=:leftPosition where oid=:tableId and project_id=:projectId";
         $res = $this->db->prepare($sql);
         $res->bindParam(':topPosition', $topPosition, PDO::PARAM_STR);
@@ -722,5 +757,158 @@ class Persist
 
         $res->execute();
     }
+
+    public function getTableSeatsTakenAmount($projectId)
+    {
+
+        $sql = "Select * From guests where project_id=:projectId and deleted=false and table_id>0 and arrived=1";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+        $res->execute();
+        $guests = $res->fetchAll(PDO::FETCH_CLASS);
+
+        $map = array();
+        foreach ($guests as $key => $value) {
+            if (!isset($map[$value->table_id])) {
+                $map[$value->table_id] = 0;
+            }
+
+            $map[$value->table_id] = $map[$value->table_id] + $value->amount;
+
+        }
+        return $map;
+    }
+
+    public function updateArrivedStatus($guestOid, $amount, $newStatus, $projectId)
+    {
+        try {
+            $sql = "UPDATE guests set arrived=:newStatus,amount=:amount";
+            if ($newStatus == "1") {
+                $sql .= ",invitation_sent=1,arrival_approved=1,deleted=0";
+            }
+            $sql .= " where oid=:guestOid and project_id=:projectId";
+            $res = $this->db->prepare($sql);
+            $res->bindParam(':guestOid', $guestOid, PDO::PARAM_INT);
+            $res->bindParam(':newStatus', $newStatus, PDO::PARAM_INT);
+            $res->bindParam(':amount', $amount, PDO::PARAM_INT);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+
+            $res->execute();
+        } catch (Exception $e) {
+            return $e;
+        }
+
+        return true;
+    }
+
+
+    public function getGuestsWithFilters($projectId, $filters)
+    {
+        try {
+            $sql = "Select * From guests where project_id=:projectId";
+            foreach ($filters as $key => $value) {
+                $sql .= " and $key=$value";
+            }
+            $res = $this->db->prepare($sql);
+            $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+            $res->execute();
+            $res->setFetchMode(PDO::FETCH_LAZY);
+
+            return $res;
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+
+
+    public function getTablesWithExpectedSeatsTaken($projectId)
+    {
+        $sql = "select t.oid,t.title,t.capacity, g.expected From tables t left join (select table_id, sum(amount) as expected from guests where project_id=:projectId and deleted=false and table_id>0 group by table_id) g on t.oid=g.table_id where t.project_id=:projectId and t.deleted=false";
+
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+
+        $res->execute();
+        $res->setFetchMode(PDO::FETCH_LAZY);
+
+        return $res;
+    }
+
+    public function getPendingProjectRelation($email)
+    {
+        $sql = "SELECT * FROM pending_users_projects where deleted=false and email='$email'";
+        $stmt = $this->db->query($sql);
+        $obj = $stmt->fetch(PDO::FETCH_OBJ);
+        return $obj;
+    }
+
+    public function updatePendingProjectRelationDeleteStatus($oid, $newStatus)
+    {
+        $sql = "UPDATE pending_users_projects set deleted=:newStatus where oid=:oid";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':newStatus', $newStatus, PDO::PARAM_BOOL);
+        $res->bindParam(':oid', $oid, PDO::PARAM_INT);
+        $res->execute();
+
+    }
+
+    public function addPendingProjectRelation($email, $projectId, $isMaster)
+    {
+        $sql = "INSERT INTO pending_users_projects(email, project_id,is_master) VALUES(:email,:projectId,:isMaster)";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':email', $email, PDO::PARAM_INT);
+        $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);
+        $res->bindParam(':isMaster', $isMaster, PDO::PARAM_BOOL);
+
+        $res->execute();
+    }
+
+
+    public function findUserToken($userId)
+    {
+        $sql = "SELECT * FROM auth_token where user_id='$userId'";
+        $stmt = $this->db->query($sql);
+        $obj = $stmt->fetch(PDO::FETCH_OBJ);
+        return $obj;
+
+    }
+
+    public function findUserTokenById($tokenOid)
+    {
+        $sql = "SELECT * FROM auth_token where oid='$tokenOid'";
+        $stmt = $this->db->query($sql);
+        $obj = $stmt->fetch(PDO::FETCH_OBJ);
+        return $obj;
+
+    }
+
+    public function saveUserToken($token, $userId, $expires)
+    {
+        $sql = "INSERT INTO auth_token(token, user_id, expires) VALUES(:token,:userId,:expires)";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':token', $token, PDO::PARAM_STR);
+        $res->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $res->bindParam(':expires', $expires, PDO::PARAM_STR);
+
+        $res->execute();
+
+        return $this->db->lastInsertId();
+
+    }
+
+    public function deleteUserToken($tokenId)
+    {
+        $sql = "DELETE from auth_token where oid=:tokenId";
+        $res = $this->db->prepare($sql);
+        $res->bindParam(':tokenId', $tokenId, PDO::PARAM_INT);
+
+        $res->execute();
+
+
+    }
+
 
 }

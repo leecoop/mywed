@@ -3,6 +3,8 @@
     {include file="common/navigation/navigation.tpl"}
 
     <div id="page-wrapper">
+        {include file="common/navigation/breadcrumbs.tpl"}
+
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">אישורי הגעה</h1>
@@ -22,6 +24,6 @@
         </div>
     </div>
     {include file="guest/edit_guest.tpl"}
-    {include file="rsvps/confirm_amount_modal.tpl"}
+    {include file="common/modals/confirm_amount_modal.tpl"}
 </div>
 {include file="common/footer.tpl"}

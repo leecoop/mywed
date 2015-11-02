@@ -1,3 +1,6 @@
+<script src="../js/angular.min.js"></script>
+
+
 <!-- jQuery Version 1.11.0 -->
 <script src="../js/jquery-1.11.0.js"></script>
 
@@ -20,6 +23,10 @@
 <script src="../js/main.js"></script>
 {if $loc eq 'seating_arrangement'}
     <script src="../js/seatingArrangement.js"></script>
+{/if}
+
+{if $loc eq 'seating'}
+    <script src="../js/seating.js"></script>
 {/if}
 
 <!-- DataTables JavaScript -->

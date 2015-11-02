@@ -102,7 +102,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success" onclick="$('#editGuestForm').submit()"><i class="fa fa-floppy-o"></i> עדכן</button>
+                <button type="submit" class="btn btn-success" onclick="$('#editGuestForm').submit()"><i class="fa fa-floppy-o"></i> שמור</button>
                 <button type="button" class="btn btn-danger" id="deleteGuestBtn">מחק</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
             </div>

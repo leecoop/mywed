@@ -1,27 +1,33 @@
 <?php
+require_once "utils/security/PasswordLock.php";
+use ParagonIE\PasswordLock\PasswordLock;
+
+require_once "utils/security/RememberMe.php";
+require_once "utils/LoginUtils.php";
+
 $email = $requestParams['email'];
 $password = $requestParams['password'];
-
+$remember = $CommonMethods->toBoolean($requestParams['remember']);
 
 try {
-    $user = $persist->getUser($email, md5($password));
 
-    if ($user) {
-        $_SESSION['isLoggedIn'] = true;
-        $_SESSION['userId'] = $user->user_id;
-        $_SESSION['userName'] = explode('@', $email)[0];
-        $project = $persist->getUserProjects($user->user_id);
+    $user = $persist->getUserByEmail($email);
 
-        if ($project) {
-            $_SESSION['projectId'] = $project->project_id;
-            $_SESSION['isProjectMaster'] = $project->is_master;
-            $_SESSION['date'] = $project->date;
+    if ($user && PasswordLock::decryptAndVerify($password, $user->password)) {
+
+        $loginUtils = new LoginUtils($persist);
+        $loginUtils->setSessionParams($user);
+
+        if ($remember) {
+            $rememberMe = new RememberMe($persist, $user);
+            $rememberMe->setup();
         }
 
-    }else{
+    } else {
         $error = true;
         $smarty->assign("errorMsg", "שם המשתמש או סיסמה שגויים");
     }
+
 
 } catch (Exception $e) {
     $error = true;
