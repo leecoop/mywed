@@ -495,10 +495,10 @@ class Persist
 
     public function getGuestForReport($sidesIds, $groupsIds, $loc, $projectId)
     {
-        $sql = "Select o.name, o.phone, o.amount, g.title as group_title, s.title as side_title, o.invitation_sent as invitation_sent, o.arrival_approved as arrival_approved ,t.title as table_title, o.gift From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id left join tables t on t.oid=o.table_id where o.project_id=:projectId and o.deleted=false";
+        $sql = "Select o.name, o.phone, o.amount,t.title as table_title, g.title as group_title, s.title as side_title, o.invitation_sent as invitation_sent, o.arrival_approved as arrival_approved , o.gift From guests o INNER JOIN groups g on o.group_id=g.oid INNER join sides s on s.oid=o.side_id left join tables t on t.oid=o.table_id where o.project_id=:projectId and o.deleted=false";
         $sql = $this->appendFilter($sql, $sidesIds, $groupsIds);
         $sql = $this->filterByLocation($sql, $loc);
-        $sql .= " ORDER BY o.oid desc";
+        $sql .= " ORDER BY o.name asc";
 
         $res = $this->db->prepare($sql);
         $res->bindParam(':projectId', $projectId, PDO::PARAM_INT);

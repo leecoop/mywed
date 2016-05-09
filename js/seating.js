@@ -32,19 +32,38 @@ function updateArrivedStatus(guestId) {
     var tableId = guestData.tableId;
 
     if (guestData.tableId == '0') {
-        //tableId =  find table
-    } else {
-        if (originalAmount != amount) {
-            var delta = originalAmount - amount;
-            var table = tableMap[guestData.tableId];
-            if (amount < originalAmount) {
-                table.data("expectedTakenSeats",table.data().expectedTakenSeats - delta );
-            }else{
-                //server find me a table
-                showErrorMassage();
+        swal({
+                title: "למוזמן אין שולחן",
+                text: 				"יש למצא למוזמן שולחן עם " + amount + " מקומות פנויים",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-success",
+                confirmButtonText: "עבור לסידור ישיבה",
+                cancelButtonText: "סגור",
+                closeOnConfirm: false
+            },
+            //function(){
+            //    $(location).prop('href', "seating-arrangement");
+            //}),
+        function(isConfirm){
+            if (isConfirm) {
+                $(location).prop('href', "seating-arrangement");
+            } else {
+            }});
+        return false;
 
-            }
-        }
+    } else {
+        //if (originalAmount != amount) {
+        //    var delta = originalAmount - amount;
+        //    var table = tableMap[guestData.tableId];
+        //    if (amount < originalAmount) {
+        //        table.data("expectedTakenSeats", table.data().expectedTakenSeats - delta);
+        //    } else {
+        //        //server find me a table
+        //        showErrorMassage();
+        //        return false;
+        //    }
+        //}
 
     }
 

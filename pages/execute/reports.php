@@ -20,19 +20,31 @@ $guests = $persist->getGuestForReport($sidesIds, $groupsIds, $loc, $projectId);
 
 $file_name = "report_" . $loc;
 
-$translates = array(
-    'name' => 'שם',
-//    'last_name' => 'שם משפחה',
-    'phone' => "פלאפון",
-    'amount' => "כמות",
-    'group_title' => "קבוצה",
-    'side_title' => "צד",
-    'table_title' => "שולחן",
-    'invitation_sent' => "נשלחה הזמנה",
-    'arrival_approved' => "אישרו הגעה",
-    'gift' => "מתנה"
+if($loc == "seating_arrangement"){
+    $translates = array(
+        'name' => 'שם',
+        'amount' => "כמות",
+        'side_title' => "צד",
+        'group_title' => "קבוצה",
+        'table_title' => "שולחן",
+    );
 
-);
+}else {
+
+    $translates = array(
+        'name' => 'שם',
+//    'last_name' => 'שם משפחה',
+        'phone' => "פלאפון",
+        'amount' => "כמות",
+        'group_title' => "קבוצה",
+        'side_title' => "צד",
+        'table_title' => "שולחן",
+        'invitation_sent' => "נשלחה הזמנה",
+        'arrival_approved' => "אישרו הגעה",
+        'gift' => "מתנה"
+
+    );
+}
 //    var_dump($translates);
 
 toXsl($guests, $translates, $file_name, $file_name);

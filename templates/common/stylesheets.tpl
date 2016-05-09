@@ -30,3 +30,4 @@
 
 <link rel="stylesheet" type="text/css" href="../css/plugins/jquery.mCustomScrollbar.min.css">
 <link rel="stylesheet" type="text/css" href="../css/plugins/chosen.css">
+<link rel="stylesheet" type="text/css" href="../css/plugins/sweet-alert.css">

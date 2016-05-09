@@ -28,12 +28,14 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <div class="checkbox">
+                                <span class="checkbox" style="display: inline-block">
                                     <label>
                                         <input type="checkbox" {if $showAll == "true"}checked{/if} onchange="handleSeatingArrangementShowAll(this)">
 הצג מוזמנים שטרם אישרו הגעה
                                     </label>
-                                </div>
+                                </span>
+                                {include file="common/export_dropdown.tpl"}
+
                             </div>
 
                         </div>

@@ -99,6 +99,7 @@
 <script type="text/javascript" language="javascript" src="../js/plugins/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" language="javascript" src="../js/plugins/notify.min.js"></script>
 <script type="text/javascript" language="javascript" src="../js/plugins/chosen.jquery.js"></script>
+<script type="text/javascript" language="javascript" src="../js/plugins/sweet-alert.js"></script>
 
 {*<script src="https://cdn.rawgit.com/AndreaLombardo/BootSideMenu/master/js/BootSideMenu.js"></script>*}
 
